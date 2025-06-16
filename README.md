@@ -20,10 +20,10 @@ Built with [Plotly Dash](https://dash.plotly.com/), this dashboard highlights cr
 
 ## 📦 Tech Stack
 
-- `Dash` + `Plotly` – for interactive web UI and graphics  
-- `Pandas`, `GeoPandas`, `Shapely` – for spatial data processing  
+- `Dash` + `Plotly` – interactive web UI and graphics  
+- `Pandas`, `GeoPandas`, `Shapely` – spatial data processing  
 - `Gunicorn` – production WSGI server  
-- `Docker` – containerized deployment on Render  
+- `Docker` – containerized deployment
 
 ---
 
@@ -65,7 +65,9 @@ Read more about this project and the methodology here:
 
 **Samvardhan Vishnoi**  
 Ph.D. candidate in Physics @ Northwestern University  
-[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Portfolio](https://your-vercel-site.vercel.app) • [Medium](https://medium.com/@s-vishnoi)
+[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi)
+
+[• [Portfolio](https://your-vercel-site.vercel.app)]:#
 
 ---
 
