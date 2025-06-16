@@ -131,11 +131,10 @@ viz_df = viz_df.merge(bike_lane_summary, on='CArea', how='left').fillna(0)
 
 # === Dash App init ===
 app = Dash(__name__)
-
+server = app.server
 # === Import layout + fig ===
-from layout import layout
+app.layout = html.Div("✅ App is loading — layout not yet imported.")
 
-app.layout = layout
 
 # === Callbacks ===
 @app.callback(
