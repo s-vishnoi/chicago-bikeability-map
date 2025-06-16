@@ -33,7 +33,7 @@ with open(os.path.join(data_path, "community_pops.json")) as f:
     community_pops = json.load(f)
 
 # === Load Chicago outline ===
-places = gpd.read_file("https://www2.census.gov/geo/tiger/TIGER2022/PLACE/tl_2022_17_place.zip")
+places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
 
