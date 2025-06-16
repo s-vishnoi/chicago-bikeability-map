@@ -1,0 +1,210 @@
+import numpy as np
+import plotly.graph_objects as go
+from dash import dcc, html
+from app import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+
+# === Build figure ===
+fig = go.Figure()
+scale = 1
+
+fig.update_layout(
+    hoverlabel=dict(
+        bgcolor="white", 
+        font_color="black",
+        font_size=11,
+        font_family="Segoe UI, sans-serif"
+    )
+)
+
+for _, row in viz_df.iterrows():
+    x, y = row['x'], row['y']
+    total, rate = row['total_crashes'], row['serious_rate']
+    bike_score = row['bike_score']
+    fill = rgba_to_plotly_color(COLOR_GRADIENT_MAP(norm(bike_score)))
+
+    w, h = scale - 0.1, scale - 0.1
+    minx, maxx = x - 0.5 * w, x + 0.5 * w
+    miny, maxy = y - 0.5 * h, y + 0.5 * h
+    red_h = h * rate
+    red_y0 = maxy - red_h
+
+    fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
+                  fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.5))
+    fig.add_shape(type="rect", x0=minx, x1=maxx, y0=red_y0, y1=maxy,
+                  fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.5))
+
+    fig.add_annotation(x=x, y=y, text=str(total), showarrow=False,
+                       font=dict(size=8, color=COLOR_TEXT))
+    fig.add_annotation(x=x, y=maxy - 0.1, text=f"{int(rate * 100)}%",
+                       showarrow=False, font=dict(size=8, color=COLOR_INJURY_TEXT))
+
+    badge_text = row["abbrev"]
+    badge_y = miny + 0.16
+    badge_w = w * 1.1
+    badge_h = h * 0.25
+    fig.add_shape(type="rect", x0=x - badge_w / 2, x1=x + badge_w / 2,
+                  y0=badge_y - badge_h / 2, y1=badge_y + badge_h / 2,
+                  fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.3))
+    fig.add_annotation(x=x, y=badge_y, text=badge_text, showarrow=False,
+                       font=dict(size=7.2, color=COLOR_TEXT), yanchor="middle")
+
+    fig.add_trace(go.Scatter(
+        x=[x], y=[y], mode='markers',
+        marker=dict(size=30, opacity=0),
+        customdata=[row['CArea']],
+        name=row['CArea'],
+        hovertemplate=f"{row['CArea'].title()}<extra></extra>",
+        showlegend=False,
+    ))
+
+# === Reference square ===
+ref_x, ref_y = 3.2, 7
+ref_scale, ref_rate = 1.0, 0.3
+w, h = scale * ref_scale, scale * ref_scale
+minx, maxx = ref_x - 0.5 * w, ref_x + 0.5 * w
+miny, maxy = ref_y - 0.5 * h, ref_y + 0.5 * h
+ref_red_h = h * ref_rate
+ref_red_y0 = maxy - ref_red_h
+
+fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
+              fillcolor='white', line=dict(color=COLOR_EDGE, width=0.5))
+fig.add_shape(type="rect", x0=minx, x1=maxx, y0=ref_red_y0, y1=maxy,
+              fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.8))
+
+badge_y = miny + 0.18
+badge_w = w * 1.1
+badge_h = h * 0.25
+fig.add_shape(type="rect", x0=ref_x - badge_w / 2, x1=ref_x + badge_w / 2,
+              y0=badge_y - badge_h / 2, y1=badge_y + badge_h / 2,
+              fillcolor='white', line=dict(color=COLOR_EDGE, width=0.3))
+fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
+                   showarrow=False, font=dict(size=7.2, color=COLOR_TEXT),
+                   yanchor="middle")
+fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
+                   showarrow=False, font=dict(size=9, color=COLOR_TEXT))
+fig.add_annotation(x=ref_x, y=ref_y + 0.35, text="% Serious",
+                   showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
+
+# === Bikeability legend ===
+legend_x = 13.5
+legend_y_start = 5.5
+legend_h = 4.0
+legend_w = 0.2
+n_bins = 10
+bin_vals = np.linspace(0, 1, n_bins)
+bin_colors = [rgba_to_plotly_color(COLOR_GRADIENT_MAP(v)) for v in bin_vals]
+bin_h = legend_h / n_bins
+
+for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
+    y0 = legend_y_start + i * bin_h
+    y1 = y0 + bin_h
+    fig.add_shape(
+        type="rect",
+        x0=legend_x, x1=legend_x + legend_w,
+        y0=y0, y1=y1,
+        line=dict(width=0),
+        fillcolor=color,
+        layer="above"
+    )
+
+fig.add_annotation(
+    x=legend_x + 0.35,
+    y=legend_y_start + legend_h / 2,
+    text="Bikeability",
+    textangle=90,
+    font=dict(size=10, color=COLOR_TEXT),
+    showarrow=False
+)
+fig.add_annotation(
+    x=legend_x + 0.1,
+    y=legend_y_start + 0.9 * legend_h,
+    text="Lowest",
+    textangle=90,
+    font=dict(size=9, color=COLOR_TEXT),
+    showarrow=False
+)
+fig.add_annotation(
+    x=legend_x + 0.1,
+    y=legend_y_start + 0.1 * legend_h,
+    text="Highest",
+    textangle=90,
+    font=dict(size=9, color=COLOR_TEXT),
+    showarrow=False
+)
+
+# === Chicago outline ===
+if translated.geom_type == 'Polygon':
+    x, y = list(translated.exterior.xy[0]), list(translated.exterior.xy[1])
+    fig.add_trace(go.Scatter(
+        x=x, y=y, mode='lines',
+        line=dict(color='ivory', width=1.5),
+        fill='toself',
+        fillcolor=COLOR_CITY,
+        hoverinfo='skip',
+        hovertemplate='none',
+        showlegend=False
+    ))
+
+# === Final layout ===
+layout = html.Div([
+    html.Div([
+        dcc.Graph(
+            id='cartogram',
+            figure=fig,
+            config={'displayModeBar': False},
+            style={'height': '100%', 'width': '100%'}
+        )
+    ], style={
+        'flex': '3',
+        'margin': '10px',
+        'padding': '15px',
+        'backgroundColor': '#ffffff',
+        'borderRadius': '16px',
+        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+        'height': 'calc(100% - 20px)',
+        'boxSizing': 'border-box'
+    }),
+    html.Div([
+        html.Div([
+            dcc.Dropdown(
+                id='carea-dropdown',
+                options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
+                placeholder="Choose an area...",
+                style={
+                    'fontSize': '14px',
+                    'backgroundColor': '#ffffff',
+                    'border': '1px solid #d0d0d0',
+                    'borderRadius': '8px',
+                    'padding': '2px',
+                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                }
+            ),
+            html.Div(id='info-panel', style={
+                'fontFamily': 'Segoe UI, sans-serif',
+                'fontSize': '14px',
+                'color': '#333',
+                'lineHeight': '1.6',
+                'padding': '4px 2px'
+            })
+        ])
+    ], style={
+        'flex': '1',
+        'margin': '10px 10px 10px 0',
+        'padding': '15px',
+        'backgroundColor': '#ffffff',
+        'borderRadius': '16px',
+        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+        'height': 'calc(100% - 20px)',
+        'overflowY': 'auto',
+        'boxSizing': 'border-box'
+    })
+], style={
+    'display': 'flex',
+    'flexDirection': 'row',
+    'height': '100%',
+    'margin': '0',
+    'padding': '0',
+    'boxSizing': 'border-box',
+    'fontFamily': 'Segoe UI, sans-serif',
+    'backgroundColor': '#eef2f5'
+})
