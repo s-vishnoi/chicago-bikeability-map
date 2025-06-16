@@ -11,8 +11,15 @@ from matplotlib.colors import Normalize, LinearSegmentedColormap
 # === Load data ===
 data_path = os.path.join(os.path.dirname(__file__), "data")
 
-with open(os.path.join(data_path, "CAreaGrid.pkl"), "rb") as f:
-    CAreaGrid = pickle.load(f)
+with open(os.path.join(data_path, "CAreaGrid.json")) as f:
+    carea_raw = json.load(f)
+
+class CArea:
+    def __init__(self, name, gridloc):
+        self.name = name
+        self.gridloc = tuple(gridloc)
+
+CAreaGrid = [CArea(d['name'], d['gridloc']) for d in carea_raw]
 
 grouped = pd.read_csv(os.path.join(data_path, "grouped.csv"))
 bike_with_neigh = pd.read_csv(os.path.join(data_path, "bike_with_neigh.csv"))
