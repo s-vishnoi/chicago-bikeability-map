@@ -16,7 +16,6 @@ server = app.server
 from layout import layout
 
 app.layout = layout
-
 # === Callbacks ===
 @app.callback(
     Output('info-panel', 'children'),
@@ -24,6 +23,7 @@ app.layout = layout
     Input('carea-dropdown', 'value')
 )
 def update_info(clickData, dropdown_value):
+    from dash import ctx
     triggered = ctx.triggered_id
     carea_name = None
 
@@ -33,14 +33,16 @@ def update_info(clickData, dropdown_value):
         carea_name = dropdown_value
 
     if not carea_name:
-        return "Click a community area or select from the dropdown."
+        return html.Div([
+        html.P("Click a community area or select from the dropdown."),
+        ], style={'paddingBottom': '200px'}) 
 
     row = viz_df[viz_df['CArea'] == carea_name].iloc[0]
     causes = causes_dict.get(carea_name, [])
     injuries = injuries_dict.get(carea_name, {})
 
     return html.Div([
-        html.H3(carea_name.title()),
+        html.H3(carea_name.title()),  
         html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
         html.P(f"ꈨꈨ Road Length: {int(row['road_length'])} km"),
         html.P(f"💥 Total Crashes: {row['total_crashes']}"),
@@ -50,10 +52,9 @@ def update_info(clickData, dropdown_value):
         html.P("🩹 Injury Breakdown:"),
         html.Ul([html.Li(f"{k.title()}: {v}") for k, v in injuries.items()]),
         html.P("🛣️ Bike Lanes:"),
-        html.Ul([html.Li(f"{k.title()}: {int(row[k])}") for k in ['PROTECTED', 'BUFFERED', 'BIKE', 'SHARED', 'NEIGHBORHOOD'] if k in row]),
-        html.P(f"🚴 Bikeability Score: {row['bike_score']}/5"),
+        html.Ul([html.Li(f"{k.title()}: {int(row[k])}") for k in ['PROTECTED','BUFFERED', 'BIKE', 'SHARED','NEIGHBORHOOD'] if k in row]), 
+        html.P(f"🚴 Bikeability Score: {row['bike_score']}/5"),   
     ])
-
 @app.callback(
     Output('carea-dropdown', 'value'),
     Input('cartogram', 'clickData'),
@@ -63,6 +64,7 @@ def autofill_dropdown(clickData, current_value):
     if clickData:
         return clickData['points'][0]['customdata']
     return current_value
+
 
 # === Run ===
 if __name__ == "__main__":

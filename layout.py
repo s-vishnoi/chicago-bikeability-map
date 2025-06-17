@@ -4,6 +4,8 @@ from dash import dcc, html
 from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
 
+
+#layout.py
 # Build figure
 fig = go.Figure()
 scale = 1
@@ -122,13 +124,22 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         fillcolor=color,
         layer="above"
     )
+
+fig.add_annotation(
+    x=legend_x - 1.5,
+    y=legend_y_start - 4,
+    text="Click a community area to explore",
+    textangle=0,
+    font=dict(size=10, color=COLOR_TEXT),
+    showarrow=False
+)
 # Add vertical label "Bikability"
 fig.add_annotation(
     x=legend_x + 0.35,
     y=legend_y_start + legend_h / 2,
     text="Bikeability",
     textangle=90,
-    font=dict(size=10, color=COLOR_TEXT),
+    font=dict(size=11, color=COLOR_TEXT),
     showarrow=False
 )
 fig.add_annotation(
@@ -147,14 +158,36 @@ fig.add_annotation(
     font=dict(size=9, color=COLOR_TEXT),
     showarrow=False
 )
-
+for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
+    flipped_bin = n_bins - 1 - i  # bin_4 (bluest) at top, bin_0 (reddest) at bottom
+    y0 = legend_y_start + i * bin_h
+    y1 = y0 + bin_h
+    fig.add_trace(go.Scatter(
+        x=[legend_x + legend_w / 2],
+        y=[y0 + bin_h / 2],
+        mode='markers',
+        marker=dict(size=30, opacity=0),
+        customdata=[f'bin_{flipped_bin}'],  # Now matches bike_score logic
+        name=f'bin_{flipped_bin}',
+        hovertemplate=f"Bikeability {flipped_bin + 1}<extra></extra>",
+        showlegend=False
+    ))
+fig.add_annotation(
+    x=legend_x - 0.15,
+    y=legend_y_start + legend_h / 2,
+    text="Click to highlight",
+    textangle=90,
+    font=dict(size=9, color=COLOR_TEXT),
+    showarrow=False
+)
 
 
 fig.update_layout(
     clickmode='event+select',
     height=1000,
     width=800,
-    title=f"Chicago Bike Traffic Accident Reports, /n since 2018",
+    title=f"Chicago Bike Accidents, 2018-Present",
+    title_font=dict(size=20),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
@@ -172,11 +205,14 @@ if translated.geom_type == 'Polygon':
         x=x, y=y, mode='lines',
         line=dict(color='ivory', width=1.5),
         fill='toself',
-        fillcolor = COLOR_CITY,
+        fillcolor = '#7CCDEF',
         hoverinfo='skip',
         hovertemplate = 'none',
         showlegend=False
     ))
+
+
+
 
 
 
@@ -256,8 +292,4 @@ layout = html.Div([
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
 })
-
-
-
-
 
