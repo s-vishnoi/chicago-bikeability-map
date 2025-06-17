@@ -215,13 +215,6 @@ if translated.geom_type == 'Polygon':
 
 
 
-
-
-
-
-
-
-
 layout = html.Div([
 
     # === Left Panel: Rounded Map Card ===
@@ -292,4 +285,3 @@ layout = html.Div([
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
 })
-

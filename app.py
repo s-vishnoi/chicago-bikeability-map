@@ -17,27 +17,54 @@ from layout import layout
 
 app.layout = layout
 # === Callbacks ===
+selected_bin = None  # Change to an int 0–4 to simulate click behavior
+
+
+@app.callback(
+    Output('carea-dropdown', 'value'),
+    Input('cartogram', 'clickData'),
+    State('carea-dropdown', 'value')
+)
+def autofill_dropdown(clickData, current_value):
+    if clickData:
+        return clickData['points'][0]['customdata']
+    return current_value
 @app.callback(
     Output('info-panel', 'children'),
     Input('cartogram', 'clickData'),
     Input('carea-dropdown', 'value')
 )
 def update_info(clickData, dropdown_value):
-    from dash import ctx
     triggered = ctx.triggered_id
     carea_name = None
+    selected_bin = None
 
     if triggered == 'cartogram' and clickData:
-        carea_name = clickData['points'][0]['customdata']
+        cd = clickData['points'][0]['customdata']
+        if cd.startswith('bin_'):
+            selected_bin = int(cd.split('_')[1])
+        else:
+            carea_name = cd
     elif triggered == 'carea-dropdown' and dropdown_value:
         carea_name = dropdown_value
 
     if not carea_name:
         return html.Div([
-        html.P("Click a community area or select from the dropdown."),
-        ], style={'paddingBottom': '200px'}) 
+            html.P("Click a community area or select from the dropdown."),
+        ], style={'paddingBottom': '200px'})
 
     row = viz_df[viz_df['CArea'] == carea_name].iloc[0]
+
+    if selected_bin is not None:
+        bin_min = bin_vals[::-1][selected_bin]
+        bin_max = 1.0 if selected_bin == 0 else bin_vals[::-1][selected_bin - 1]
+        in_bin = bin_min <= row['bike_score'] < bin_max
+
+
+    
+
+     
+
     causes = causes_dict.get(carea_name, [])
     injuries = injuries_dict.get(carea_name, {})
 
@@ -55,15 +82,38 @@ def update_info(clickData, dropdown_value):
         html.Ul([html.Li(f"{k.title()}: {int(row[k])}") for k in ['PROTECTED','BUFFERED', 'BIKE', 'SHARED','NEIGHBORHOOD'] if k in row]), 
         html.P(f"🚴 Bikeability Score: {row['bike_score']}/5"),   
     ])
+
+from dash import Output, Input
+from copy import deepcopy
+
 @app.callback(
-    Output('carea-dropdown', 'value'),
-    Input('cartogram', 'clickData'),
-    State('carea-dropdown', 'value')
+    Output('cartogram', 'figure'),
+    Input('cartogram', 'clickData')
 )
-def autofill_dropdown(clickData, current_value):
-    if clickData:
-        return clickData['points'][0]['customdata']
-    return current_value
+def update_figure(clickData):
+    if not clickData or not str(clickData['points'][0]['customdata']).startswith('bin_'):
+        return fig
+
+    selected_bin = int(clickData['points'][0]['customdata'].split('_')[1])
+
+    updated_fig = deepcopy(fig)
+
+    # Each community has 3 shapes: background, injury bar, badge
+    n_areas = len(viz_df)
+
+    for i, (_, row) in enumerate(viz_df.iterrows()):
+        is_match = int(row['bike_score']) == selected_bin
+        opacity_val = 1.0 if is_match else 0.3
+
+        # Each community contributes 3 shapes, starting at i*3
+        base_idx = i * 3
+
+        for j in range(3):  # apply to all 3 shapes
+            updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
+
+    return updated_fig
+
+
 
 
 # === Run ===
