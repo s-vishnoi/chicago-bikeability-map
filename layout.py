@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 from dash import dcc, html
-from app import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
 
 # Build figure
@@ -106,7 +106,7 @@ legend_x = 13.5
 legend_y_start = 5.5
 legend_h = 4.0
 legend_w = 0.2
-n_bins = n_bins
+n_bins = 5
 bin_vals = np.linspace(0, 1, n_bins)
 bin_colors = [rgba_to_plotly_color(COLOR_GRADIENT_MAP(v)) for v in bin_vals]
 bin_h = legend_h / n_bins
@@ -154,7 +154,7 @@ fig.update_layout(
     clickmode='event+select',
     height=1000,
     width=800,
-    title=f"Chicago Bike Accident Reports, /n since {crash_df.CRASH_YEAR.min()}",
+    title=f"Chicago Bike Traffic Accident Reports, /n since 2018",
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
