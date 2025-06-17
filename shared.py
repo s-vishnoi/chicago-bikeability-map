@@ -37,51 +37,72 @@ places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
 
-# === Cartogram transform ===
-x_vals = [c.gridloc[0] for c in CAreaGrid]
-y_vals = [c.gridloc[1] for c in CAreaGrid]
+
+from shapely.affinity import scale as scale_geom, translate as translate_geom
+from shapely.geometry import box
+
+# Compute cartogram bounding box
+x_vals = [carea.gridloc[0] for carea in CAreaGrid]
+y_vals = [carea.gridloc[1] for carea in CAreaGrid]
 xmin, xmax = min(x_vals) - 1, max(x_vals) + 1
 ymin, ymax = min(y_vals) - 1, max(y_vals) + 1
-carto_w, carto_h = xmax - xmin, ymax - ymin
+carto_w = xmax - xmin
+carto_h = ymax - ymin
 
+# Get bounds of city
 city_bounds = city_outline.bounds
-outline_w, outline_h = city_bounds[2] - city_bounds[0], city_bounds[3] - city_bounds[1]
-scale_factor = min(carto_w / outline_w, carto_h / outline_h) + 0.1
+outline_w = city_bounds[2] - city_bounds[0]
+outline_h = city_bounds[3] - city_bounds[1]
 
-xfact = scale_factor * 0.85
-yfact = -scale_factor * 1.15
+# Compute scale factors
+scale_x = carto_w / outline_w
+scale_y = carto_h / outline_h
+scale_factor = min(scale_x, scale_y)+0.1
+
+# Apply transformation
+xfact = scale_factor * 0.85  # tweak x compression
+yfact = -scale_factor * 1.15  # flip y
 scaled = scale_geom(city_outline, xfact=xfact, yfact=yfact, origin='center')
-center_x, center_y = (xmin + xmax) / 2, (ymin + ymax) / 2
+
+center_x = (xmin + xmax) / 2
+center_y = (ymin + ymax) / 2
+
 translated = translate_geom(
     scaled,
     xoff=center_x - (scaled.bounds[0] + scaled.bounds[2]) / 2 - 0.9,
-    yoff=center_y - (scaled.bounds[1] + scaled.bounds[3]) / 2 + 0.2
+    yoff=center_y - (scaled.bounds[1] + scaled.bounds[3]) / 2 +0.2
 )
 
-# === Color settings ===
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize, LinearSegmentedColormap
+import plotly.graph_objects as go
+from dash import Dash, dcc, html, Input, Output, State, ctx
+
+
+# Define colors
 COLOR_GRADIENT_MAP = LinearSegmentedColormap.from_list("pink_to_blue", ['#FFC0CB', '#418CC0'])
 COLOR_INJURY = 'darkred'
 COLOR_EDGE = '#B3DDF2'
 COLOR_TEXT = "#1A1A1A"
 COLOR_INJURY_TEXT = "ivory"
 COLOR_CITY = 'rgba(160, 160, 160, 0.3)'
-norm = Normalize(vmin=0, vmax=5)
 
-# === Utility functions ===
 def rgba_to_plotly_color(rgba):
     r, g, b, a = rgba
     return f'rgba({int(r*255)}, {int(g*255)}, {int(b*255)}, {a:.2f})'
 
-def name_to_abbrev(name):
-    return ''.join(word[0] for word in name.split()).upper()
+norm = Normalize(vmin=0, vmax=5)
 
-# === Derived data ===
+# Group bike lane types
 bike_lane_summary = (
     bike_with_neigh.groupby(['CArea', 'DISPLAYROU_CLEAN'])
     .size()
     .unstack(fill_value=0)
     .reset_index()
 )
+
 
 causes_dict = (
     crash_with_carea[~crash_with_carea['PRIM_CONTRIBUTORY_CAUSE'].isin(['UNABLE TO DETERMINE', 'NOT APPLICABLE'])]
@@ -94,6 +115,7 @@ causes_dict = (
     .to_dict()
 )
 
+
 injuries_dict = (
     crash_with_carea.groupby(['CArea', 'MOST_SEVERE_INJURY'])
     .size()
@@ -101,13 +123,61 @@ injuries_dict = (
     .to_dict(orient='index')
 )
 
+
+def name_to_abbrev(n):
+    # simple abbreviator for capitalized names
+
+    abrv = ""
+    words = n.split()
+    for word in words:
+        if word in ['North','South','East','West']:
+            abrv += " "+word[0][0]
+        elif word  == 'Mount':
+            abrv += "Mt."
+        elif word  == 'Park':
+            abrv += " "+"Pk"
+        elif word == 'Greater':
+            abrv += ""
+        elif word == "O'Hare":
+            abrv = "ORD"
+        elif word == "Heights":
+            abrv += " "+"Ht"
+        elif word == "Boulevard":
+            abrv += " "+"Blvd"
+        elif word == "Crossing":
+            abrv += " "+"Cross."
+        elif word == "Square":
+            abrv += " "+"Sq"
+        elif word == "Auburn":
+            abrv += " "+"Aub."
+        elif word == "Washington":
+            abrv += " "+"Washingt."
+        elif word == "Cragin":
+            abrv += " "+"cra."
+        elif word == "Ridge":
+            abrv += " "+"Rdg"
+        elif word == "Greenwood":
+            abrv += " "+"Greenwd"
+        else:
+            abrv += " "+word
+        """elif len(abrv) > 2:
+            abrv += word[0]
+        else:
+            cons = [x for x in word.lower()[1:] if x not in "aeiou"]
+            abrv += word[0][0] + cons[0]"""
+    return abrv
+
+
+
+
+
+# Build viz data
 viz_data = []
 for carea in CAreaGrid:
     name = carea.name
-    row = grouped[grouped['CArea'] == name].iloc[0]
-    total = row['total_crashes']
-    serious = row['serious_crashes']
-    share = row['crash_rate']
+    total = grouped.loc[grouped['CArea'] == name, 'total_crashes'].values[0]
+    serious = grouped.loc[grouped['CArea'] == name, 'serious_crashes'].values[0]
+    share = grouped.loc[grouped['CArea'] == name, 'crash_rate'].values[0]
     rate = serious / total if total > 0 else 0
     bike_score = name_to_bike_score.get(name, 0)
     road_length = name_to_road_length.get(name, 0)
@@ -120,11 +190,11 @@ for carea in CAreaGrid:
         'serious_crashes': serious,
         'serious_rate': rate,
         'bike_score': bike_score,
-        'road_length': road_length,
-        'population': population,
+        'road_length':road_length,
+        'population':population,
         'abbrev': abbrev,
-        'crashes_share': share
-    })
+        'crashes_share':share,
 
+    })
 viz_df = pd.DataFrame(viz_data)
 viz_df = viz_df.merge(bike_lane_summary, on='CArea', how='left').fillna(0)
