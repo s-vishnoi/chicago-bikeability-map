@@ -3,18 +3,22 @@ import plotly.graph_objects as go
 from dash import dcc, html
 from app import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
-# === Build figure ===
+
+# Build figure
 fig = go.Figure()
 scale = 1
+
 
 fig.update_layout(
     hoverlabel=dict(
         bgcolor="white", 
-        font_color="black",
+        font_color ='black',       # background
         font_size=11,
         font_family="Segoe UI, sans-serif"
     )
 )
+
+
 
 for _, row in viz_df.iterrows():
     x, y = row['x'], row['y']
@@ -22,7 +26,7 @@ for _, row in viz_df.iterrows():
     bike_score = row['bike_score']
     fill = rgba_to_plotly_color(COLOR_GRADIENT_MAP(norm(bike_score)))
 
-    w, h = scale - 0.1, scale - 0.1
+    w, h = scale-0.1, scale-0.1
     minx, maxx = x - 0.5 * w, x + 0.5 * w
     miny, maxy = y - 0.5 * h, y + 0.5 * h
     red_h = h * rate
@@ -30,13 +34,20 @@ for _, row in viz_df.iterrows():
 
     fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
                   fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.5))
-    fig.add_shape(type="rect", x0=minx, x1=maxx, y0=red_y0, y1=maxy,
-                  fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.5))
+    stroke = 0.01  # half of 2px in coordinate space
+    fig.add_shape(type="rect", x0=minx, x1=maxx , y0=red_y0, y1=maxy,
+              fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.5))
+
 
     fig.add_annotation(x=x, y=y, text=str(total), showarrow=False,
                        font=dict(size=8, color=COLOR_TEXT))
     fig.add_annotation(x=x, y=maxy - 0.1, text=f"{int(rate * 100)}%",
                        showarrow=False, font=dict(size=8, color=COLOR_INJURY_TEXT))
+    
+    
+    
+    
+
 
     badge_text = row["abbrev"]
     badge_y = miny + 0.16
@@ -54,10 +65,10 @@ for _, row in viz_df.iterrows():
         customdata=[row['CArea']],
         name=row['CArea'],
         hovertemplate=f"{row['CArea'].title()}<extra></extra>",
-        showlegend=False,
+        showlegend=False, 
     ))
 
-# === Reference square ===
+# Reference square
 ref_x, ref_y = 3.2, 7
 ref_scale, ref_rate = 1.0, 0.3
 w, h = scale * ref_scale, scale * ref_scale
@@ -66,10 +77,11 @@ miny, maxy = ref_y - 0.5 * h, ref_y + 0.5 * h
 ref_red_h = h * ref_rate
 ref_red_y0 = maxy - ref_red_h
 
+
 fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
               fillcolor='white', line=dict(color=COLOR_EDGE, width=0.5))
 fig.add_shape(type="rect", x0=minx, x1=maxx, y0=ref_red_y0, y1=maxy,
-              fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.8))
+              fillcolor=COLOR_INJURY, line=dict(color = COLOR_TEXT, width=1.8))
 
 badge_y = miny + 0.18
 badge_w = w * 1.1
@@ -82,15 +94,19 @@ fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
                    yanchor="middle")
 fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
                    showarrow=False, font=dict(size=9, color=COLOR_TEXT))
-fig.add_annotation(x=ref_x, y=ref_y + 0.35, text="% Serious",
+fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Serious",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
+'''fig.add_annotation(x=ref_x , y=ref_y + 0.15, text="%",
+                   showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))'''
 
-# === Bikeability legend ===
+
+
+# Manual bikability legend using colored rectangles (like matplotlib)
 legend_x = 13.5
 legend_y_start = 5.5
 legend_h = 4.0
 legend_w = 0.2
-n_bins = 10
+n_bins = n_bins
 bin_vals = np.linspace(0, 1, n_bins)
 bin_colors = [rgba_to_plotly_color(COLOR_GRADIENT_MAP(v)) for v in bin_vals]
 bin_h = legend_h / n_bins
@@ -106,7 +122,7 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         fillcolor=color,
         layer="above"
     )
-
+# Add vertical label "Bikability"
 fig.add_annotation(
     x=legend_x + 0.35,
     y=legend_y_start + legend_h / 2,
@@ -117,7 +133,7 @@ fig.add_annotation(
 )
 fig.add_annotation(
     x=legend_x + 0.1,
-    y=legend_y_start + 0.9 * legend_h,
+    y=legend_y_start + 0.9*legend_h,
     text="Lowest",
     textangle=90,
     font=dict(size=9, color=COLOR_TEXT),
@@ -125,28 +141,54 @@ fig.add_annotation(
 )
 fig.add_annotation(
     x=legend_x + 0.1,
-    y=legend_y_start + 0.1 * legend_h,
+    y=legend_y_start + 0.1*legend_h,
     text="Highest",
     textangle=90,
     font=dict(size=9, color=COLOR_TEXT),
     showarrow=False
 )
 
-# === Chicago outline ===
+
+
+fig.update_layout(
+    clickmode='event+select',
+    height=1000,
+    width=800,
+    title=f"Chicago Bike Accident Reports, /n since {crash_df.CRASH_YEAR.min()}",
+    xaxis=dict(visible=False),
+    yaxis=dict(visible=False, autorange="reversed"),
+    margin=dict(l=20, r=20, t=60, b=20),
+    plot_bgcolor="white"
+)
+
+
+
+import plotly.graph_objects as go
+
+# Add outline (behind rects) using transparent line
 if translated.geom_type == 'Polygon':
     x, y = list(translated.exterior.xy[0]), list(translated.exterior.xy[1])
     fig.add_trace(go.Scatter(
         x=x, y=y, mode='lines',
         line=dict(color='ivory', width=1.5),
         fill='toself',
-        fillcolor=COLOR_CITY,
+        fillcolor = COLOR_CITY,
         hoverinfo='skip',
-        hovertemplate='none',
+        hovertemplate = 'none',
         showlegend=False
     ))
 
-# === Final layout ===
+
+
+
+
+
+
+
+
 layout = html.Div([
+
+    # === Left Panel: Rounded Map Card ===
     html.Div([
         dcc.Graph(
             id='cartogram',
@@ -164,13 +206,17 @@ layout = html.Div([
         'height': 'calc(100% - 20px)',
         'boxSizing': 'border-box'
     }),
+
+    # === Right Panel: Info Card ===
     html.Div([
         html.Div([
+
             dcc.Dropdown(
                 id='carea-dropdown',
                 options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
                 placeholder="Choose an area...",
                 style={
+                    
                     'fontSize': '14px',
                     'backgroundColor': '#ffffff',
                     'border': '1px solid #d0d0d0',
@@ -179,6 +225,7 @@ layout = html.Div([
                     'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
                 }
             ),
+
             html.Div(id='info-panel', style={
                 'fontFamily': 'Segoe UI, sans-serif',
                 'fontSize': '14px',
@@ -189,7 +236,7 @@ layout = html.Div([
         ])
     ], style={
         'flex': '1',
-        'margin': '10px 10px 10px 0',
+        'margin': '10px 10px 10px 0',  # tighter to the left panel
         'padding': '15px',
         'backgroundColor': '#ffffff',
         'borderRadius': '16px',
@@ -198,6 +245,7 @@ layout = html.Div([
         'overflowY': 'auto',
         'boxSizing': 'border-box'
     })
+
 ], style={
     'display': 'flex',
     'flexDirection': 'row',
@@ -208,3 +256,8 @@ layout = html.Div([
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
 })
+
+
+
+
+
