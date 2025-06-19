@@ -234,7 +234,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x ,
-    y=ref_y + 7.5,
+    y=ref_y + 7.7,
     text="Serious = Incapacitating or Fatal",
     textangle=0,
     font=dict(size=10, color=COLOR_TEXT),

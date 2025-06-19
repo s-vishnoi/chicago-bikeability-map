@@ -203,7 +203,11 @@ viz_df = pd.DataFrame(viz_data)
 viz_df = viz_df.merge(bike_lane_summary, on='CArea', how='left').fillna(0)
 
 
-
+for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']:
+    bike_with_neigh[k + '_MI'] = bike_with_neigh.apply(
+        lambda row: row['length_miles'] if row['DISPLAYROU_CLEAN'] == k else 0,
+        axis=1
+    )
 
 miles_by_type = bike_with_neigh.groupby('CArea')[[k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']]].sum().reset_index()
 viz_df = viz_df.merge(miles_by_type, on='CArea', how='left')
