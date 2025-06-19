@@ -217,18 +217,31 @@ if translated.geom_type == 'Polygon':
 
 
 
-
 # Arrow pointing to reference square
 fig.add_annotation(
-    x=ref_x + 0.7, y=ref_y -0.5,  # Arrow head
-    ax=ref_x + 2.3, ay=ref_y - 1.8,  # Tail of the arrow (shift to right)
+    x=ref_x + 0.6, y=ref_y -0.5,  # Arrow head
+    ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
     xref='x', yref='y',
     axref='x', ayref='y',
    
     showarrow=True,
-    arrowhead=3,
+    arrowhead=1,
     arrowsize=1,
-    arrowwidth=2,
+    arrowwidth=1,
+    arrowcolor='lightgray',
+)
+
+# Arrow pointing to reference square
+fig.add_annotation(
+    x=ref_x + 0.6, y=ref_y +0.5,  # Arrow head
+    ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
+    xref='x', yref='y',
+    axref='x', ayref='y',
+   
+    showarrow=True,
+    arrowhead=1,
+    arrowsize=1,
+    arrowwidth=1,
     arrowcolor='lightgray',
 )
 
