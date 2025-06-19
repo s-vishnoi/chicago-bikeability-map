@@ -267,7 +267,7 @@ layout = html.Div([
     ], style={
         'flex': '3',
         'margin': '10px',
-        'padding': '15px',
+        'padding': '10px',
         'backgroundColor': '#ffffff',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
