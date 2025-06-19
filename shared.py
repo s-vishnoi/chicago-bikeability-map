@@ -34,9 +34,15 @@ with open(os.path.join(data_path, "community_pops.json")) as f:
 
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
+
+
+#paste below 
+
+
+
+# Filter to Chicago
 city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
-
 
 from shapely.affinity import scale as scale_geom, translate as translate_geom
 from shapely.geometry import box
@@ -72,58 +78,6 @@ translated = translate_geom(
     xoff=center_x - (scaled.bounds[0] + scaled.bounds[2]) / 2 - 0.9,
     yoff=center_y - (scaled.bounds[1] + scaled.bounds[3]) / 2 +0.2
 )
-
-
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize, LinearSegmentedColormap
-import plotly.graph_objects as go
-from dash import Dash, dcc, html, Input, Output, State, ctx
-
-
-# Define colors
-COLOR_GRADIENT_MAP = LinearSegmentedColormap.from_list("pink_to_blue", ['#FFC0CB', '#418CC0'])
-COLOR_INJURY = 'darkred'
-COLOR_EDGE = '#B3DDF2'
-COLOR_TEXT = "#1A1A1A"
-COLOR_INJURY_TEXT = "ivory"
-COLOR_CITY = 'rgba(160, 160, 160, 0.3)'
-
-def rgba_to_plotly_color(rgba):
-    r, g, b, a = rgba
-    return f'rgba({int(r*255)}, {int(g*255)}, {int(b*255)}, {a:.2f})'
-
-norm = Normalize(vmin=0, vmax=5)
-
-# Group bike lane types
-bike_lane_summary = (
-    bike_with_neigh.groupby(['CArea', 'DISPLAYROU_CLEAN'])
-    .size()
-    .unstack(fill_value=0)
-    .reset_index()
-)
-
-
-causes_dict = (
-    crash_with_carea[~crash_with_carea['PRIM_CONTRIBUTORY_CAUSE'].isin(['UNABLE TO DETERMINE', 'NOT APPLICABLE'])]
-    .groupby(['CArea', 'PRIM_CONTRIBUTORY_CAUSE'])
-    .size()
-    .reset_index(name='count')
-    .sort_values(['CArea', 'count'], ascending=[True, False])
-    .groupby('CArea')['PRIM_CONTRIBUTORY_CAUSE']
-    .apply(lambda x: x.head(5).tolist())
-    .to_dict()
-)
-
-
-injuries_dict = (
-    crash_with_carea.groupby(['CArea', 'MOST_SEVERE_INJURY'])
-    .size()
-    .unstack(fill_value=0)
-    .to_dict(orient='index')
-)
-
-
 def name_to_abbrev(n):
     # simple abbreviator for capitalized names
 
@@ -167,6 +121,55 @@ def name_to_abbrev(n):
             abrv += word[0][0] + cons[0]"""
     return abrv
 
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize, LinearSegmentedColormap
+import plotly.graph_objects as go
+from dash import Dash, dcc, html, Input, Output, State, ctx
+
+
+# Define colors
+COLOR_GRADIENT_MAP = LinearSegmentedColormap.from_list("pink_to_blue", ['#FFC0CB', '#418CC0'])
+COLOR_INJURY = 'darkred'
+COLOR_EDGE = '#B3DDF2'
+COLOR_TEXT = "#1A1A1A"
+COLOR_INJURY_TEXT = "ivory"
+COLOR_CITY = 'rgba(160, 160, 160, 0.5)'
+
+def rgba_to_plotly_color(rgba):
+    r, g, b, a = rgba
+    return f'rgba({int(r*255)}, {int(g*255)}, {int(b*255)}, {a:.2f})'
+
+norm = Normalize(vmin=0, vmax=5)
+
+# Group bike lane types
+bike_lane_summary = (
+    bike_with_neigh.groupby(['CArea', 'DISPLAYROU_CLEAN'])
+    .size()
+    .unstack(fill_value=0)
+    .reset_index()
+)
+
+
+causes_dict = (
+    crash_with_carea[~crash_with_carea['PRIM_CONTRIBUTORY_CAUSE'].isin(['UNABLE TO DETERMINE', 'NOT APPLICABLE'])]
+    .groupby(['CArea', 'PRIM_CONTRIBUTORY_CAUSE'])
+    .size()
+    .reset_index(name='count')
+    .sort_values(['CArea', 'count'], ascending=[True, False])
+    .groupby('CArea')['PRIM_CONTRIBUTORY_CAUSE']
+    .apply(lambda x: x.head(5).tolist())
+    .to_dict()
+)
+
+
+injuries_dict = (
+    crash_with_carea.groupby(['CArea', 'MOST_SEVERE_INJURY'])
+    .size()
+    .unstack(fill_value=0)
+    .to_dict(orient='index')
+)
+
 
 
 
@@ -198,3 +201,17 @@ for carea in CAreaGrid:
     })
 viz_df = pd.DataFrame(viz_data)
 viz_df = viz_df.merge(bike_lane_summary, on='CArea', how='left').fillna(0)
+
+
+
+
+miles_by_type = bike_with_neigh.groupby('CArea')[[k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']]].sum().reset_index()
+viz_df = viz_df.merge(miles_by_type, on='CArea', how='left')
+#no bike areas 
+missing = set(viz_df['CArea']) - set(miles_by_type['CArea'])
+print("Names in viz_df but missing in miles_by_type:")
+print(sorted(missing))
+#fill nans foe those areas
+lane_cols = [k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']]
+viz_df[lane_cols] = viz_df[lane_cols].fillna(0)
+

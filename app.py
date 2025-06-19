@@ -71,16 +71,24 @@ def update_info(clickData, dropdown_value):
     return html.Div([
         html.H3(carea_name.title()),  
         html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
-        html.P(f"ꈨꈨ Road Length: {int(row['road_length'])} km"),
-        html.P(f"💥 Total Crashes: {row['total_crashes']}"),
-        html.P("📌 Top Causes:"),
+        html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
+        html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
+        html.P("📌 Top Causes:",style={'marginLeft': '15px'}),
         html.Ul([html.Li(c.title()) for c in causes]),
-        html.P(f"🩸 Serious Injuries: {row['serious_crashes']} ({int(row['serious_rate'] * 100)}%)"),
-        html.P("🩹 Injury Breakdown:"),
-        html.Ul([html.Li(f"{k.title()}: {v}") for k, v in injuries.items()]),
-        html.P("🛣️ Bike Lanes:"),
-        html.Ul([html.Li(f"{k.title()}: {int(row[k])}") for k in ['PROTECTED','BUFFERED', 'BIKE', 'SHARED','NEIGHBORHOOD'] if k in row]), 
-        html.P(f"🚴 Bikeability Score: {row['bike_score']}/5"),   
+        html.P(f"🩸 Serious Injuries: {row['serious_crashes']} ({int(row['serious_rate'] * 100)}%)",style={'marginLeft': '15px'}),
+        html.P("🩹 Injury Breakdown:",style={'marginLeft': '15px'}),
+        html.Ul([
+            html.Li(f"{k.title()}" + ("(Serious):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":") + f" {v}")
+            for k, v in injuries.items()
+        ]),
+
+        html.P("🛣️ Bike Lanes (mi):"),
+        html.Ul([
+            html.Li(f"{k.title()}: {round(row[k + '_MI'], 1)} mi") 
+            for k in ['PROTECTED','BUFFERED','NEIGHBORHOOD','BIKE', 'SHARED']
+            if f"{k}_MI" in row
+        ]),
+        html.P(f"🚴 Bikeability: {row['bike_score']}/5",style={'marginLeft': '24px'}),   
     ])
 
 from dash import Output, Input
@@ -112,6 +120,7 @@ def update_figure(clickData):
             updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
 
     return updated_fig
+
 
 
 

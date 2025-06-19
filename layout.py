@@ -72,7 +72,7 @@ for _, row in viz_df.iterrows():
 
 # Reference square
 ref_x, ref_y = 3.2, 7
-ref_scale, ref_rate = 1.0, 0.3
+ref_scale, ref_rate = 1.1, 0.3
 w, h = scale * ref_scale, scale * ref_scale
 minx, maxx = ref_x - 0.5 * w, ref_x + 0.5 * w
 miny, maxy = ref_y - 0.5 * h, ref_y + 0.5 * h
@@ -133,6 +133,10 @@ fig.add_annotation(
     font=dict(size=10, color=COLOR_TEXT),
     showarrow=False
 )
+
+
+
+
 # Add vertical label "Bikability"
 fig.add_annotation(
     x=legend_x + 0.35,
@@ -187,7 +191,7 @@ fig.update_layout(
     height=1000,
     width=800,
     title=f"Chicago Bike Accidents, 2018-Present",
-    title_font=dict(size=20),
+    title_font=dict(size=24),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
@@ -210,6 +214,41 @@ if translated.geom_type == 'Polygon':
         hovertemplate = 'none',
         showlegend=False
     ))
+
+
+
+
+# Arrow pointing to reference square
+fig.add_annotation(
+    x=ref_x + 0.7, y=ref_y -0.5,  # Arrow head
+    ax=ref_x + 2.3, ay=ref_y - 1.8,  # Tail of the arrow (shift to right)
+    xref='x', yref='y',
+    axref='x', ayref='y',
+   
+    showarrow=True,
+    arrowhead=3,
+    arrowsize=1,
+    arrowwidth=2,
+    arrowcolor='lightgray',
+)
+
+fig.add_annotation(
+    x=ref_x ,
+    y=ref_y + 7.5,
+    text="Serious = Incapacitating or Fatal",
+    textangle=0,
+    font=dict(size=10, color=COLOR_TEXT),
+    showarrow=False
+)
+
+fig.add_annotation(
+    x=ref_x + 1.5 ,
+    y=ref_y + 8,
+    text="Bikeability = Road coverage with bike lanes, weighted by lane type",
+    textangle=0,
+    font=dict(size=10, color=COLOR_TEXT),
+    showarrow=False
+)
 
 
 
