@@ -13,7 +13,7 @@ from shared import viz_df,causes_dict, injuries_dict, translated, COLOR_GRADIENT
 app = Dash(__name__)
 server = app.server
 # === Import layout + fig ===
-from layout import layout
+from layout import layout, fig, bin_vals
 
 app.layout = layout
 # === Callbacks ===
@@ -120,7 +120,6 @@ def update_figure(clickData):
             updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
 
     return updated_fig
-
 
 
 
