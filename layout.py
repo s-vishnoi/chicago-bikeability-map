@@ -126,8 +126,8 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
     )
 
 fig.add_annotation(
-    x=legend_x - 1.5,
-    y=legend_y_start - 4,
+    x=ref_x ,
+    y=ref_y + 0.8,
     text="Click a community area to explore",
     textangle=0,
     font=dict(size=10, color=COLOR_TEXT),
