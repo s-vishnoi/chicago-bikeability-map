@@ -1,4 +1,4 @@
-CArea,total_crashes,serious_crashes,serious_rate,crash_rate
+CArea,total_crashes,severe_crashes,severe_rate,crash_rate
 Albany Park,256,18,0.0703125,0.019264052976145685
 Archer Heights,39,4,0.10256410256410256,0.0029347580705846943
 Armour Square,94,5,0.05319148936170213,0.007073519452178494
