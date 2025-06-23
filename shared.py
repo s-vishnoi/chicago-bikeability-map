@@ -179,9 +179,9 @@ viz_data = []
 for carea in CAreaGrid:
     name = carea.name
     total = grouped.loc[grouped['CArea'] == name, 'total_crashes'].values[0]
-    serious = grouped.loc[grouped['CArea'] == name, 'serious_crashes'].values[0]
+    severe = grouped.loc[grouped['CArea'] == name, 'severe_crashes'].values[0]
     share = grouped.loc[grouped['CArea'] == name, 'crash_rate'].values[0]
-    rate = serious / total if total > 0 else 0
+    rate = severe / total if total > 0 else 0
     bike_score = name_to_bike_score.get(name, 0)
     road_length = name_to_road_length.get(name, 0)
     population = community_pops[name]
@@ -190,8 +190,8 @@ for carea in CAreaGrid:
     viz_data.append({
         'CArea': name, 'x': x, 'y': y,
         'total_crashes': total,
-        'serious_crashes': serious,
-        'serious_rate': rate,
+        'severe_crashes': severe,
+        'severe_rate': rate,
         'bike_score': bike_score,
         'road_length':road_length,
         'population':population,

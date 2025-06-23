@@ -75,10 +75,10 @@ def update_info(clickData, dropdown_value):
         html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
         html.P("📌 Top Causes:",style={'marginLeft': '15px'}),
         html.Ul([html.Li(c.title()) for c in causes]),
-        html.P(f"🩸 Serious Injuries: {row['serious_crashes']} ({int(row['serious_rate'] * 100)}%)",style={'marginLeft': '15px'}),
+        html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)",style={'marginLeft': '15px'}),
         html.P("🩹 Injury Breakdown:",style={'marginLeft': '15px'}),
         html.Ul([
-            html.Li(f"{k.title()}" + ("(Serious):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":") + f" {v}")
+            html.Li(f"{k.title()}" + ("(Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":") + f" {v}")
             for k, v in injuries.items()
         ]),
 

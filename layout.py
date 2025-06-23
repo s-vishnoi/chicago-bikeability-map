@@ -24,7 +24,7 @@ fig.update_layout(
 
 for _, row in viz_df.iterrows():
     x, y = row['x'], row['y']
-    total, rate = row['total_crashes'], row['serious_rate']
+    total, rate = row['total_crashes'], row['severe_rate']
     bike_score = row['bike_score']
     fill = rgba_to_plotly_color(COLOR_GRADIENT_MAP(norm(bike_score)))
 
@@ -96,7 +96,7 @@ fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
                    yanchor="middle")
 fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
                    showarrow=False, font=dict(size=9, color=COLOR_TEXT))
-fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Serious",
+fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Severe",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
 '''fig.add_annotation(x=ref_x , y=ref_y + 0.15, text="%",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))'''
@@ -248,7 +248,7 @@ fig.add_annotation(
 fig.add_annotation(
     x=ref_x ,
     y=ref_y + 7.7,
-    text="Serious = Incapacitating or Fatal",
+    text="Severe = Incapacitating or Fatal",
     textangle=0,
     font=dict(size=10, color=COLOR_TEXT),
     showarrow=False
