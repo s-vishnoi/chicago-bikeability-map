@@ -57,7 +57,7 @@ docker run -p 8000:8000 dash-app
 ## 📚 Blog Post
 
 Read more about this project and the methodology here:  
-📝 _[Link to Medium post]_ (optional)
+📝 _[Link to Medium post]_
 
 ---
 
