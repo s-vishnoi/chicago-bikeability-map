@@ -1,7 +1,8 @@
-# 🚲 Chicago Bike Crash Dashboard
+# 🚲 Chicago Bikeability Dashboard
 
-An interactive cartogram visualizing bike accidents across Chicago community areas.  
-Built with [Plotly Dash](https://dash.plotly.com/), this dashboard highlights crash frequency, severity, top causes, and bikability for each neighborhood.
+An interactive cartogram visualizing bike traffic crashes across Chicago community areas.
+
+This dashboard highlights crash frequency, common causes, and severity for each community area. It also maps biking infrastructure in each area and aggregates it into a Bikeability score (loosely defined). Users can glean quick insights into biking safety in Chicago, helping to identify areas needing improvement. 
 
 🔗 **Live App**: [https://chicago-bike-dashboard.onrender.com](https://chicago-bike-dashboard.onrender.com)
 
@@ -9,9 +10,9 @@ Built with [Plotly Dash](https://dash.plotly.com/), this dashboard highlights cr
 
 ## 🧭 Features
 
-- 📊 Visualizes crash frequency and serious injury rate by community area  
-- 📍 Hoverable, clickable map tiles with abbreviations and risk bars  
-- 🛣️ Bike infrastructure breakdown: protected, buffered, shared lanes  
+- 📊 Visualizes crash frequency and severe injury rate by community area  
+- 📍 Interactive cartogram
+- 🛣️ Bike infrastructure breakdown: Protected, Buffered, Neighborhood, Bike (Painted), Shared
 - 📌 Top 5 crash causes per area  
 - 🩸 Detailed injury breakdown  
 - 🚴 Bikeability scores from 0 to 5  
@@ -57,7 +58,7 @@ docker run -p 8000:8000 dash-app
 ## 📚 Blog Post
 
 Read more about this project and the methodology here:  
-📝 _[Link to Medium post]_ (optional)
+📝 _[Link to Medium post]_
 
 ---
 
@@ -70,6 +71,10 @@ Ph.D. candidate in Physics @ Northwestern University
 [• [Portfolio](https://your-vercel-site.vercel.app)]:#
 
 ---
+
+## 🤝 Credits  
+I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here.
+
 
 ## 📝 License
 
