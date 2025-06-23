@@ -71,7 +71,7 @@ Ph.D. candidate in Physics @ Northwestern University
 
 ---
 
-## 📝 Credits  
+## 🤝 Credits  
 I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here.
 
 
