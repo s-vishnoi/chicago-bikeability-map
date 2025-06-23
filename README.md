@@ -69,8 +69,11 @@ Ph.D. candidate in Physics @ Northwestern University
 
 [• [Portfolio](https://your-vercel-site.vercel.app)]:#
 
-Credits: I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here. 
 ---
+
+## 📝 Credits  
+I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here.
+
 
 ## 📝 License
 
