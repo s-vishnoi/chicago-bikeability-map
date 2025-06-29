@@ -36,8 +36,123 @@ with open(os.path.join(data_path, "community_pops.json")) as f:
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 
 
-#paste below 
+#paste shared.py cells below 
+#shared.py
 
+import plotly.graph_objects as go
+import geopandas as gpd
+from shapely.geometry import LineString
+
+def plot_bike_coverage_plotly(carea_name):
+    gdf_plot = gdf_proj[gdf_proj['CArea'] == carea_name]
+    boundary_geom = gdf_plot.unary_union  # Single boundary geometry
+
+    # Clip roads and bike lanes to boundary
+    roads_plot = gpd.clip(roads_proj[roads_proj['CArea'] == carea_name], boundary_geom)
+    bike_plot = gpd.clip(bike_proj[bike_proj['CArea'] == carea_name], boundary_geom)
+
+    fig = go.Figure()
+
+    # --- Community boundary ---
+    for geom in gdf_plot.geometry:
+        if geom.geom_type == 'Polygon':
+            x, y = geom.exterior.xy
+            fig.add_trace(go.Scatter(
+                x=list(x), y=list(y),
+                mode='lines',
+                line=dict(color='black', width=1),
+                showlegend=False,
+                hoverinfo='skip'
+            ))
+        elif geom.geom_type == 'MultiPolygon':
+            for poly in geom.geoms:
+                x, y = poly.exterior.xy
+                fig.add_trace(go.Scatter(
+                    x=list(x), y=list(y),
+                    mode='lines',
+                    line=dict(color='black', width=1),
+                    showlegend=False,
+                    hoverinfo='skip'
+                ))
+
+    # --- Road styles ---
+    road_styles = {
+        True:  {'color': 'green', 'label': 'Covered'},
+        False: {'color': 'red',   'label': 'Uncovered'}
+    }
+
+    for covered, style in road_styles.items():
+        subset = roads_plot[roads_plot['is_parallel_covered'] == covered]
+        for line in subset.geometry:
+            if isinstance(line, LineString):
+                x, y = line.xy
+                fig.add_trace(go.Scatter(
+                    x=list(x), y=list(y),
+                    mode='lines',
+                    line=dict(color=style['color'], width=1),
+                    legendgroup='roads',
+                    showlegend=False,
+                    hoverinfo='skip',
+                    name=style['label']
+                ))
+
+        # Dummy for legend
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None],
+            mode='lines',
+            line=dict(color=style['color'], width=1),
+            name=style['label'],
+            legendgroup='roads',
+            legendgrouptitle_text='Roads',
+            showlegend=True
+        ))
+
+    # --- Bike lane styles ---
+    lane_styles = {
+        'PROTECTED':    {'color': 'navy', 'dash': 'solid'},
+        'BUFFERED':     {'color': 'navy', 'dash': '8px 2px'},
+        'NEIGHBORHOOD': {'color': 'navy', 'dash': 'dashdot'},
+        'BIKE':         {'color': 'navy', 'dash': '5px 2px'},
+        'SHARED':       {'color': 'navy', 'dash': '2px 5px'}
+    }
+
+    for lane_type, style in lane_styles.items():
+        subset = bike_plot[bike_plot['DISPLAYROU_CLEAN'] == lane_type]
+        for line in subset.geometry:
+            if isinstance(line, LineString):
+                x, y = line.xy
+                fig.add_trace(go.Scatter(
+                    x=list(x), y=list(y),
+                    mode='lines',
+                    line=dict(color=style['color'], dash=style['dash'], width=2),
+                    legendgroup='lanes',
+                    showlegend=False,
+                    hoverinfo='skip',
+                    name=lane_type.capitalize()
+                ))
+
+        # Dummy for legend
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None],
+            mode='lines',
+            line=dict(color=style['color'], dash=style['dash'], width=2),
+            name=lane_type.capitalize(),
+            legendgroup='lanes',
+            legendgrouptitle_text='Lanes',
+            showlegend=True
+        ))
+
+    fig.update_layout(
+        showlegend=False,
+        height=300,
+        width=300,
+        margin=dict(l=1, r=1, t=1, b=1),
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+        plot_bgcolor='white',
+    )
+
+    return fig
 
 
 # Filter to Chicago
@@ -182,7 +297,10 @@ for carea in CAreaGrid:
     severe = grouped.loc[grouped['CArea'] == name, 'severe_crashes'].values[0]
     share = grouped.loc[grouped['CArea'] == name, 'crash_rate'].values[0]
     rate = severe / total if total > 0 else 0
-    bike_score = name_to_bike_score.get(name, 0)
+
+    infrastructure_score = name_to_infrastructure_score.get(name, 0)
+    network_score = name_to_network_score.get(name, 0)
+    bike_rank = name_to_bikeability_rank.get(name, 0)
     road_length = name_to_road_length.get(name, 0)
     population = community_pops[name]
     abbrev = name_to_abbrev(name).upper()
@@ -192,7 +310,9 @@ for carea in CAreaGrid:
         'total_crashes': total,
         'severe_crashes': severe,
         'severe_rate': rate,
-        'bike_score': bike_score,
+        'infrastructure_score':infrastructure_score,
+        'network_score':network_score,
+        'bike_rank': bike_rank,
         'road_length':road_length,
         'population':population,
         'abbrev': abbrev,
@@ -202,12 +322,12 @@ for carea in CAreaGrid:
 viz_df = pd.DataFrame(viz_data)
 viz_df = viz_df.merge(bike_lane_summary, on='CArea', how='left').fillna(0)
 
-
 for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']:
     bike_with_neigh[k + '_MI'] = bike_with_neigh.apply(
         lambda row: row['length_miles'] if row['DISPLAYROU_CLEAN'] == k else 0,
         axis=1
     )
+
 
 miles_by_type = bike_with_neigh.groupby('CArea')[[k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']]].sum().reset_index()
 viz_df = viz_df.merge(miles_by_type, on='CArea', how='left')

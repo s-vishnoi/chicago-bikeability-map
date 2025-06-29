@@ -6,7 +6,8 @@ from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_E
 
 
 #layout.py
-# Build figure
+
+#1.Build figure
 fig = go.Figure()
 scale = 1
 
@@ -25,8 +26,8 @@ fig.update_layout(
 for _, row in viz_df.iterrows():
     x, y = row['x'], row['y']
     total, rate = row['total_crashes'], row['severe_rate']
-    bike_score = row['bike_score']
-    fill = rgba_to_plotly_color(COLOR_GRADIENT_MAP(norm(bike_score)))
+    bike_rank = row['bike_rank']
+    fill = rgba_to_plotly_color(COLOR_GRADIENT_MAP(norm(bike_rank)))
 
     w, h = scale-0.1, scale-0.1
     minx, maxx = x - 0.5 * w, x + 0.5 * w
@@ -98,8 +99,7 @@ fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
                    showarrow=False, font=dict(size=9, color=COLOR_TEXT))
 fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Severe",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
-'''fig.add_annotation(x=ref_x , y=ref_y + 0.15, text="%",
-                   showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))'''
+
 
 
 
@@ -126,14 +126,13 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
     )
 
 fig.add_annotation(
-    x=ref_x ,
+    x=ref_x,
     y=ref_y + 0.8,
     text="Click a community area to explore",
     textangle=0,
     font=dict(size=10, color=COLOR_TEXT),
     showarrow=False
 )
-
 
 
 
@@ -171,11 +170,13 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         y=[y0 + bin_h / 2],
         mode='markers',
         marker=dict(size=30, opacity=0),
-        customdata=[f'bin_{flipped_bin}'],  # Now matches bike_score logic
+        customdata=[f'bin_{flipped_bin}'],  # Now matches bike_rank logic
         name=f'bin_{flipped_bin}',
         hovertemplate=f"Bikeability {flipped_bin + 1}<extra></extra>",
         showlegend=False
     ))
+
+
 fig.add_annotation(
     x=legend_x - 0.15,
     y=legend_y_start + legend_h / 2,
@@ -188,10 +189,10 @@ fig.add_annotation(
 
 fig.update_layout(
     clickmode='event+select',
-    height=1000,
-    width=800,
-    title=f"Chicago Bike Accidents, 2018-Present",
-    title_font=dict(size=24),
+    height=1150,
+    width=870,
+    title=f"Chicago Bike Crashes, 2018-Present",
+    title_font=dict(size=16),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
@@ -214,6 +215,7 @@ if translated.geom_type == 'Polygon':
         hovertemplate = 'none',
         showlegend=False
     ))
+
 
 
 
@@ -246,26 +248,32 @@ fig.add_annotation(
 )
 
 fig.add_annotation(
-    x=ref_x ,
-    y=ref_y + 7.7,
-    text="Severe = Incapacitating or Fatal",
+    x=ref_x + 0.2,
+    y=ref_y + 10.7,
+    text="Severe = Incapacitating/Fatal",
     textangle=0,
-    font=dict(size=10, color=COLOR_TEXT),
+    font=dict(size=10.5, color=COLOR_TEXT),
     showarrow=False
 )
 
 fig.add_annotation(
-    x=ref_x + 1.5 ,
-    y=ref_y + 8,
+    x=ref_x + 1.75 ,
+    y=ref_y + 11,
     text="Bikeability = Road coverage with bike lanes, weighted by lane type",
     textangle=0,
-    font=dict(size=10, color=COLOR_TEXT),
+    font=dict(size=10.5, color=COLOR_TEXT),
     showarrow=False
 )
-
-
-
-
+def empty_plot():
+    fig = go.Figure()
+    fig.update_layout(
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        margin=dict(l=0, r=0, t=0, b=0)
+    )
+    return fig
 
 layout = html.Div([
 
@@ -275,29 +283,30 @@ layout = html.Div([
             id='cartogram',
             figure=fig,
             config={'displayModeBar': False},
-            style={'height': '100%', 'width': '100%'}
+            style={'width': '100%','height':'100%'}
         )
     ], style={
         'flex': '3',
         'margin': '10px',
-        'padding': '5px',
+        'padding': '15px',
         'backgroundColor': '#ffffff',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
-        'height': 'calc(100% - 20px)',
-        'boxSizing': 'border-box'
+        'boxSizing': 'border-box',
+        'display': 'flex',
+        'alignItems': 'stretch'
     }),
 
-    # === Right Panel: Info Card ===
+    # === Right Panel: Info + Network Plot ===
     html.Div([
+        
+        # Scrollable info panel
         html.Div([
-
             dcc.Dropdown(
                 id='carea-dropdown',
                 options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
                 placeholder="Choose an area...",
                 style={
-                    
                     'fontSize': '14px',
                     'backgroundColor': '#ffffff',
                     'border': '1px solid #d0d0d0',
@@ -306,7 +315,6 @@ layout = html.Div([
                     'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
                 }
             ),
-
             html.Div(id='info-panel', style={
                 'fontFamily': 'Segoe UI, sans-serif',
                 'fontSize': '14px',
@@ -314,26 +322,51 @@ layout = html.Div([
                 'lineHeight': '1.6',
                 'padding': '4px 2px'
             })
-        ])
+        ], style={
+            'flex': '1',
+            'overflowY': 'auto',
+            'boxSizing': 'border-box'
+        }),
+        
+        # Square bottom panel for network plot
+        html.Div([
+            dcc.Graph(
+                id='network-coverage',
+                figure=empty_plot(),
+                config={'displayModeBar': False},
+                style={
+                    'height': '100%',
+                    'width': '100%'
+                }
+            )
+        ], style={
+            'height': '300px',  # Fixed square
+            'marginTop': '5px',
+            'borderTop': '1px solid #eee',
+            'boxSizing': 'border-box'
+        })
+
     ], style={
         'flex': '1',
-        'margin': '10px 10px 10px 0',  # tighter to the left panel
+        'margin': '10px 10px 10px 0',
         'padding': '15px',
         'backgroundColor': '#ffffff',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
-        'height': 'calc(100% - 20px)',
-        'overflowY': 'auto',
+        'display': 'flex',
+        'flexDirection': 'column',
+        'alignSelf': 'stretch',
         'boxSizing': 'border-box'
     })
 
 ], style={
     'display': 'flex',
     'flexDirection': 'row',
-    'height': '100%',
+    'height': '100%',  # full page height
     'margin': '0',
     'padding': '0',
     'boxSizing': 'border-box',
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
 })
+

@@ -13,7 +13,7 @@ from shared import viz_df,causes_dict, injuries_dict, translated, COLOR_GRADIENT
 app = Dash(__name__)
 server = app.server
 # === Import layout + fig ===
-from layout import layout, fig, bin_vals
+from layout import layout, fig, empty_plot, plot_bike_coverage_plotly
 
 app.layout = layout
 # === Callbacks ===
@@ -55,10 +55,15 @@ def update_info(clickData, dropdown_value):
 
     row = viz_df[viz_df['CArea'] == carea_name].iloc[0]
 
-    if selected_bin is not None:
-        bin_min = bin_vals[::-1][selected_bin]
-        bin_max = 1.0 if selected_bin == 0 else bin_vals[::-1][selected_bin - 1]
-        in_bin = bin_min <= row['bike_score'] < bin_max
+    if selected_bin is not None and not carea_name:
+        return html.Div([
+            html.P(f"Highlighting Bikeability Bin {selected_bin + 1}. Click a community to explore."),
+        ], style={'paddingBottom': '200px'})
+
+    if not carea_name:
+        return html.Div([
+            html.P("Click a community area or select from the dropdown."),
+        ], style={'paddingBottom': '200px'})
 
 
     
@@ -67,32 +72,145 @@ def update_info(clickData, dropdown_value):
 
     causes = causes_dict.get(carea_name, [])
     injuries = injuries_dict.get(carea_name, {})
+    '''   # --- Bike lane styles ---
+    lane_styles = {
+        'PROTECTED':    {'color': 'navy', 'dash': 'solid'},
+        'BUFFERED':     {'color': 'navy', 'dash': '8px 2px'},
+        'NEIGHBORHOOD': {'color': 'navy', 'dash': 'dashdot'},
+        'BIKE':         {'color': 'navy', 'dash': '5px 2px'},
+        'SHARED':       {'color': 'navy', 'dash': '2px 5px'}
+    }'''
+
 
     return html.Div([
-        html.H3(carea_name.title()),  
-        html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
-        html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
-        html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
-        html.P("📌 Top Causes:",style={'marginLeft': '15px'}),
-        html.Ul([html.Li(c.title()) for c in causes]),
-        html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)",style={'marginLeft': '15px'}),
-        html.P("🩹 Injury Breakdown:",style={'marginLeft': '15px'}),
-        html.Ul([
-            html.Li(f"{k.title()}" + ("(Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":") + f" {v}")
-            for k, v in injuries.items()
-        ]),
+    html.H3(carea_name.title()),
 
-        html.P("🛣️ Bike Lanes (mi):"),
-        html.Ul([
-            html.Li(f"{k.title()}: {round(row[k + '_MI'], 1)} mi") 
-            for k in ['PROTECTED','BUFFERED','NEIGHBORHOOD','BIKE', 'SHARED']
-            if f"{k}_MI" in row
-        ]),
-        html.P(f"🚴 Bikeability: {row['bike_score']}/5",style={'marginLeft': '24px'}),   
+    html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
+    html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
+    html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
+
+    html.P("📌 Top Causes:", style={'marginLeft': '15px'}),
+    html.Ul([
+    html.Li(c.title(), style={'color': '#666'}) for c in causes
+    ]),
+
+    html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)", style={'marginLeft': '15px'}),
+    html.P("🩹 Injury Breakdown:", style={'marginLeft': '15px'}),
+    html.Ul([
+        html.Li([
+            html.Span(
+                f"{k.title()}" + (" (Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":"),
+                style={'color': '#666'}
+            ),
+            f" {v}"
+        ])
+        for k, v in injuries.items()
+    ]),
+
+    html.Hr(style={'margin': '12px 0'}),
+
+    html.P(f"🚴 Bikeability Rank: {row['bike_rank']}/5", style={'marginLeft': '10px'}),
+    html.P("🛠️ Infrastructure (Bike Lanes):", style={'marginLeft': '15px'}),
+    
+    html.Ul([
+    # PROTECTED — solid
+    html.Li([
+        html.Div(style={
+            'display': 'inline-block',
+            'width': '30px',
+            'height': '8px',
+            'borderTop': '2px solid navy',
+            'marginRight': '8px',
+            'transform': 'translateY(+3.5px)'
+        }),
+        html.Span("Protected:", style={'color': '#666'}),
+        f" {round(row['PROTECTED_MI'], 1)} mi"
+    ]) if 'PROTECTED_MI' in row else None,
+
+    # BUFFERED — longdash
+    html.Li([
+        html.Div(style={
+            'display': 'inline-block',
+            'width': '30px',
+            'height': '8px',
+            'borderTop': '2px solid navy',
+            'borderImage': 'repeating-linear-gradient(to right, navy 0 8px, transparent 8px 10px) 100% 1',
+            'marginRight': '8px',
+            'transform': 'translateY(+3.5px)'
+        }),
+        html.Span("Buffered:", style={'color': '#666'}),
+        f" {round(row['BUFFERED_MI'], 1)} mi"
+    ]) if 'BUFFERED_MI' in row else None,
+
+    # NEIGHBORHOOD — dashdot
+    html.Li([
+        html.Div(style={
+            'display': 'inline-block',
+            'width': '30px',
+            'height': '8px',
+            'borderTop': '2px solid navy',
+            'borderImage': 'repeating-linear-gradient(to right, navy 0 6px, transparent 6px 8px, navy 8px 10px, transparent 10px 12px) 100% 1',
+            'marginRight': '8px',
+            'transform': 'translateY(+3.5px)'
+        }),
+        html.Span("Neighborhood:", style={'color': '#666'}),
+        f" {round(row['NEIGHBORHOOD_MI'], 1)} mi"
+    ]) if 'NEIGHBORHOOD_MI' in row else None,
+
+    # BIKE — dashed
+    html.Li([
+        html.Div(style={
+            'display': 'inline-block',
+            'width': '30px',
+            'height': '8px',
+            'borderTop': '2px solid navy',
+            'borderImage': 'repeating-linear-gradient(to right, navy 0 5px, transparent 5px 6px) 100% 1',
+            'marginRight': '8px',
+            'transform': 'translateY(+3.5px)'
+        }),#666
+        html.Span("Bike:", style={'color': '#666'}),
+        f" {round(row['BIKE_MI'], 1)} mi"
+    ]) if 'BIKE_MI' in row else None,
+
+    # SHARED — sparse pattern
+    html.Li([
+        html.Div(style={
+            'display': 'inline-block',
+            'width': '30px',
+            'height': '8px',
+            'borderTop': '2px solid navy',
+            'borderImage': 'repeating-linear-gradient(to right, navy 0 2px, transparent 2px 5px) 100% 1',
+            'marginRight': '8px',
+            'transform': 'translateY(+3.5px)'
+        }),
+        html.Span("Shared:", style={'color': '#666'}),
+        f" {round(row['SHARED_MI'], 1)} mi"
+    ]) if 'SHARED_MI' in row else None,
+    ], style={
+        'listStyleType': 'none',
+        'paddingLeft': '0',
+        'marginLeft': '20px'
+    }),
+
+    
+
+    html.P(f"🌐 Network Score: {round(row['network_score'], 2)}", style={'marginLeft': '15px'}),
     ])
+
 
 from dash import Output, Input
 from copy import deepcopy
+
+
+@app.callback(
+    Output('network-coverage', 'figure'),
+    Input('carea-dropdown', 'value')
+)
+def update_network_plot(carea_name):
+    if not carea_name or str(carea_name).startswith('bin_'):
+        return empty_plot()  #return clean blank
+
+    return plot_bike_coverage_plotly(carea_name)
 
 @app.callback(
     Output('cartogram', 'figure'),
@@ -110,7 +228,7 @@ def update_figure(clickData):
     n_areas = len(viz_df)
 
     for i, (_, row) in enumerate(viz_df.iterrows()):
-        is_match = int(row['bike_score']) == selected_bin
+        is_match = int(row['bike_rank']) == selected_bin
         opacity_val = 1.0 if is_match else 0.3
 
         # Each community contributes 3 shapes, starting at i*3
@@ -122,7 +240,12 @@ def update_figure(clickData):
     return updated_fig
 
 
-
+#app.py finish 
+fig.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)'    # Remove plot area background
+)
+import warnings
+warnings.filterwarnings("ignore")
 
 # === Run ===
 if __name__ == "__main__":
