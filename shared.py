@@ -28,7 +28,7 @@ crash_with_carea = pd.read_csv(os.path.join(data_path, "crash_with_carea.csv"))
 
 with open(os.path.join(data_path, "name_to_infrastructure_score.json")) as f:
     name_to_infrastructure_score = json.load(f)
-with open(os.path.join(data_path,"name_to_network_score.json", "w")) as f:
+with open(os.path.join(data_path,"name_to_network_score.json")) as f:
     name_to_network_score = json.load(f)
 with open(os.path.join(data_path, "name_to_bike_rank.json")) as f:
     name_to_bike_rank = json.load(f)
