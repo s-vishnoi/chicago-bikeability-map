@@ -7,17 +7,19 @@ import geopandas as gpd
 from shapely.affinity import scale as scale_geom, translate as translate_geom
 from dash import Dash, dcc, html, Input, Output, State, ctx
 from matplotlib.colors import Normalize, LinearSegmentedColormap
-from shared import viz_df,causes_dict, injuries_dict, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+
+# === Import from shared and layout whatever ===
+from shared import viz_df,causes_dict, injuries_dict, get_bike_coverage_plotly, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+from layout import layout, fig, empty_plot
+
 
 # === Dash App init ===
 app = Dash(__name__)
 server = app.server
-# === Import layout + fig ===
-from layout import layout, fig, empty_plot, plot_bike_coverage_plotly
-
 app.layout = layout
 # === Callbacks ===
 selected_bin = None  # Change to an int 0–4 to simulate click behavior
+
 
 
 @app.callback(
@@ -210,7 +212,7 @@ def update_network_plot(carea_name):
     if not carea_name or str(carea_name).startswith('bin_'):
         return empty_plot()  #return clean blank
 
-    return plot_bike_coverage_plotly(carea_name)
+    return get_bike_coverage_plotly(carea_name)
 
 @app.callback(
     Output('cartogram', 'figure'),
@@ -240,6 +242,7 @@ def update_figure(clickData):
     return updated_fig
 
 
+
 #app.py finish 
 fig.update_layout(
     plot_bgcolor='rgba(0,0,0,0)'    # Remove plot area background
@@ -247,9 +250,4 @@ fig.update_layout(
 import warnings
 warnings.filterwarnings("ignore")
 
-# === Run ===
-if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False, port=5000)
-
-
-
+app.run(debug=True, use_reloader=False, port=5000)

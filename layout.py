@@ -1,13 +1,11 @@
+
 import numpy as np
 import plotly.graph_objects as go
 from dash import dcc, html
 from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
 
-
-#layout.py
-
-#1.Build figure
+# 1. BUILD figure
 fig = go.Figure()
 scale = 1
 
@@ -20,7 +18,6 @@ fig.update_layout(
         font_family="Segoe UI, sans-serif"
     )
 )
-
 
 
 for _, row in viz_df.iterrows():
@@ -46,10 +43,10 @@ for _, row in viz_df.iterrows():
                        font=dict(size=8, color=COLOR_TEXT))
     fig.add_annotation(x=x, y=maxy - 0.1, text=f"{int(rate * 100)}%",
                        showarrow=False, font=dict(size=8, color=COLOR_INJURY_TEXT))
-    
-    
-    
-    
+
+
+
+
 
 
     badge_text = row["abbrev"]
@@ -99,7 +96,6 @@ fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
                    showarrow=False, font=dict(size=9, color=COLOR_TEXT))
 fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Severe",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
-
 
 
 
@@ -217,15 +213,13 @@ if translated.geom_type == 'Polygon':
     ))
 
 
-
-
 # Arrow pointing to reference square
 fig.add_annotation(
     x=ref_x + 0.6, y=ref_y -0.5,  # Arrow head
     ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
     xref='x', yref='y',
     axref='x', ayref='y',
-   
+
     showarrow=True,
     arrowhead=1,
     arrowsize=1,
@@ -239,7 +233,7 @@ fig.add_annotation(
     ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
     xref='x', yref='y',
     axref='x', ayref='y',
-   
+
     showarrow=True,
     arrowhead=1,
     arrowsize=1,
@@ -249,7 +243,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x + 0.2,
-    y=ref_y + 10.7,
+    y=ref_y + 10.7 -1.2,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
     font=dict(size=10.5, color=COLOR_TEXT),
@@ -258,7 +252,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x + 1.75 ,
-    y=ref_y + 11,
+    y=ref_y + 11 -1.2,
     text="Bikeability = Road coverage with bike lanes, weighted by lane type",
     textangle=0,
     font=dict(size=10.5, color=COLOR_TEXT),
@@ -274,6 +268,9 @@ def empty_plot():
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
+
+
+# 2. Define DASH layout
 
 layout = html.Div([
 
@@ -299,7 +296,7 @@ layout = html.Div([
 
     # === Right Panel: Info + Network Plot ===
     html.Div([
-        
+
         # Scrollable info panel
         html.Div([
             dcc.Dropdown(
@@ -327,7 +324,7 @@ layout = html.Div([
             'overflowY': 'auto',
             'boxSizing': 'border-box'
         }),
-        
+
         # Square bottom panel for network plot
         html.Div([
             dcc.Graph(
@@ -369,4 +366,3 @@ layout = html.Div([
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
 })
-
