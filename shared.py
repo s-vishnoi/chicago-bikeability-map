@@ -25,8 +25,13 @@ grouped = pd.read_csv(os.path.join(data_path, "grouped.csv"))
 bike_with_neigh = pd.read_csv(os.path.join(data_path, "bike_with_neigh.csv"))
 crash_with_carea = pd.read_csv(os.path.join(data_path, "crash_with_carea.csv"))
 
-with open(os.path.join(data_path, "name_to_bike_score.json")) as f:
-    name_to_bike_score = json.load(f)
+
+with open("../dash_app/data/name_to_infrastructure_score.json", "w") as f:
+    name_to_infrastructure_score = json.load(f)
+with open("../dash_app/data/name_to_network_score.json", "w") as f:
+    name_to_network_score = json.load(f)
+with open(os.path.join(data_path, "name_to_bike_rank.json")) as f:
+    name_to_bike_rank = json.load(f)
 with open(os.path.join(data_path, "name_to_road_length.json")) as f:
     name_to_road_length = json.load(f)
 with open(os.path.join(data_path, "community_pops.json")) as f:
