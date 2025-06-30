@@ -243,7 +243,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x + 0.2,
-    y=ref_y + 10.7 -1.2,
+    y=ref_y + 10.7 -1.0,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
     font=dict(size=10.5, color=COLOR_TEXT),
@@ -252,7 +252,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x + 1.75 ,
-    y=ref_y + 11 -1.2,
+    y=ref_y + 11 -1.0,
     text="Bikeability = Road coverage with bike lanes, weighted by lane type",
     textangle=0,
     font=dict(size=10.5, color=COLOR_TEXT),
