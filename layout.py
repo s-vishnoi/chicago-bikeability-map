@@ -185,8 +185,8 @@ fig.add_annotation(
 
 fig.update_layout(
     clickmode='event+select',
-    height=1100,
-    width=870,
+    height=1000,
+    width=800,
     title=f"Chicago Bike Crashes, 2018-Present",
     title_font=dict(size=16),
     xaxis=dict(visible=False),
@@ -242,7 +242,7 @@ fig.add_annotation(
 )
 
 fig.add_annotation(
-    x=ref_x + 0.2,
+    x=ref_x ,
     y=ref_y + 10.7 -1.0,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
