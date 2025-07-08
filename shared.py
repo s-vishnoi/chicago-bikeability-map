@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 # === Load data ===
 data_path = os.path.join(os.path.dirname(__file__), "data")
 
-#paste below 
+ 
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 
@@ -46,6 +46,8 @@ with open(os.path.join(data_path, "community_pops.json")) as f:
     community_pops = json.load(f)
 
 
+
+# === Shared paste below ===
 # Filter to Chicago
 city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
@@ -139,6 +141,7 @@ COLOR_GRADIENT_MAP = LinearSegmentedColormap.from_list("pink_to_blue", ['#FFC0CB
 COLOR_INJURY = 'darkred'
 COLOR_EDGE = '#B3DDF2'
 COLOR_TEXT = "#1A1A1A"
+COLOR_TEXT_2 = 'darkgray'
 COLOR_INJURY_TEXT = "ivory"
 COLOR_CITY = 'rgba(160, 160, 160, 0.5)'
 
@@ -223,4 +226,14 @@ viz_df = viz_df.merge(miles_by_type, on='CArea', how='left')
 
 def get_bike_coverage_plotly(carea_name):
     return network_plots.get(carea_name, go.Figure())
+
+
+#no bike areas 
+missing = set(viz_df['CArea']) - set(miles_by_type['CArea'])
+print("Names in viz_df but missing in miles_by_type:")
+print(sorted(missing))
+#fill nans foe those areas
+lane_cols = [k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBORHOOD']]
+viz_df[lane_cols] = viz_df[lane_cols].fillna(0)
+
 

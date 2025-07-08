@@ -4,8 +4,8 @@ import plotly.graph_objects as go
 from dash import dcc, html
 from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
-
-# 1. BUILD figure
+# === Layout 1 paste below ===
+# Build figure
 fig = go.Figure()
 scale = 1
 
@@ -18,6 +18,7 @@ fig.update_layout(
         font_family="Segoe UI, sans-serif"
     )
 )
+
 
 
 for _, row in viz_df.iterrows():
@@ -43,10 +44,10 @@ for _, row in viz_df.iterrows():
                        font=dict(size=8, color=COLOR_TEXT))
     fig.add_annotation(x=x, y=maxy - 0.1, text=f"{int(rate * 100)}%",
                        showarrow=False, font=dict(size=8, color=COLOR_INJURY_TEXT))
-
-
-
-
+    
+    
+    
+    
 
 
     badge_text = row["abbrev"]
@@ -70,7 +71,7 @@ for _, row in viz_df.iterrows():
 
 # Reference square
 ref_x, ref_y = 3.2, 7
-ref_scale, ref_rate = 1.1, 0.3
+ref_scale, ref_rate = 1.42, 0.3
 w, h = scale * ref_scale, scale * ref_scale
 minx, maxx = ref_x - 0.5 * w, ref_x + 0.5 * w
 miny, maxy = ref_y - 0.5 * h, ref_y + 0.5 * h
@@ -83,18 +84,20 @@ fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
 fig.add_shape(type="rect", x0=minx, x1=maxx, y0=ref_red_y0, y1=maxy,
               fillcolor=COLOR_INJURY, line=dict(color = COLOR_TEXT, width=1.8))
 
-badge_y = miny + 0.18
-badge_w = w * 1.1
+badge_y = miny + 0.25
+badge_w = w * 1.2
 badge_h = h * 0.25
 fig.add_shape(type="rect", x0=ref_x - badge_w / 2, x1=ref_x + badge_w / 2,
               y0=badge_y - badge_h / 2, y1=badge_y + badge_h / 2,
               fillcolor='white', line=dict(color=COLOR_EDGE, width=0.3))
 fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
-                   showarrow=False, font=dict(size=7.2, color=COLOR_TEXT),
+                   showarrow=False, font=dict(size=8, color=COLOR_TEXT),
                    yanchor="middle")
-fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Accidents",
-                   showarrow=False, font=dict(size=9, color=COLOR_TEXT))
-fig.add_annotation(x=ref_x , y=ref_y + 0.35, text="% Severe",
+fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Bike Crashes",
+                   showarrow=False, font=dict(size=9, color=COLOR_TEXT)),
+fig.add_annotation(x=ref_x, y=ref_y + 0.10, text="Reported, 2018+",
+                   showarrow=False, font=dict(size=8, color=COLOR_TEXT_2)),
+fig.add_annotation(x=ref_x , y=ref_y + 0.45, text="% Severe",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
 
 
@@ -121,14 +124,7 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         layer="above"
     )
 
-fig.add_annotation(
-    x=ref_x,
-    y=ref_y + 0.8,
-    text="Click a community area to explore",
-    textangle=0,
-    font=dict(size=10, color=COLOR_TEXT),
-    showarrow=False
-)
+
 
 
 
@@ -173,22 +169,15 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
     ))
 
 
-fig.add_annotation(
-    x=legend_x - 0.15,
-    y=legend_y_start + legend_h / 2,
-    text="Click to highlight",
-    textangle=90,
-    font=dict(size=9, color=COLOR_TEXT),
-    showarrow=False
-)
+
 
 
 fig.update_layout(
     clickmode='event+select',
     height=1000,
     width=800,
-    title=f"Chicago Bike Crashes, 2018-Present",
-    title_font=dict(size=16),
+    #title=f"Chicago Bike Crashes, 2018-Present",
+    #title_font=dict(size=16),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
@@ -199,7 +188,7 @@ fig.update_layout(
 
 import plotly.graph_objects as go
 
-# Add outline (behind rects) using transparent line
+# Add city outline (behind rects) using transparent line
 if translated.geom_type == 'Polygon':
     x, y = list(translated.exterior.xy[0]), list(translated.exterior.xy[1])
     fig.add_trace(go.Scatter(
@@ -213,13 +202,15 @@ if translated.geom_type == 'Polygon':
     ))
 
 
+
+
 # Arrow pointing to reference square
 fig.add_annotation(
-    x=ref_x + 0.6, y=ref_y -0.5,  # Arrow head
+    x=ref_x + 0.75, y=ref_y +0.7,  # Arrow head
     ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
     xref='x', yref='y',
     axref='x', ayref='y',
-
+   
     showarrow=True,
     arrowhead=1,
     arrowsize=1,
@@ -229,11 +220,11 @@ fig.add_annotation(
 
 # Arrow pointing to reference square
 fig.add_annotation(
-    x=ref_x + 0.6, y=ref_y +0.5,  # Arrow head
+    x=ref_x + 0.75, y=ref_y -0.7,  # Arrow head
     ax=ref_x + 2.4, ay=ref_y - 2.0,  # Tail of the arrow (shift to right)
     xref='x', yref='y',
     axref='x', ayref='y',
-
+   
     showarrow=True,
     arrowhead=1,
     arrowsize=1,
@@ -241,21 +232,49 @@ fig.add_annotation(
     arrowcolor='lightgray',
 )
 
+
+#Informational annotations
 fig.add_annotation(
-    x=ref_x ,
-    y=ref_y + 10.7 -1.0,
+    x=ref_x,
+    y=ref_y + 0.85,
+    text="Click a community area to explore",
+    textangle=0,
+    font=dict(size=10, color=COLOR_TEXT_2),
+    showarrow=False
+)
+
+fig.add_annotation(
+    x=legend_x - 0.15,
+    y=legend_y_start + legend_h / 2,
+    text="Click to highlight",
+    textangle=90,
+    font=dict(size=9, color=COLOR_TEXT_2),
+    showarrow=False
+)
+fig.add_annotation(
+    x=ref_x - 0.5,
+    y=ref_y + 10.7 -1.2,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
-    font=dict(size=10.5, color=COLOR_TEXT),
+    font=dict(size=10.5, color=COLOR_TEXT_2),
     showarrow=False
 )
 
 fig.add_annotation(
     x=ref_x + 1.75 ,
-    y=ref_y + 11 -1.0,
-    text="Bikeability = Road coverage with bike lanes, weighted by lane type",
+    y=ref_y + 11 -1.2,
+    text="Bikeability = Custom ranking using Bike Infrasturcture + Network Coverage ",
     textangle=0,
-    font=dict(size=10.5, color=COLOR_TEXT),
+    font=dict(size=10.5, color=COLOR_TEXT_2),
+    showarrow=False
+)
+
+fig.add_annotation(
+    x=ref_x + 9.75 ,
+    y=ref_y + 11 -1.2,
+    text="Data: City of Chicago",
+    textangle=0,
+    font=dict(size=11.5, color=COLOR_TEXT_2),
     showarrow=False
 )
 def empty_plot():
@@ -270,17 +289,16 @@ def empty_plot():
     return fig
 
 
+
 # 2. Define DASH layout
-
-layout = html.Div([
-
-    # === Left Panel: Rounded Map Card ===
+# === Layout 2 paste below ===
+layout = layout = html.Div([
     html.Div([
         dcc.Graph(
             id='cartogram',
-            figure=fig,
+            figure=fig,  # Use original fig with all shapes/annotations
             config={'displayModeBar': False},
-            style={'width': '100%','height':'100%'}
+            style={'width': '100%', 'height': '100%'}
         )
     ], style={
         'flex': '3',
@@ -294,10 +312,7 @@ layout = html.Div([
         'alignItems': 'stretch'
     }),
 
-    # === Right Panel: Info + Network Plot ===
     html.Div([
-
-        # Scrollable info panel
         html.Div([
             dcc.Dropdown(
                 id='carea-dropdown',
@@ -325,23 +340,7 @@ layout = html.Div([
             'boxSizing': 'border-box'
         }),
 
-        # Square bottom panel for network plot
-        html.Div([
-            dcc.Graph(
-                id='network-coverage',
-                figure=empty_plot(),
-                config={'displayModeBar': False},
-                style={
-                    'height': '100%',
-                    'width': '100%'
-                }
-            )
-        ], style={
-            'height': '300px',  # Fixed square
-            'marginTop': '5px',
-            'borderTop': '1px solid #eee',
-            'boxSizing': 'border-box'
-        })
+        
 
     ], style={
         'flex': '1',
@@ -355,11 +354,10 @@ layout = html.Div([
         'alignSelf': 'stretch',
         'boxSizing': 'border-box'
     })
-
 ], style={
     'display': 'flex',
     'flexDirection': 'row',
-    'height': '100%',  # full page height
+    'height': '100%',
     'margin': '0',
     'padding': '0',
     'boxSizing': 'border-box',
