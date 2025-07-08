@@ -70,14 +70,12 @@ Read more about this project and the methodology here:
 Ph.D. candidate in Physics @ Northwestern University 
 
 
-[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi)
-
-[• [Portfolio](https://your-vercel-site.vercel.app)]:#
+[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) • [Portfolio](https://your-vercel-site.vercel.app)]
 
 ---
 
 ## Credits  
-I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here.
+I'd like to thank Ted Whalen (@tewhalen) for initial draft of Chicago cartogram grid. 
 
 
 ## License
