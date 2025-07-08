@@ -9,7 +9,7 @@ This dashboard highlights crash frequency, common causes, and severity for each 
 ---
 
  
-## 🧭 Features
+## Features
 
 - 📍 **Interactive Cartogram** of Chicago’s community areas  
 - 📊 **Crash & Injury Visualization**: total crashes and severe injury rates 
@@ -21,7 +21,7 @@ This dashboard highlights crash frequency, common causes, and severity for each 
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 - `Dash` + `Plotly` – interactive web UI and graphics  
 - `Pandas`, `GeoPandas`, `Shapely` – spatial data processing  
@@ -30,7 +30,7 @@ This dashboard highlights crash frequency, common causes, and severity for each 
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 This app is deployed via [Render](https://render.com) using a `Dockerfile`.
 
@@ -48,36 +48,36 @@ docker run -p 8000:8000 dash-app
 
 ---
 
-## 🗂️ Data Sources
+## Data Sources
 
 - **Crash data**: Chicago Open Data Portal  
-- **Community areas**: U.S. Census / TIGER  
+- **Community areas**: U.S. Census
 - **Bike lanes**: Chicago Department of Transportation (CDOT)  
-- **Population & road length**: Derived from Census geometries  
+- **Road length**: Derived from Census geometries  
 
 ---
 
-## 📚 Blog Post
+## Article
 
 Read more about this project and the methodology here:  
 📝 _[Link to Medium post]_
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 **Samvardhan Vishnoi**  
-Ph.D. candidate in Physics @ Northwestern University  
+Ph.D. candidate in Physics @ Northwestern University 
 [LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi)
 
 [• [Portfolio](https://your-vercel-site.vercel.app)]:#
 
 ---
 
-## 🤝 Credits  
+## Credits  
 I'd like to thank Ted Whalen (Github @tewhalen) for initial structuring grid for Chicago cartogram that I adapted for use here.
 
 
-## 📝 License
+## License
 
 This project is open-source and free to use under the [MIT License](LICENSE).
