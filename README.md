@@ -2,9 +2,9 @@
 
 An interactive cartogram visualizing bike traffic crashes across Chicago community areas.
 
-This dashboard highlights crash frequency, common causes, and severity for each community area. It also maps biking infrastructure in each area and aggregates it into a Bikeability score (loosely defined). Users can glean quick insights into biking safety in Chicago, helping to identify areas needing improvement. 
+This tool highlights crash counts, causes, and severity for each community area. It also maps biking infrastructure and network in each area and with a 5-point custom Bikeability score. Users can glean quick insights and help identify areas for improvement.
 
-🔗 **Live App**: [https://chicago-bike-dashboard.onrender.com](https://chicago-bike-dashboard.onrender.com)
+🔗 **Live App**: [https://chicago-bike-dashboard.onrender.com](https://www.vishnoi.site/bikeability)
 
 ---
 
