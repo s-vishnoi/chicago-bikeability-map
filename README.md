@@ -70,7 +70,7 @@ Read more about this project and the methodology here:
 Ph.D. candidate in Physics @ Northwestern University 
 
 
-[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) • [Portfolio](https://your-vercel-site.vercel.app)]
+[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) • [Portfolio](https://your-vercel-site.vercel.app)
 
 ---
 
