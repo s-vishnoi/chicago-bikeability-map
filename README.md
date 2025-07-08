@@ -38,7 +38,7 @@ To deploy yourself:
 
 ```bash
 # Clone repo
-git clone https://github.com/YOUR_USERNAME/chicago-bikeability-dashboard.git
+git clone https://github.com/s-vishnoi/chicago-bikeability-dashboard.git
 cd chicago-bikeability-dashboard
 
 # Build and run locally
@@ -68,6 +68,8 @@ Read more about this project and the methodology here:
 
 **Samvardhan Vishnoi**  
 Ph.D. candidate in Physics @ Northwestern University 
+
+
 [LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi)
 
 [• [Portfolio](https://your-vercel-site.vercel.app)]:#
