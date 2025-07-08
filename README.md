@@ -38,8 +38,8 @@ To deploy yourself:
 
 ```bash
 # Clone repo
-git clone https://github.com/YOUR_USERNAME/chicago-bike-dashboard.git
-cd chicago-bike-dashboard
+git clone https://github.com/YOUR_USERNAME/chicago-bikeability-dashboard.git
+cd chicago-bikeability-dashboard
 
 # Build and run locally
 docker build -t dash-app .
