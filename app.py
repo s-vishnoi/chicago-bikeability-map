@@ -242,4 +242,4 @@ def update_figure(clickData, dropdown_value):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=5002)
+    app.run(debug=True, use_reloader=False, port=5003)
