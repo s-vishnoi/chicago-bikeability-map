@@ -7,6 +7,9 @@ import geopandas as gpd
 from shapely.affinity import scale as scale_geom, translate as translate_geom
 from dash import Dash, dcc, html, Input, Output, State, ctx
 from matplotlib.colors import Normalize, LinearSegmentedColormap
+import plotly.graph_objects as go 
+from copy import deepcopy
+
 
 # === Import from shared and layout whatever ===
 from shared import viz_df,causes_dict, injuries_dict, get_bike_coverage_plotly, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
@@ -179,6 +182,7 @@ def update_info(clickData, dropdown_value):
                 ])
     
     return panel_html 
+
 @app.callback(
     Output('cartogram', 'figure'),
     [Input('cartogram', 'clickData'),
