@@ -5,6 +5,7 @@ from dash import dcc, html
 from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
 # === Layout 1 paste below ===
+
 # Build figure
 fig = go.Figure()
 scale = 1
@@ -175,7 +176,7 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
 fig.update_layout(
     clickmode='event+select',
     height=1000,
-    width=800,
+    width=850,
     #title=f"Chicago Bike Crashes, 2018-Present",
     #title_font=dict(size=16),
     xaxis=dict(visible=False),
@@ -236,7 +237,7 @@ fig.add_annotation(
 #Informational annotations
 fig.add_annotation(
     x=ref_x,
-    y=ref_y + 0.85,
+    y=ref_y + 0.9,
     text="Click a community area to explore",
     textangle=0,
     font=dict(size=10, color=COLOR_TEXT_2),
@@ -252,7 +253,7 @@ fig.add_annotation(
     showarrow=False
 )
 fig.add_annotation(
-    x=ref_x - 0.5,
+    x=ref_x - 0.3,
     y=ref_y + 10.7 -1.2,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
@@ -270,7 +271,7 @@ fig.add_annotation(
 )
 
 fig.add_annotation(
-    x=ref_x + 9.75 ,
+    x=ref_x + 10.75 ,
     y=ref_y + 11 -1.2,
     text="Data: City of Chicago",
     textangle=0,
@@ -287,6 +288,7 @@ def empty_plot():
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
+
 
 
 
