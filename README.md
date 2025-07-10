@@ -11,12 +11,12 @@ This tool highlights crash counts, causes, and severity for each community area.
  
 ## Features
 
-- 📍 **Interactive Cartogram** of Chicago’s community areas  
-- 📊 **Crash & Injury Visualization**: total crashes with top causes
-- 🩸 **Injury Severity Breakdown**: rates of severe (fatal, incapacitating), and non-severe injuries. 
-- 🛣️ **Infrastructure Breakdown** by bike lane type: Protected, Neighborhood, Buffered, Bike (Painted), Shared 
-- 🌐 **Network Map** to visualize bike lane connectivity and coverage
-- 🚴 **Bikeability Rank** from 0 to 5, based on custom Infrastructure and Network Scores.   
+- **Interactive Cartogram** of Chicago’s community areas  
+- **Crash & Injury Visualization**: total crashes with top causes
+- **Injury Severity Breakdown**: rates of severe (fatal, incapacitating), and non-severe injuries. 
+- **Infrastructure Breakdown** by bike lane type: Protected, Neighborhood, Buffered, Bike (Painted), Shared 
+- **Network Map** to visualize bike lane connectivity and coverage
+- **Bikeability Rank** from 0 to 5, based on custom Infrastructure and Network Scores.   
 
 ---
 
