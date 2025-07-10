@@ -10,7 +10,8 @@ This tool highlights crash counts, causes, and severity for each community area.
 
  
 ## Features
-<img width="1230" height="653" alt="Screenshot 2025-07-10 at 1 02 16 PM" src="https://github.com/user-attachments/assets/e7f9d220-a448-445f-b3a6-fc0f8d99e1a6" />
+[Bikeability_calc.pdf](https://github.com/user-attachments/files/21168635/Bikeability_calc.pdf)
+
 
 - **Interactive Cartogram** of Chicago’s community areas  
 - **Crash & Injury Visualization**: total crashes with top causes
@@ -19,7 +20,7 @@ This tool highlights crash counts, causes, and severity for each community area.
 - **Network Map** to visualize bike lane connectivity and coverage
 - **Bikeability Rank** from 0 to 5, based on custom Infrastructure and Network Scores.   
 
-![Uploading Screenshot 2025-07-10 at 1.01.42 PM.png…]()
+<img width="1230" height="653" alt="Screenshot 2025-07-10 at 1 02 16 PM" src="https://github.com/user-attachments/assets/e7f9d220-a448-445f-b3a6-fc0f8d99e1a6" />
 
 ---
 
