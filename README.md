@@ -19,7 +19,7 @@ This tool highlights crash counts, causes, and severity for each community area.
 - **Network Map** to visualize bike lane connectivity and coverage
 - **Bikeability Rank** from 0 to 5, based on custom Infrastructure and Network Scores.   
 
-<img width="918" height="508" alt="Screenshot 2025-07-10 at 1 07 15 PM" src="https://github.com/user-attachments/assets/b2145b5b-a8ca-46df-b84e-51debec58dad" />
+![Bikeability_calc](https://github.com/user-attachments/assets/80872e84-9349-4bec-87f6-042d6ed557be)
 
 ---
 
