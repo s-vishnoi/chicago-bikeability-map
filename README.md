@@ -1,4 +1,4 @@
-# 🚲 Chicago Bikeability Dashboard
+# Chicago Bikeability Map
 
 An interactive cartogram visualizing bike traffic crashes across Chicago community areas.
 
