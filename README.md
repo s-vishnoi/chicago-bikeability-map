@@ -10,6 +10,7 @@ This tool highlights crash counts, causes, and severity for each community area.
 
  
 ## Features
+<img width="1230" height="653" alt="Screenshot 2025-07-10 at 1 02 16 PM" src="https://github.com/user-attachments/assets/e7f9d220-a448-445f-b3a6-fc0f8d99e1a6" />
 
 - **Interactive Cartogram** of Chicago’s community areas  
 - **Crash & Injury Visualization**: total crashes with top causes
