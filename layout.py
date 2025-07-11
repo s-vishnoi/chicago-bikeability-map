@@ -96,7 +96,7 @@ fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
                    yanchor="middle")
 fig.add_annotation(x=ref_x, y=ref_y - 0.10, text="# Bike Crashes",
                    showarrow=False, font=dict(size=9, color=COLOR_TEXT)),
-fig.add_annotation(x=ref_x, y=ref_y + 0.10, text="Reported, 2018+",
+fig.add_annotation(x=ref_x, y=ref_y + 0.10, text="Reported since 2018",
                    showarrow=False, font=dict(size=8, color=COLOR_TEXT_2)),
 fig.add_annotation(x=ref_x , y=ref_y + 0.45, text="% Severe",
                    showarrow=False, font=dict(size=9, color=COLOR_INJURY_TEXT))
