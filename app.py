@@ -207,6 +207,13 @@ def update_figure(clickData, dropdown_value):
             base_idx = i * 3
             for j in range(3):
                 updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
+        # Dim bikeability legend rectangles
+        total_shapes = len(updated_fig['layout']['shapes'])
+        for i in range(5):
+            shape_idx = total_shapes - 5 + i
+            is_match = (4 - i) == selected_bin  # Reverse order
+            updated_fig['layout']['shapes'][shape_idx]['opacity'] = 1.0 if is_match else 0.25
+
         return updated_fig
 
     carea_name = custom_data
