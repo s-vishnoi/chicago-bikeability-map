@@ -74,7 +74,7 @@ def update_info(clickData, dropdown_value):
                 html.Li(c.title(), style={'color': '#666'}) for c in causes
                 ]),
 
-                html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)", style={'marginLeft': '15px'}),
+                html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)"),
                 html.P("🩹 Injury Breakdown:", style={'marginLeft': '15px'}),
                 html.Ul([
                     html.Li([
