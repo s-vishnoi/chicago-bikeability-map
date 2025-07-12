@@ -66,16 +66,14 @@ def update_info(clickData, dropdown_value):
                 html.H3(carea_name.title()),
 
                 html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
-                html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
                 html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
 
-                html.P("Top Causes:", style={'marginLeft': '15px'}),
+                html.P("Common Causes:", style={'marginLeft': '20px'}),
                 html.Ul([
-                html.Li(c.title(), style={'color': '#666'}) for c in causes
+                html.Li(c.title(), style={'color': '#666'}) for c in causes[:3]
                 ]),
 
-                html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)"),
-                html.P("Injury Breakdown:", style={'marginLeft': '15px'}),
+                html.P("Injury Breakdown:", style={'marginLeft': '20px'}),
                 html.Ul([
                     html.Li([
                         html.Span(
@@ -86,11 +84,14 @@ def update_info(clickData, dropdown_value):
                     ])
                     for k, v in injuries.items()
                 ]),
+                html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)"),
+
 
                 html.Hr(style={'margin': '12px 0'}),
 
-                html.P(f"🚴‍♂️ Bikeability Rank: {row['bike_rank']}/5", style={'marginLeft': '10px'}),
-                html.P("Bike Lanes:", style={'marginLeft': '15px'}),
+                html.P(f"🚴‍♂️ Bikeability: {row['bike_rank']}/5"),
+                html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
+                html.P("🛣️ Bike Lanes:"),
                 
                 html.Ul([
                 # PROTECTED — solid
@@ -182,7 +183,6 @@ def update_info(clickData, dropdown_value):
                 ])
     
     return panel_html 
-
 @app.callback(
     Output('cartogram', 'figure'),
     [Input('cartogram', 'clickData'),
@@ -201,12 +201,14 @@ def update_figure(clickData, dropdown_value):
 
     if str(custom_data).startswith('bin_'):
         selected_bin = int(custom_data.split('_')[1])
+        
         for i, (_, row) in enumerate(viz_df.iterrows()):
             is_match = int(row['bike_rank']) == selected_bin
             opacity_val = 1.0 if is_match else 0.3
             base_idx = i * 3
             for j in range(3):
                 updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
+
         # Dim bikeability legend rectangles
         total_shapes = len(updated_fig['layout']['shapes'])
         for i in range(5):
@@ -214,8 +216,11 @@ def update_figure(clickData, dropdown_value):
             is_match = (4 - i) == selected_bin  # Reverse order
             updated_fig['layout']['shapes'][shape_idx]['opacity'] = 1.0 if is_match else 0.25
 
+
         return updated_fig
 
+
+    
     carea_name = custom_data
     network_fig = get_bike_coverage_plotly(carea_name)
 
