@@ -180,7 +180,28 @@ def update_info(clickData, dropdown_value):
 
 
                 html.P(f"🌐 Network Score: {round(row['network_score'], 2)}", style={'marginLeft': '15px'}),
-                ])
+                html.Div([
+                    html.Br(),
+                    html.Br(),
+                    html.Br(),
+                    html.P([
+                        html.A(
+                            "Methodology",
+                            href='https://github.com/s-vishnoi/chicago-bikeability-map',
+                            style={'color': '#0072B2', 'textDecoration': 'none'}
+                        )
+                    ], style={'margin': '0 0 4px 15px'}),  # bottom margin only, aligned left
+
+                    html.P([
+                        html.A(
+                            "Suggestions?",
+                            href='',
+                            style={'color': '#0072B2', 'textDecoration': 'none'}
+                        )
+                    ], style={'margin': '0 0 0 15px'})  # aligned left, no top margin
+                ]),
+                ])                
+                
     
     return panel_html 
 @app.callback(
