@@ -75,7 +75,7 @@ def update_info(clickData, dropdown_value):
                 ]),
 
                 html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)"),
-                html.P("🩹 Injury Breakdown:", style={'marginLeft': '15px'}),
+                html.P("Injury Breakdown:", style={'marginLeft': '15px'}),
                 html.Ul([
                     html.Li([
                         html.Span(
