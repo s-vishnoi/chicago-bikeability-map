@@ -69,7 +69,7 @@ def update_info(clickData, dropdown_value):
                 html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
                 html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
 
-                html.P("📌 Top Causes:", style={'marginLeft': '15px'}),
+                html.P("Top Causes:", style={'marginLeft': '15px'}),
                 html.Ul([
                 html.Li(c.title(), style={'color': '#666'}) for c in causes
                 ]),
