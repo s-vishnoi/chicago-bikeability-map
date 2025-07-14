@@ -247,7 +247,7 @@ fig.add_annotation(
 fig.add_annotation(
     x=legend_x - 0.15,
     y=legend_y_start + legend_h / 2,
-    text="Click to highlight",
+    text="Click to filter",
     textangle=90,
     font=dict(size=9, color=COLOR_TEXT_2),
     showarrow=False
