@@ -184,9 +184,10 @@ def update_info(clickData, dropdown_value):
                     html.Br(),
                     html.Br(),
                     html.Br(),
+                    html.Br(),
                     html.P([
                         html.A(
-                            "Methodology",
+                            "Methodology (cmd+click)",
                             href='https://github.com/s-vishnoi/chicago-bikeability-map',
                             style={'color': '#0072B2', 'textDecoration': 'none'}
                         )
