@@ -53,7 +53,7 @@ docker run -p 8000:8000 dash-app
 ## Data Sources
 
 - **Crash data**: Chicago Open Data Portal  
-- **Community areas**: U.S. Census
+- **Community data**: U.S. Census
 - **Bike lanes**: Chicago Department of Transportation (CDOT)  
 - **Road length**: Derived from Census geometries  
 
