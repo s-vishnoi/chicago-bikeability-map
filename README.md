@@ -2,9 +2,10 @@
 
 This project maps biking safety and accessibility across Chicago community areas. Users can explore crash statistics and availability of biking infrastructure by Community area. 
 
+A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity.
+
 🔗 [Interactive Map](https://www.vishnoi.site/bikeability)
 
-It features a cartogram-style layout to improve accessibility and highlight inequity often lost in street-style maps. 
 ---
 
  
