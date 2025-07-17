@@ -9,21 +9,10 @@ from dash import Dash, dcc, html, Input, Output, State, ctx
 from matplotlib.colors import Normalize, LinearSegmentedColormap
 import plotly.graph_objects as go
 
-import os
-import json
-import pickle
-import pandas as pd
-import numpy as np
-import geopandas as gpd
-from shapely.affinity import scale as scale_geom, translate as translate_geom
-from dash import Dash, dcc, html, Input, Output, State, ctx
-from matplotlib.colors import Normalize, LinearSegmentedColormap
-import plotly.graph_objects as go
+# === path- dont replace ===
+data_path = os.path.join(os.path.dirname(__file__), "data")
 
-# === Load data ===
-data_path = "../bikeability_dash_app/data/"
 
- 
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 
@@ -60,11 +49,9 @@ with open(os.path.join(data_path,"citywide_stats.pkl"), "rb") as f:
     citywide_stats = pickle.load(f)
 #citywide network fig loaded directly 
 
+ 
 
-
-
-
-# Filter to Chicago
+ # Filter to Chicago
 city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
 
@@ -348,4 +335,3 @@ network_mode_panel = html.Div([
         html.A("Suggestions?", href='', style={'color': '#0072B2', 'textDecoration': 'none'})
     ], style={'margin': '0 0 0 0px'})
 ])
-
