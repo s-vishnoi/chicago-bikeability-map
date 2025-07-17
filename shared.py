@@ -250,7 +250,7 @@ network_mode_panel = html.Div([
     html.Hr(style={'margin': '12px 0'}),
 
     # 🚗 Road totals
-    html.P(f"🚗 Total Roads: ~{int(citywide_stats['roads_total'])} mi"),
+    html.P(f"🚗 Roads: ~{int(citywide_stats['roads_total'])} mi"),
     html.Ul([
         html.Li([
             html.Div(style={
@@ -258,7 +258,7 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #009E73', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Covered: {round(citywide_stats['covered'], 1)} mi", style={'color': '#666'}),
+            html.Span(f"Covered: {round(citywide_stats['covered']*100/(citywide_stats['covered']+citywide_stats['uncovered']), 1)} %", style={'color': '#666'}),
         ]),
         html.Li([
             html.Div(style={
@@ -266,7 +266,7 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #D55E00', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Uncovered: {round(citywide_stats['uncovered'], 1)} mi", style={'color': '#666'}),
+            html.Span(f"Uncovered: {round(citywide_stats['uncovered']*100/(citywide_stats['covered']+citywide_stats['uncovered']), 1)} %", style={'color': '#666'}),
         ])
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
     html.P("A covered road offers a bike lane alternative (<= 600m) travelling along a similar direction (+-45 degrees)."),
