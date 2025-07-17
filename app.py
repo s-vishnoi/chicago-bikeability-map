@@ -12,7 +12,7 @@ from copy import deepcopy
 
 
 # === Import from shared and layout whatever ===
-from shared import viz_df,causes_dict, injuries_dict, get_bike_coverage_plotly, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+from shared import viz_df,causes_dict, injuries_dict, get_bike_coverage_plotly,network_mode_panel, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 from layout import layout, fig, empty_plot
 
 
@@ -336,10 +336,6 @@ def update_figure(clickData, dropdown_value, mode):
         updated_fig.add_trace(trace)
 
     return updated_fig
-
-
-
-
 
 
 

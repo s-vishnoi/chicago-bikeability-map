@@ -1,20 +1,25 @@
-# Use official Python image
+# Use official Python base image
 FROM python:3.11-slim
+
+# Install system deps
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libgeos-dev \
+    libgdal-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first to leverage caching
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code
+# Copy all project files
 COPY . .
 
-# Expose port 8000 for Gunicorn
-EXPOSE 8000
+# Install Python dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Command to run the app using Gunicorn
-CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8000"]
+# Expose the port Render will use
+EXPOSE 8080
+
+# Start Dash via Gunicorn
+CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8080"]
