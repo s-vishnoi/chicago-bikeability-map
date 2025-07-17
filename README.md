@@ -1,10 +1,10 @@
 # Chicago Bikeability Map
 
-An interactive cartogram visualizing bike traffic crashes and infrastructure across Chicago community areas.
+This project maps biking safety and accessibility across Chicago community areas. Users can explore crash statistics and availability of biking infrastructure by Community area. 
 
-This tool highlights crash counts, causes, and severity for each community area. It also scores biking infrastructure and network in each area and aggregates them into a custom Bikeability rank. Users can glean city-wide insights and help identify areas for improvement.
+A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity.
 
-🔗 [Live App](https://www.vishnoi.site/bikeability)
+🔗 [Interactive Map](https://www.vishnoi.site/bikeability)
 
 ---
 
