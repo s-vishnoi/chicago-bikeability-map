@@ -23,6 +23,7 @@ from copy import deepcopy
 import numpy as np
 
 app = Dash(__name__)
+server = app.server
 app.config.suppress_callback_exceptions = True
 
 # === Layout ===
