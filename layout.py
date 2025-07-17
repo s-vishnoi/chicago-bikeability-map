@@ -340,6 +340,7 @@ layout = html.Div([
         style={
             'width': '900px',
             'height': '1100px',
+            
             'border': 'none',
             'backgroundColor': 'white',
             'borderRadius': '8px',
