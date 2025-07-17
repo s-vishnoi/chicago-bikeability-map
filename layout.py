@@ -336,7 +336,7 @@ layout = html.Div([
     ),
     html.Iframe(
         id='network-iframe',
-        srcDoc=open('data/citywide_network.html').read(),
+        src='/assets/citywide_network.html',
         style={
             'width': '900px',
             'height': '1100px',
