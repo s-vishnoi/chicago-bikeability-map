@@ -4,12 +4,10 @@ import plotly.graph_objects as go
 from dash import dcc, html
 from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
 
-# === Layout 1 paste below ===
 
 # Build figure
 fig = go.Figure()
 scale = 1
-
 
 fig.update_layout(
     hoverlabel=dict(
@@ -124,8 +122,6 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         fillcolor=color,
         layer="above"
     )
-
-
 
 
 
@@ -290,18 +286,69 @@ def empty_plot():
     return fig
 
 
-
-
-# 2. Define DASH layout
-# === Layout 2 paste below ===
-layout = layout = html.Div([
+layout = html.Div([
+    dcc.Store(id='view-mode', data='community'),
     html.Div([
-        dcc.Graph(
-            id='cartogram',
-            figure=fig,  # Use original fig with all shapes/annotations
-            config={'displayModeBar': False},
-            style={'width': '100%', 'height': '100%'}
-        )
+        # 🌐 Top-left Button
+            html.Div([
+                html.Button('🌐', id='show-network-btn', title='Show Network', n_clicks=0,
+                            style={
+                                'fontSize': '20px',
+                                'padding': '8px 10px',
+                                'borderRadius': '10px',
+                                'border': 'none',
+                                'backgroundColor': '#e0e0e0',
+                                'cursor': 'pointer'
+                            })
+            ], style={
+                'position': 'absolute',
+                'top': '20px',
+                'left': '20px',
+                'zIndex': 9999
+            }),
+
+            # 🛠️ Top-right Button
+            html.Div([
+                html.Button('X', id='exit-network-btn', title='Community View', n_clicks=0,
+                            style={
+                                'fontSize': '16px',
+                                'padding': '8px 10px',
+                                'borderRadius': '10px',
+                                'border': 'none',
+                                'backgroundColor': '#e0e0e0',
+                                'color': 'gray',
+                                'cursor': 'pointer',
+                                'display': 'none'
+                            })
+            ], style={
+                'position': 'absolute',
+                'top': '20px',
+                'right': '20px',
+                'zIndex': 9999
+            }),
+
+    html.Div(id='cartogram-container', children=[
+    dcc.Graph(
+        id='cartogram',
+        figure=fig,
+        config={'displayModeBar': False},
+        style={'width': '100%', 'height': '100%', 'display': 'block'}  # initially visible
+    ),
+    html.Iframe(
+        id='network-iframe',
+        srcDoc=open('citywide_network.html').read(),
+        style={
+            'width': '900px',
+            'height': '1100px',
+            'border': 'none',
+            'backgroundColor': 'white',
+            'borderRadius': '8px',
+            'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
+            'display': 'none'  # initially hidden
+        }
+    )
+    ])
+
     ], style={
         'flex': '3',
         'margin': '10px',
@@ -311,7 +358,8 @@ layout = layout = html.Div([
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
         'boxSizing': 'border-box',
         'display': 'flex',
-        'alignItems': 'stretch'
+        'alignItems': 'stretch',
+        'position': 'relative'
     }),
 
     html.Div([
@@ -340,10 +388,7 @@ layout = layout = html.Div([
             'flex': '1',
             'overflowY': 'auto',
             'boxSizing': 'border-box'
-        }),
-
-        
-
+        })
     ], style={
         'flex': '1',
         'margin': '10px 10px 10px 0',
@@ -356,7 +401,7 @@ layout = layout = html.Div([
         'alignSelf': 'stretch',
         'boxSizing': 'border-box'
     })
-], style={
+],  style={
     'display': 'flex',
     'flexDirection': 'row',
     'height': '100%',

@@ -17,30 +17,87 @@ from layout import layout, fig, empty_plot
 
 
 # === Dash App init ===
+from dash import Dash, html, dcc, Output, Input, State, ctx
+import plotly.graph_objects as go
+from copy import deepcopy
+import numpy as np
+
 app = Dash(__name__)
-server = app.server
+app.config.suppress_callback_exceptions = True
+
+# === Layout ===
 app.layout = layout
-# === Callbacks ===
-selected_bin = None  # Change to an int 0–4 to simulate click behavior
 
 
-# === App paste below ===
+
+# === APP.py ===
+
+@app.callback(
+    Output('cartogram', 'style'),
+    Output('network-iframe', 'style'),
+    Output('exit-network-btn', 'style'),
+    Output('view-mode', 'data'),
+    Input('show-network-btn', 'n_clicks'),
+    Input('exit-network-btn', 'n_clicks'),
+    prevent_initial_call=True
+)
+def toggle_network_view(show_clicks, exit_clicks):
+    triggered_id = ctx.triggered_id
+
+    if triggered_id == 'show-network-btn':
+        return (
+            {'display': 'none'},  # hide Graph
+            {'display': 'block',
+             'width': '900px',
+             'height': '1100px',
+             'border': 'none',
+             'backgroundColor': 'white',
+             'borderRadius': '8px',
+             'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show iframe
+            {'display': 'inline-block'},
+            'network'
+        )
+
+    # on exit
+    return (
+        {'width': '100%', 'height': '100%', 'display': 'block'},  # show Graph
+        {'display': 'none'},  # hide iframe
+        {'display': 'none'},
+        'community'
+    )
+
+from dash.exceptions import PreventUpdate
+
 @app.callback(
     Output('carea-dropdown', 'value'),
     Input('cartogram', 'clickData'),
+    Input('view-mode', 'data'),
     State('carea-dropdown', 'value')
 )
-def autofill_dropdown(clickData, current_value):
-    if clickData:
+def handle_dropdown(clickData, mode, current_value):
+    triggered_id = ctx.triggered_id
+
+    # Option 1: Clear dropdown if switching to network mode
+    if triggered_id == 'view-mode' and mode == 'network':
+        return None
+
+    # Option 2: Autofill from map clicks in community mode
+    if triggered_id == 'cartogram' and mode == 'community' and clickData:
         return clickData['points'][0]['customdata']
-    return current_value
+
+    raise PreventUpdate
+
+
 
 @app.callback(
     Output('info-panel', 'children'),
     Input('cartogram', 'clickData'),
-    Input('carea-dropdown', 'value')
+    Input('carea-dropdown', 'value'),
+    Input('view-mode', 'data')
 )
-def update_info(clickData, dropdown_value):
+def update_info(clickData, dropdown_value, mode):
+    if mode == 'network':
+        return network_mode_panel
     triggered = ctx.triggered_id
     carea_name = None
     selected_bin = None
@@ -62,27 +119,28 @@ def update_info(clickData, dropdown_value):
     row = viz_df[viz_df['CArea'] == carea_name].iloc[0]
     causes = causes_dict.get(carea_name, [])
     injuries = injuries_dict.get(carea_name, {})
+    injury_order = ['FATAL', 'INCAPACITATING INJURY', 'NONINCAPACITATING INJURY', 'REPORTED, NOT EVIDENT', 'NO INDICATION OF INJURY']
     panel_html = html.Div([
                 html.H3(carea_name.title()),
 
-                html.P(f"👥 Population: ~{int(round(row['population'], -3))}"),
-                html.P(f"💥 Reported Crashes: {row['total_crashes']}"),
+                html.P(f"Population: ~{int(round(row['population'], -3))}"),
+                html.P(f"🤕 Reported Crashes: {row['total_crashes']}"),
 
-                html.P("Common Causes:", style={'marginLeft': '20px'}),
+                html.P("Common Causes:", style={'marginLeft': '0px'}),
                 html.Ul([
                 html.Li(c.title(), style={'color': '#666'}) for c in causes[:3]
                 ]),
 
-                html.P("Injury Breakdown:", style={'marginLeft': '20px'}),
+                html.P("Injury Breakdown:", style={'marginLeft': '0px'}),
                 html.Ul([
                     html.Li([
                         html.Span(
                             f"{k.title()}" + (" (Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":"),
                             style={'color': '#666'}
                         ),
-                        f" {v}"
+                        f" {injuries.get(k, 0)}"
                     ])
-                    for k, v in injuries.items()
+                    for k in injury_order if k in injuries
                 ]),
                 html.P(f"🩸 Severe Injuries: {row['severe_crashes']} ({int(row['severe_rate'] * 100)}%)"),
 
@@ -90,8 +148,8 @@ def update_info(clickData, dropdown_value):
                 html.Hr(style={'margin': '12px 0'}),
 
                 html.P(f"🚴‍♂️ Bikeability: {row['bike_rank']}/5"),
-                html.P(f"ꈨꈨ Roads: ~{int(row['road_length'])} mi"),
-                html.P("🛣️ Bike Lanes:"),
+                html.P(f"Roads: ~{int(row['road_length'])} mi"),
+                html.P("Bike Lanes:", style={'marginLeft': '0px'}),
                 
                 html.Ul([
                 # PROTECTED — solid
@@ -176,30 +234,28 @@ def update_info(clickData, dropdown_value):
                     'marginLeft': '20px'
                 }),
 
-                html.P(f"🛠️ Infrastructure Score: {round(row['infrastructure_score'], 2)}", style={'marginLeft': '15px'}),
+                html.P(f"🛠️ Infrastructure Score: {round(row['infrastructure_score'], 2)}", style={'marginLeft': '0px'}),
 
 
-                html.P(f"🌐 Network Score: {round(row['network_score'], 2)}", style={'marginLeft': '15px'}),
+                html.P(f"🌐 Network Score: {round(row['network_score'], 2)}", style={'marginLeft': '0px'}),
+                html.Hr(style={'margin': '12px 0'}),
                 html.Div([
-                    html.Br(),
-                    html.Br(),
-                    html.Br(),
-                    html.Br(),
+
                     html.P([
                         html.A(
-                            "Methodology (cmd+click)",
+                            "Methodology",
                             href='https://github.com/s-vishnoi/chicago-bikeability-map',
                             style={'color': '#0072B2', 'textDecoration': 'none'}
                         )
-                    ], style={'margin': '0 0 4px 15px'}),  # bottom margin only, aligned left
+                    ], style={'margin': '0 0 4px 0px'}),  # bottom margin only, aligned left
 
                     html.P([
                         html.A(
                             "Suggestions?",
-                            href='https://docs.google.com/forms/d/e/1FAIpQLSeFxMoI1pig3d9YPGAEFEN-uDXyC7-F7AdTir7p3XG_DYAhrg/viewform?usp=dialog',
+                            href='',
                             style={'color': '#0072B2', 'textDecoration': 'none'}
                         )
-                    ], style={'margin': '0 0 0 15px'})  # aligned left, no top margin
+                    ], style={'margin': '0 0 0 0px'})  # aligned left, no top margin
                 ]),
                 ])                
                 
@@ -208,22 +264,27 @@ def update_info(clickData, dropdown_value):
 @app.callback(
     Output('cartogram', 'figure'),
     [Input('cartogram', 'clickData'),
-     Input('carea-dropdown', 'value')]
+     Input('carea-dropdown', 'value')],
+     State('view-mode', 'data')
 )
-def update_figure(clickData, dropdown_value):
-    updated_fig = deepcopy(fig)
+def update_figure(clickData, dropdown_value, mode):
+    if mode != 'community':
+        return fig
 
     triggered_id = ctx.triggered_id
+    custom_data = None
+
     if triggered_id == 'cartogram' and clickData:
         custom_data = clickData['points'][0]['customdata']
     elif triggered_id == 'carea-dropdown' and dropdown_value:
         custom_data = dropdown_value
     else:
-        return updated_fig
+        return fig
+
+    updated_fig = deepcopy(fig)
 
     if str(custom_data).startswith('bin_'):
         selected_bin = int(custom_data.split('_')[1])
-        
         for i, (_, row) in enumerate(viz_df.iterrows()):
             is_match = int(row['bike_rank']) == selected_bin
             opacity_val = 1.0 if is_match else 0.3
@@ -231,18 +292,15 @@ def update_figure(clickData, dropdown_value):
             for j in range(3):
                 updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
 
-        # Dim bikeability legend rectangles
         total_shapes = len(updated_fig['layout']['shapes'])
         for i in range(5):
             shape_idx = total_shapes - 5 + i
-            is_match = (4 - i) == selected_bin  # Reverse order
+            is_match = (4 - i) == selected_bin
             updated_fig['layout']['shapes'][shape_idx]['opacity'] = 1.0 if is_match else 0.25
-
 
         return updated_fig
 
-
-    
+    # Add inset network plot for carea
     carea_name = custom_data
     network_fig = get_bike_coverage_plotly(carea_name)
 
@@ -273,11 +331,25 @@ def update_figure(clickData, dropdown_value):
     for trace in network_fig['data']:
         trace['xaxis'] = 'x2'
         trace['yaxis'] = 'y2'
-        trace['showlegend'] = False  # Remove legend
+        trace['showlegend'] = False
         updated_fig.add_trace(trace)
 
     return updated_fig
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=5005)
+    app.run(debug=True, use_reloader=False, port=5000)
