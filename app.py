@@ -347,9 +347,7 @@ def update_figure(clickData, dropdown_value, mode):
 
 
 
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=5002)
+    import os
+    port = int(os.environ.get("PORT", 8050))
+    app.run(host="0.0.0.0", port=port)
