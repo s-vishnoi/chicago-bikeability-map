@@ -258,7 +258,7 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #009E73', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Covered: {int(citywide_stats['covered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))} %", style={'color': '#666'}),
+            html.Span(f"Covered: {int(citywide_stats['covered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))}%", style={'color': '#666'}),
         ]),
         html.Li([
             html.Div(style={
@@ -266,7 +266,7 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #D55E00', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Uncovered: {int(citywide_stats['uncovered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))} %", style={'color': '#666'}),
+            html.Span(f"Uncovered: {int(citywide_stats['uncovered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))}%", style={'color': '#666'}),
         ])
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
     html.P("A covered road offers a bike lane alternative (<= 600m) travelling along a similar direction (+-45 degrees)."),
