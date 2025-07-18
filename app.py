@@ -34,6 +34,19 @@ app.layout = layout
 # === APP.py ===
 
 @app.callback(
+    Output('bin-shape-map', 'data'),
+    Input('cartogram', 'figure'),
+    prevent_initial_call=True
+)
+def cache_bin_shape_map(fig):
+    bin_map = {}
+    shapes = fig['layout']['shapes']
+    for i in range(5):  # last 5 shapes are the legend bins
+        label = f'bin_{4 - i}'  # bin_4 = top (bluest), bin_0 = bottom (reddest)
+        bin_map[label] = len(shapes) - 5 + i
+    return bin_map
+
+@app.callback(
     Output('cartogram', 'style'),
     Output('network-iframe', 'style'),
     Output('exit-network-btn', 'style'),
@@ -148,7 +161,8 @@ def update_info(clickData, dropdown_value, mode):
 
                 html.Hr(style={'margin': '12px 0'}),
 
-                html.P(f"🚴‍♂️ Bikeability: {row['bike_rank']}/5"),
+                html.P(f"
+                        Bikeability: {row['bike_rank']+1}/5"),
                 html.P(f"Roads: ~{int(row['road_length'])} mi"),
                 html.P("Bike Lanes:", style={'marginLeft': '0px'}),
                 
@@ -258,17 +272,23 @@ def update_info(clickData, dropdown_value, mode):
                         )
                     ], style={'margin': '0 0 0 0px'})  # aligned left, no top margin
                 ]),
-                ])                
+                ])  
                 
-    
+                
     return panel_html 
+
+
+
+
 @app.callback(
     Output('cartogram', 'figure'),
     [Input('cartogram', 'clickData'),
      Input('carea-dropdown', 'value')],
-     State('view-mode', 'data')
+    [State('view-mode', 'data'),
+     State('bin-shape-map', 'data')]
 )
-def update_figure(clickData, dropdown_value, mode):
+
+def update_figure(clickData, dropdown_value, mode, bin_map):
     if mode != 'community':
         return fig
 
@@ -280,26 +300,30 @@ def update_figure(clickData, dropdown_value, mode):
     elif triggered_id == 'carea-dropdown' and dropdown_value:
         custom_data = dropdown_value
     else:
-        return fig
+        raise PreventUpdate
 
     updated_fig = deepcopy(fig)
 
     if str(custom_data).startswith('bin_'):
-        selected_bin = int(custom_data.split('_')[1])
+        selected_bin = custom_data
+        
+
+        # Use pre-cached bin map
+        selected_idx = bin_map.get(selected_bin)
+        if selected_idx is not None:
+            total_shapes = len(updated_fig['layout']['shapes'])
+            for i in range(total_shapes - 5, total_shapes):
+                updated_fig['layout']['shapes'][i]['opacity'] = 1.0 if i == selected_idx else 0.25
+
+        # (optional: add filtering opacity logic for community areas too)
         for i, (_, row) in enumerate(viz_df.iterrows()):
-            is_match = int(row['bike_rank']) == selected_bin
-            opacity_val = 1.0 if is_match else 0.3
+            is_match = int(row['bike_rank']) == int(selected_bin.split('_')[1])
             base_idx = i * 3
             for j in range(3):
-                updated_fig['layout']['shapes'][base_idx + j]['opacity'] = opacity_val
-
-        total_shapes = len(updated_fig['layout']['shapes'])
-        for i in range(5):
-            shape_idx = total_shapes - 5 + i
-            is_match = (4 - i) == selected_bin
-            updated_fig['layout']['shapes'][shape_idx]['opacity'] = 1.0 if is_match else 0.25
+                updated_fig['layout']['shapes'][base_idx + j]['opacity'] = 1.0 if is_match else 0.3
 
         return updated_fig
+
 
     # Add inset network plot for carea
     carea_name = custom_data
@@ -336,9 +360,3 @@ def update_figure(clickData, dropdown_value, mode):
         updated_fig.add_trace(trace)
 
     return updated_fig
-
-
-
-
-
-

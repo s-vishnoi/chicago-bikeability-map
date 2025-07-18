@@ -287,6 +287,7 @@ def empty_plot():
 
 
 layout = html.Div([
+    dcc.Store(id='bin-shape-map', storage_type='memory'),
     dcc.Store(id='view-mode', data='community'),
     html.Div([
         # 🌐 Top-left Button

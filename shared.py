@@ -268,7 +268,7 @@ network_mode_panel = html.Div([
             }),
             html.Span([
                 html.Span("Covered: ", style={'color': '#666'}),
-                html.Span(f"{int(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']))}%", style={'color': 'black'})
+                html.Span(f"{round(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0)}%", style={'color': 'black'})
             ])
         ]),
         html.Li([
@@ -279,7 +279,7 @@ network_mode_panel = html.Div([
             }),
             html.Span([
                 html.Span("Uncovered: ", style={'color': '#666'}),
-                html.Span(f"{int(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']))}%", style={'color': 'black'})
+                html.Span(f"{round(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0)}%", style={'color': 'black'})
             ])
         ])
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
@@ -356,14 +356,14 @@ network_mode_panel = html.Div([
 
     html.H3("Citywide Crash Summary"),
 
-    html.P(f"Total reported crashes since 2018: {citywide_stats['crashes_total']}"),
+    html.P(f"🤕 Reported Crashes (since 2018): {citywide_stats['crashes_total']}"),
 
-    html.P("Common Causes:", style={'marginLeft': '20px'}),
+    html.P("Top Causes:", style={'marginLeft': '0px'}),
     html.Ul([
         html.Li(c.title(), style={'color': '#666'}) for c in top_causes_city
     ]),
 
-    html.P("Injury Breakdown:", style={'marginLeft': '20px'}),
+    html.P("Injury Breakdown:", style={'marginLeft': '0px'}),
     html.Ul([
         html.Li([
             html.Span(
