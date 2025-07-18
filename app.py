@@ -161,8 +161,7 @@ def update_info(clickData, dropdown_value, mode):
 
                 html.Hr(style={'margin': '12px 0'}),
 
-                html.P(f"
-                        Bikeability: {row['bike_rank']+1}/5"),
+                html.P(f"Bikeability: {row['bike_rank']+1}/5"),
                 html.P(f"Roads: ~{int(row['road_length'])} mi"),
                 html.P("Bike Lanes:", style={'marginLeft': '0px'}),
                 
