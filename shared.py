@@ -356,7 +356,7 @@ network_mode_panel = html.Div([
 
     html.H3("Citywide Crash Summary"),
 
-    html.P(f"Total reported crashes since 2018: {citywide_stats['crashes_total']}")
+    html.P(f"Total reported crashes since 2018: {citywide_stats['crashes_total']}"),
 
     html.P("Common Causes:", style={'marginLeft': '20px'}),
     html.Ul([
