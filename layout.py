@@ -391,25 +391,27 @@ layout = html.Div([
             'overflowY': 'auto',
             'boxSizing': 'border-box'
         })
-    ], style={
-        'flex': '1',
-        'margin': '10px 10px 10px 0',
-        'padding': '15px',
-        'backgroundColor': '#ffffff',
-        'borderRadius': '16px',
-        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+    ],  className='info-panel-container',
+        style={
+            'flex': '1',
+            'margin': '10px 10px 10px 0',
+            'padding': '15px',
+            'backgroundColor': '#ffffff',
+            'borderRadius': '16px',
+            'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+            'display': 'flex',
+            'flexDirection': 'column',
+            'alignSelf': 'stretch',
+            'boxSizing': 'border-box'
+        })
+], className="app-container",
+    style={
         'display': 'flex',
-        'flexDirection': 'column',
-        'alignSelf': 'stretch',
-        'boxSizing': 'border-box'
-    })
-],  style={
-    'display': 'flex',
-    'flexDirection': 'row',
-    'height': '100%',
-    'margin': '0',
-    'padding': '0',
-    'boxSizing': 'border-box',
-    'fontFamily': 'Segoe UI, sans-serif',
-    'backgroundColor': '#eef2f5'
+        'flexDirection': 'row',
+        'height': '100%',
+        'margin': '0',
+        'padding': '0',
+        'boxSizing': 'border-box',
+        'fontFamily': 'Segoe UI, sans-serif',
+        'backgroundColor': '#eef2f5'
 })
