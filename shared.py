@@ -287,7 +287,7 @@ network_mode_panel = html.Div([
     html.P("A covered road offers a bike lane alternative (<= 600m) travelling along a similar direction (+-45 degrees)."),
 
     # Bike lanes by type
-    html.P("🚴‍♂️ Bike Lanes:"),
+    html.P("🚲 Bike Lanes:"),
     html.Ul([
         html.Li([
             html.Div(style={
