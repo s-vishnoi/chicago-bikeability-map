@@ -12,10 +12,8 @@ import plotly.graph_objects as go
 # === path- dont replace ===
 data_path = os.path.join(os.path.dirname(__file__), "data")
 
-
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
-
 
 with open(os.path.join(data_path, "CAreaGrid.json")) as f:
     carea_raw = json.load(f)
@@ -49,7 +47,14 @@ with open(os.path.join(data_path,"citywide_stats.pkl"), "rb") as f:
     citywide_stats = pickle.load(f)
 #citywide network fig loaded directly 
 
- 
+with open(os.path.join(data_path, "injury_counts_city.json")) as f:
+    injury_counts_city = json.load(f)
+with open(os.path.join(data_path, "top_causes_city.json")) as f:
+    top_causes_city = json.load(f)
+
+
+
+
 
  # Filter to Chicago
 city_gdf = places[places['NAME'] == 'Chicago']
@@ -240,17 +245,20 @@ lane_cols = [k + '_MI' for k in ['PROTECTED','BUFFERED','BIKE','SHARED','NEIGHBO
 viz_df[lane_cols] = viz_df[lane_cols].fillna(0)
 
 
+injury_order = ['FATAL', 'INCAPACITATING INJURY', 'NONINCAPACITATING INJURY', 'REPORTED, NOT EVIDENT', 'NO INDICATION OF INJURY']
+
+
+
 
 network_mode_panel = html.Div([
 
-    # Title and description
     html.H3("Citywide Biking Network"),
     html.I("Do you live in a red desert?"),
 
     html.Hr(style={'margin': '12px 0'}),
 
     # 🚗 Road totals
-    html.P(f"Roads:"),
+    html.P("Roads:"),
     html.Ul([
         html.Li([
             html.Div(style={
@@ -258,7 +266,10 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #009E73', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Covered: {int(citywide_stats['covered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))}%", style={'color': '#666'}),
+            html.Span([
+                html.Span("Covered: ", style={'color': '#666'}),
+                html.Span(f"{int(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']))}%", style={'color': 'black'})
+            ])
         ]),
         html.Li([
             html.Div(style={
@@ -266,14 +277,17 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #D55E00', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Uncovered: {int(citywide_stats['uncovered']*100/(citywide_stats['covered']+citywide_stats['uncovered']))}%", style={'color': '#666'}),
+            html.Span([
+                html.Span("Uncovered: ", style={'color': '#666'}),
+                html.Span(f"{int(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']))}%", style={'color': 'black'})
+            ])
         ])
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
+
     html.P("A covered road offers a bike lane alternative (<= 600m) travelling along a similar direction (+-45 degrees)."),
 
-
-    # 🚴‍♀️ Bike lanes by type
-    html.P("🚴‍♀️ Bike Lanes:"),
+    # Bike lanes by type
+    html.P("🚴‍♂️ Bike Lanes:"),
     html.Ul([
         html.Li([
             html.Div(style={
@@ -281,7 +295,10 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #0072B2', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Protected: {round(citywide_stats['PROTECTED_MI'], 1)} mi", style={'color': '#666'})
+            html.Span([
+                html.Span("Protected: ", style={'color': '#666'}),
+                html.Span(f"{round(citywide_stats['PROTECTED_MI'], 1)} mi", style={'color': 'black'})
+            ])
         ]),
         html.Li([
             html.Div(style={
@@ -290,7 +307,10 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 6px, transparent 6px 8px, navy 8px 10px, transparent 10px 12px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Neighborhood: {round(citywide_stats['NEIGHBORHOOD_MI'], 1)} mi", style={'color': '#666'})
+            html.Span([
+                html.Span("Neighborhood: ", style={'color': '#666'}),
+                html.Span(f"{round(citywide_stats['NEIGHBORHOOD_MI'], 1)} mi", style={'color': 'black'})
+            ])
         ]),
         html.Li([
             html.Div(style={
@@ -299,7 +319,10 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 8px, transparent 8px 10px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Buffered: {round(citywide_stats['BUFFERED_MI'], 1)} mi", style={'color': '#666'})
+            html.Span([
+                html.Span("Buffered: ", style={'color': '#666'}),
+                html.Span(f"{round(citywide_stats['BUFFERED_MI'], 1)} mi", style={'color': 'black'})
+            ])
         ]),
         html.Li([
             html.Div(style={
@@ -308,7 +331,10 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 5px, transparent 5px 6px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Bike: {round(citywide_stats['BIKE_MI'], 1)} mi", style={'color': '#666'})
+            html.Span([
+                html.Span("Bike: ", style={'color': '#666'}),
+                html.Span(f"{round(citywide_stats['BIKE_MI'], 1)} mi", style={'color': 'black'})
+            ])
         ]),
         html.Li([
             html.Div(style={
@@ -317,15 +343,40 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 2px, transparent 2px 5px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span(f"Shared: {round(citywide_stats['SHARED_MI'], 1)} mi", style={'color': '#666'})
+            html.Span([
+                html.Span("Shared: ", style={'color': '#666'}),
+                html.Span(f"{round(citywide_stats['SHARED_MI'], 1)} mi", style={'color': 'black'})
+            ])
         ]),
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
 
+
     html.P("Note: Excludes bike trails"),
+    html.Hr(style={'margin': '12px 0'}),
+
+    html.H3("Citywide Crash Summary"),
+
+    html.P(f"Total reported crashes since 2018: {citywide_stats['crashes_total']}")
+
+    html.P("Common Causes:", style={'marginLeft': '20px'}),
+    html.Ul([
+        html.Li(c.title(), style={'color': '#666'}) for c in top_causes_city
+    ]),
+
+    html.P("Injury Breakdown:", style={'marginLeft': '20px'}),
+    html.Ul([
+        html.Li([
+            html.Span(
+                f"{k.title()}" + (" (Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":"),
+                style={'color': '#666'}
+            ),
+            f" {injury_counts_city.get(k, 0)}"
+        ])
+        for k in injury_order if k in injury_counts_city
+    ]),
 
     html.Hr(style={'margin': '12px 0'}),
 
-    # Footer: links
     html.P([
         html.A("Methodology", href='https://github.com/s-vishnoi/chicago-bikeability-map',
                style={'color': '#0072B2', 'textDecoration': 'none'})
