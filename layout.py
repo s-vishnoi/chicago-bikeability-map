@@ -293,13 +293,7 @@ layout = html.Div([
         # 🌐 Top-left Button
             html.Div([
                 html.Button('🌐', id='show-network-btn', title='Show Network', n_clicks=0,
-                            style={
-                                'fontSize': '20px',
-                                'padding': '8px 10px',
-                                'borderRadius': '10px',
-                                'border': 'none',
-                                'backgroundColor': '#e0e0e0',
-                                'cursor': 'pointer'
+                            style={}
                             })
             ], style={
                 'position': 'absolute',
@@ -312,19 +306,12 @@ layout = html.Div([
             html.Div([
                 html.Button('🚲', id='exit-network-btn', title='Community View', n_clicks=0,
                             style={
-                                'fontSize': '16px',
-                                'padding': '8px 10px',
-                                'borderRadius': '10px',
-                                'border': 'none',
-                                'backgroundColor': '#e0e0e0',
-                                'color': 'gray',
-                                'cursor': 'pointer',
                                 'display': 'none'
                             })
             ], style={
                 'position': 'absolute',
                 'top': '20px',
-                'left': '55px',
+                'left': '60px',
                 'zIndex': 9999
             }),
 
