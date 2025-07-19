@@ -151,7 +151,7 @@ COLOR_EDGE = 'rgba(160, 160, 160, 0.5)'#'#B3DDF2'
 COLOR_TEXT = "#1A1A1A"
 COLOR_TEXT_2 = 'darkgray'
 COLOR_INJURY_TEXT = "ivory"
-COLOR_CITY = 'rgba(160, 160, 160, 0.5)'
+
 
 def rgba_to_plotly_color(rgba):
     r, g, b, a = rgba

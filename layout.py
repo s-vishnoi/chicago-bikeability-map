@@ -11,7 +11,7 @@ scale = 1
 
 fig.update_layout(
     hoverlabel=dict(
-        bgcolor="white", 
+        bgcolor="rgba(30,30,30,0.42)", 
         font_color ='black',       # background
         font_size=11,
         font_family="Segoe UI, sans-serif"
@@ -178,7 +178,7 @@ fig.update_layout(
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
-    plot_bgcolor="white"
+    plot_bgcolor="rgba(30,30,30,0.42)"
 )
 
 
@@ -279,8 +279,8 @@ def empty_plot():
     fig.update_layout(
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        plot_bgcolor='white',
-        paper_bgcolor='white',
+        plot_bgcolor='rgba(30,30,30,0.42)',
+        paper_bgcolor='rgba(30,30,30,0.42)',
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
@@ -328,7 +328,7 @@ layout = html.Div([
                     'width': '900px',
                     'height': '1100px',
                     'border': 'none',
-                    'backgroundColor': 'white',
+                    'backgroundColor': 'rgba(30,30,30,0.42)',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                     'display': 'none'
@@ -441,7 +441,7 @@ layout = html.Div([
                     'width': '900px',
                     'height': '1100px',
                     'border': 'none',
-                    'backgroundColor': 'white',
+                    'backgroundColor': 'rgba(30,30,30,0.42)',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                     'display': 'none'

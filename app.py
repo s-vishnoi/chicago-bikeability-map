@@ -52,7 +52,7 @@ def toggle_network_view(show_clicks, exit_clicks):
              'width': '900px',
              'height': '1100px',
              'border': 'none',
-             'backgroundColor': 'white',
+             'backgroundColor': 'rgba(30,30,30,0.42)',
              'borderRadius': '8px',
              'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show iframe
             {'display': 'inline-block'},
@@ -65,7 +65,7 @@ def toggle_network_view(show_clicks, exit_clicks):
         'width': '900px',
         'height': '1100px',
         'border': 'none',
-        'backgroundColor': 'white',
+        'backgroundColor': 'rgba(30,30,30,0.42)',
         'borderRadius': '8px',
         'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show Graph
         {'display': 'none'},  # hide iframe
@@ -328,7 +328,7 @@ def update_figure(clickData, dropdown_value, mode):
             "L 0.745 0.97 "
             "Q 0.72 0.97 0.72 0.945 Z"
         ),
-        fillcolor='white',
+        fillcolor='rgba(30,30,30,0.42)',
         line=dict(color='lightgray', width=1),
         layer='below',
         xref='paper',
