@@ -392,7 +392,7 @@ layout = html.Div([
             'boxSizing': 'border-box'
         })
 ], className="app-container",
-    style={
+style={
         'display': 'flex',
         'flexDirection': 'row',
         'height': '100%',
