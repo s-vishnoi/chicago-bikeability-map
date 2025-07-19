@@ -7,29 +7,29 @@ body {
   
   /* Style containers */
   .app-container, .info-panel-container {
-    background-color: #2c2c2c !important;
+    background-color: #1e1e1e6b !important;
     color: #f0f0f0 !important;
   }
   
   /* Graph background */
   #cartogram {
-    background-color: #1e1e1e !important;
+    background-color: #1e1e1e6b !important;
   }
   
   /* Dropdown styling */
   .Select-control, .Select-menu-outer {
-    background-color: #2c2c2c !important;
+    background-color: #1e1e1e6b !important;
     color: #f0f0f0 !important;
     border-color: #444 !important;
   }
   
   .Select-placeholder {
-    color: #aaa !important;
+    color: #1e1e1e6b !important;
   }
   
   .Select-menu-outer div {
     color: #f0f0f0 !important;
-    background-color: #2c2c2c !important;
+    background-color: #1e1e1e6b !important;
   }
   
 
@@ -78,8 +78,8 @@ body {
 
 
 button {
-    background-color: #0072B2;
-    color: white;
+    background-color: #0080b2c7;
+    color: rgb(40, 35, 35);
     border: none;
     padding: 8px 16px;
     border-radius: 8px;
@@ -90,7 +90,7 @@ button {
   }
   
   button:hover {
-    background-color: #005991c1;
+    background-color: #004d7a;
   }
   
   button:active {
