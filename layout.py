@@ -309,7 +309,7 @@ layout = html.Div([
         ], style={
             'position': 'absolute',
             'top': '20px',
-            'left': '60px',
+            'left': '80px',
             'zIndex': 9999
         }),
 
@@ -397,4 +397,118 @@ layout = html.Div([
     'boxSizing': 'border-box',
     'fontFamily': 'Segoe UI, sans-serif',
     'backgroundColor': '#eef2f5'
+})
+
+
+
+layout = html.Div([
+    dcc.Store(id='bin-shape-map', storage_type='memory'),
+    dcc.Store(id='view-mode', data='community'),
+
+    # 📊 Main cartogram & network panel
+    html.Div([
+        html.Div([
+            html.Button('🌐', id='show-network-btn', title='Show Network', n_clicks=0, style={})
+        ], style={
+            'position': 'absolute',
+            'top': '20px',
+            'left': '20px',
+            'zIndex': 9999
+        }),
+
+        html.Div([
+            html.Button('🚲', id='exit-network-btn', title='Community View', n_clicks=0, style={
+                'display': 'none'
+            })
+        ], style={
+            'position': 'absolute',
+            'top': '20px',
+            'left': '60px',
+            'zIndex': 9999
+        }),
+
+        html.Div(id='cartogram-container', children=[
+            dcc.Graph(
+                id='cartogram',
+                figure=fig,
+                config={'displayModeBar': False},
+                style={'width': '100%', 'height': '100%', 'display': 'block'}
+            ),
+            html.Iframe(
+                id='network-iframe',
+                src='/assets/citywide_network.html',
+                style={
+                    'width': '900px',
+                    'height': '1100px',
+                    'border': 'none',
+                    'backgroundColor': 'white',
+                    'borderRadius': '8px',
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
+                    'display': 'none'
+                }
+            )
+        ])
+    ], style={
+        'flex': '3',
+        'margin': '10px',
+        'padding': '15px',
+        'backgroundColor': 'rgba(30,30,30,0.42)',
+        'borderRadius': '16px',
+        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+        'boxSizing': 'border-box',
+        'display': 'flex',
+        'alignItems': 'stretch',
+        'position': 'relative'
+    }),
+
+    # ℹ️ Info panel & dropdown
+    html.Div([
+        html.Div([
+            dcc.Dropdown(
+                id='carea-dropdown',
+                options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
+                placeholder="Choose an area...",
+                style={
+                    'fontSize': '14px',
+                    'backgroundColor': 'rgba(30,30,30,0.42)',
+                    'color': '#f0f0f0',
+                    'border': '1px solid #444',
+                    'borderRadius': '8px',
+                    'padding': '2px',
+                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                }
+            ),
+            html.Div(id='info-panel', style={
+                'fontFamily': 'Segoe UI, sans-serif',
+                'fontSize': '14px',
+                'color': '#f0f0f0',
+                'lineHeight': '1.6',
+                'padding': '4px 2px'
+            })
+        ], style={
+            'flex': '1',
+            'overflowY': 'auto',
+            'boxSizing': 'border-box'
+        })
+    ], className='info-panel-container', style={
+        'flex': '1',
+        'margin': '10px 10px 10px 0',
+        'padding': '15px',
+        'backgroundColor': 'rgba(30,30,30,0.42)',
+        'borderRadius': '16px',
+        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+        'display': 'flex',
+        'flexDirection': 'column',
+        'alignSelf': 'stretch',
+        'boxSizing': 'border-box'
+    })
+], className="app-container", style={
+    'display': 'flex',
+    'flexDirection': 'row',
+    'height': '100%',
+    'margin': '0',
+    'padding': '0',
+    'boxSizing': 'border-box',
+    'fontFamily': 'Segoe UI, sans-serif',
+    'backgroundColor': 'rgba(30,30,30,0.42)'
 })

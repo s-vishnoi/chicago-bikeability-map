@@ -304,7 +304,7 @@ network_mode_panel = html.Div([
             html.Div(style={
                 'display': 'inline-block', 'width': '30px', 'height': '8px',
                 'borderTop': '2px solid #0072B2',
-                'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 6px, transparent 6px 8px, navy 8px 10px, transparent 10px 12px) 100% 1',
+                'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 6px, transparent 6px 8px, #0072B2 8px 10px, transparent 10px 12px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
