@@ -1,97 +1,71 @@
-/* === Global Styles === */
 body {
-    background: linear-gradient(135deg, #1e1e2f, #0e0e1a);
+    background-color: rgba(30,30,30,0.42);
     color: #f0f0f0;
     font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
   }
   
-  /* === Main Containers === */
+  /* Containers */
   .app-container, .info-panel-container {
-    background-color: rgba(30, 30, 30, 0.85) !important;
+    background-color: rgba(30,30,30,0.42) !important;
     color: #f0f0f0 !important;
-    backdrop-filter: blur(4px);
-    border-radius: 18px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
   
-  /* === Graph Background === */
+  /* Graph background */
   #cartogram {
-    background-color: transparent !important;
+    background-color: rgba(30,30,30,0.42) !important;
   }
   
-  /* === Dropdown Styling === */
+  /* Dropdown styling */
   .Select-control, .Select-menu-outer {
-    background-color: #2c2c3e !important;
-    color: #ffffff !important;
-    border: 1px solid #444 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background-color: rgba(30,30,30,0.42) !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
   }
   
   .Select-placeholder {
-    color: #bbbbbb !important;
+    color: #aaaaaa !important;
   }
   
   .Select-menu-outer div {
-    color: #ffffff !important;
-    background-color: #2c2c3e !important;
+    color: #f0f0f0 !important;
+    background-color: rgba(30,30,30,0.42) !important;
   }
   
-  /* === Buttons === */
+  /* Buttons */
   button {
-    background: linear-gradient(145deg, #0099cc, #0077aa);
-    color: #ffffff;
+    background-color: #0080b2c7;
+    color: rgb(40, 35, 35);
     border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
     cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.2s ease, transform 0.1s ease;
   }
   
   button:hover {
-    background: #006a99;
-    transform: translateY(-1px);
+    background-color: #004d7a;
   }
   
   button:active {
-    background: #005377;
-    transform: scale(0.96);
+    background-color: #004d7a;
+    transform: scale(0.98);
   }
   
-  /* === Info Panel Enhancements === */
-  #info-panel {
-    padding: 12px;
-    line-height: 1.7;
+  /* Scrollbar styling */
+  .info-panel-container::-webkit-scrollbar {
+    width: 8px;
   }
   
-  #info-panel h3 {
-    color: #00bfff;
-    font-size: 20px;
-    margin-bottom: 8px;
+  .info-panel-container::-webkit-scrollbar-thumb {
+    background-color: rgba(240, 240, 240, 0.2);
+    border-radius: 8px;
   }
   
-  #info-panel ul {
-    padding-left: 18px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-  
-  #info-panel li {
-    margin-bottom: 4px;
-    color: #dddddd;
-  }
-  
-  #info-panel p {
-    margin: 4px 0;
-  }
-  
-  /* === Responsive Layout === */
+  /* Mobile layout adjustments */
   @media (max-width: 768px) {
     .app-container {
       flex-direction: column !important;
@@ -117,14 +91,18 @@ body {
       font-size: 14px !important;
     }
   
-    .top-button, .exit-button {
+    .top-button {
+      top: 10px !important;
+      left: 10px !important;
+      font-size: 16px !important;
+      padding: 6px 10px !important;
+    }
+  
+    .exit-button {
+      top: 10px !important;
+      right: 10px !important;
       font-size: 14px !important;
       padding: 6px 10px !important;
     }
-  }
-  
-  /* === Smooth Transitions === */
-  * {
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
