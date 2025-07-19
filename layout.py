@@ -2,7 +2,7 @@
 import numpy as np
 import plotly.graph_objects as go
 from dash import dcc, html
-from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, COLOR_CITY, norm, rgba_to_plotly_color
+from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, norm, rgba_to_plotly_color
 
 
 # Build figure
