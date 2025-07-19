@@ -171,8 +171,8 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
 
 fig.update_layout(
     clickmode='event+select',
-    height=1000,
-    width=850,
+    height=1100,
+    width=900,
     #title=f"Chicago Bike Crashes, 2018-Present",
     #title_font=dict(size=16),
     xaxis=dict(visible=False),
@@ -423,7 +423,7 @@ layout = html.Div([
         ], style={
             'position': 'absolute',
             'top': '20px',
-            'left': '60px',
+            'left': '80px',
             'zIndex': 9999
         }),
 
