@@ -9,8 +9,10 @@ from dash import Dash, dcc, html, Input, Output, State, ctx
 from matplotlib.colors import Normalize, LinearSegmentedColormap
 import plotly.graph_objects as go
 
-# === path- dont replace ===
+# === path- DONT replace ===
 data_path = os.path.join(os.path.dirname(__file__), "data")
+
+
 
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
@@ -251,13 +253,11 @@ injury_order = ['FATAL', 'INCAPACITATING INJURY', 'NONINCAPACITATING INJURY', 'R
 
 
 network_mode_panel = html.Div([
-
     html.H3("Citywide Biking Network"),
     html.I("Do you live in a red desert?"),
 
     html.Hr(style={'margin': '12px 0'}),
 
-    # 🚗 Road totals
     html.P("Roads:"),
     html.Ul([
         html.Li([
@@ -266,10 +266,8 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #009E73', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Covered: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{int(round(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%", style={'color': 'black'})
-            ])
+            html.Span("Covered: ", style={'color': '#BBBBBB'}),
+            f"{int(round(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%"
         ]),
         html.Li([
             html.Div(style={
@@ -277,16 +275,13 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #D55E00', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Uncovered: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{int(round(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%", style={'color': 'black'})
-            ])
+            html.Span("Uncovered: ", style={'color': '#BBBBBB'}),
+            f"{int(round(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%"
         ])
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
 
     html.P("A covered road offers a bike lane alternative (<= 600m) travelling along a similar direction (+-45 degrees)."),
 
-    # Bike lanes by type
     html.P("🚲 Bike Lanes:"),
     html.Ul([
         html.Li([
@@ -295,10 +290,8 @@ network_mode_panel = html.Div([
                 'borderTop': '2px solid #0072B2', 'marginRight': '8px',
                 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Protected: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{round(citywide_stats['PROTECTED_MI'], 1)} mi", style={'color': 'black'})
-            ])
+            html.Span("Protected: ", style={'color': '#BBBBBB'}),
+            f"{round(citywide_stats['PROTECTED_MI'], 1)} mi"
         ]),
         html.Li([
             html.Div(style={
@@ -307,10 +300,8 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 6px, transparent 6px 8px, #0072B2 8px 10px, transparent 10px 12px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Neighborhood: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{round(citywide_stats['NEIGHBORHOOD_MI'], 1)} mi", style={'color': 'black'})
-            ])
+            html.Span("Neighborhood: ", style={'color': '#BBBBBB'}),
+            f"{round(citywide_stats['NEIGHBORHOOD_MI'], 1)} mi"
         ]),
         html.Li([
             html.Div(style={
@@ -319,10 +310,8 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 8px, transparent 8px 10px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Buffered: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{round(citywide_stats['BUFFERED_MI'], 1)} mi", style={'color': 'black'})
-            ])
+            html.Span("Buffered: ", style={'color': '#BBBBBB'}),
+            f"{round(citywide_stats['BUFFERED_MI'], 1)} mi"
         ]),
         html.Li([
             html.Div(style={
@@ -331,10 +320,8 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 5px, transparent 5px 6px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Bike: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{round(citywide_stats['BIKE_MI'], 1)} mi", style={'color': 'black'})
-            ])
+            html.Span("Bike: ", style={'color': '#BBBBBB'}),
+            f"{round(citywide_stats['BIKE_MI'], 1)} mi"
         ]),
         html.Li([
             html.Div(style={
@@ -343,27 +330,27 @@ network_mode_panel = html.Div([
                 'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 2px, transparent 2px 5px) 100% 1',
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
-            html.Span([
-                html.Span("Shared: ", style={'color': '#BBBBBB'}),
-                html.Span(f"{round(citywide_stats['SHARED_MI'], 1)} mi", style={'color': 'black'})
-            ])
+            html.Span("Shared: ", style={'color': '#BBBBBB'}),
+            f"{round(citywide_stats['SHARED_MI'], 1)} mi"
         ]),
     ], style={'listStyleType': 'none', 'paddingLeft': '0', 'marginLeft': '20px'}),
-
 
     html.P("Note: Excludes bike trails"),
     html.Hr(style={'margin': '12px 0'}),
 
     html.H3("Citywide Crash Summary"),
 
-    html.P(f"🤕 Reported Crashes (since 2018): {citywide_stats['crashes_total']}"),
+    html.P([
+        html.Span("🤕 Reported Crashes (since 2018): ", style={'color': '#BBBBBB'}),
+        f"{citywide_stats['crashes_total']}"
+    ]),
 
-    html.P("Top Causes:", style={'marginLeft': '0px'}),
+    html.P("Top Causes:"),
     html.Ul([
         html.Li(c.title(), style={'color': '#BBBBBB'}) for c in top_causes_city
     ]),
 
-    html.P("Injury Breakdown:", style={'marginLeft': '0px'}),
+    html.P("Injury Breakdown:"),
     html.Ul([
         html.Li([
             html.Span(

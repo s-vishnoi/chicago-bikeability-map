@@ -12,7 +12,7 @@ scale = 1
 fig.update_layout(
     hoverlabel=dict(
         bgcolor="rgba(0,0,0,0)", 
-        font_color ='black',       # background
+        font_color ='white',       # background
         font_size=11,
         font_family="Segoe UI, sans-serif"
     )
@@ -36,7 +36,7 @@ for _, row in viz_df.iterrows():
                   fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.5))
     stroke = 0.01  # half of 2px in coordinate space
     fig.add_shape(type="rect", x0=minx, x1=maxx , y0=red_y0, y1=maxy,
-              fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1.5))
+              fillcolor=COLOR_INJURY, line=dict(color=COLOR_TEXT, width=1))
 
 
     fig.add_annotation(x=x, y=y, text=str(total), showarrow=False,
@@ -46,16 +46,14 @@ for _, row in viz_df.iterrows():
     
     
     
-    
-
-
+    #BADGE
     badge_text = row["abbrev"]
     badge_y = miny + 0.16
     badge_w = w * 1.1
     badge_h = h * 0.25
     fig.add_shape(type="rect", x0=x - badge_w / 2, x1=x + badge_w / 2,
                   y0=badge_y - badge_h / 2, y1=badge_y + badge_h / 2,
-                  fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.3))
+                  fillcolor=fill, line=dict(color=COLOR_EDGE, width=0.4))
     fig.add_annotation(x=x, y=badge_y, text=badge_text, showarrow=False,
                        font=dict(size=7.2, color=COLOR_TEXT), yanchor="middle")
 
@@ -79,16 +77,16 @@ ref_red_y0 = maxy - ref_red_h
 
 
 fig.add_shape(type="rect", x0=minx, x1=maxx, y0=miny, y1=maxy,
-              fillcolor='white', line=dict(color=COLOR_EDGE, width=0.5))
+              fillcolor='lightgray', line=dict(color=COLOR_EDGE, width=0.5))
 fig.add_shape(type="rect", x0=minx, x1=maxx, y0=ref_red_y0, y1=maxy,
-              fillcolor=COLOR_INJURY, line=dict(color = COLOR_TEXT, width=1.8))
+              fillcolor=COLOR_INJURY, line=dict(color = COLOR_TEXT, width=1.4))
 
 badge_y = miny + 0.25
 badge_w = w * 1.2
 badge_h = h * 0.25
 fig.add_shape(type="rect", x0=ref_x - badge_w / 2, x1=ref_x + badge_w / 2,
               y0=badge_y - badge_h / 2, y1=badge_y + badge_h / 2,
-              fillcolor='white', line=dict(color=COLOR_EDGE, width=0.3))
+              fillcolor='lightgray', line=dict(color=COLOR_EDGE, width=0.7))
 fig.add_annotation(x=ref_x, y=badge_y, text="COMMUNITY AREA",
                    showarrow=False, font=dict(size=8, color=COLOR_TEXT),
                    yanchor="middle")
@@ -110,7 +108,6 @@ n_bins = 5
 bin_vals = np.linspace(0, 1, n_bins)
 bin_colors = [rgba_to_plotly_color(COLOR_GRADIENT_MAP(v)) for v in bin_vals]
 bin_h = legend_h / n_bins
-
 for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
     y0 = legend_y_start + i * bin_h
     y1 = y0 + bin_h
@@ -122,16 +119,13 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
         fillcolor=color,
         layer="above"
     )
-
-
-
 # Add vertical label "Bikability"
 fig.add_annotation(
     x=legend_x + 0.35,
     y=legend_y_start + legend_h / 2,
     text="Bikeability",
     textangle=90,
-    font=dict(size=11, color=COLOR_TEXT),
+    font=dict(size=12, color=COLOR_TEXT),
     showarrow=False
 )
 fig.add_annotation(
@@ -173,8 +167,6 @@ fig.update_layout(
     clickmode='event+select',
     height=1100,
     width=900,
-    #title=f"Chicago Bike Crashes, 2018-Present",
-    #title_font=dict(size=16),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     plot_bgcolor="rgba(0,0,0,0)",
@@ -192,7 +184,7 @@ if translated.geom_type == 'Polygon':
     x, y = list(translated.exterior.xy[0]), list(translated.exterior.xy[1])
     fig.add_trace(go.Scatter(
         x=x, y=y, mode='lines',
-        line=dict(color='ivory', width=1.5),
+        line=dict(color='#7CCDEF', width=1.5),
         fill='toself',
         fillcolor = '#7CCDEF',
         hoverinfo='skip',
@@ -260,7 +252,7 @@ fig.add_annotation(
 )
 
 fig.add_annotation(
-    x=ref_x + 1.75 ,
+    x=ref_x + 1.55 ,
     y=ref_y + 11 -1.2,
     text="Bikeability = Custom ranking using Bike Infrasturcture + Network Coverage ",
     textangle=0,
@@ -281,15 +273,15 @@ def empty_plot():
     fig.update_layout(
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='#606060',
+        paper_bgcolor='#606060',
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
 
 
 from dash import html, dcc
-from shared import viz_df
+
 
 layout = html.Div([
     # Hidden data stores to track bin shapes and view mode (community vs network)
@@ -307,7 +299,7 @@ layout = html.Div([
             'position': 'absolute',
             'top': '20px',
             'left': '20px',
-            'zIndex': 9999
+            'zIndex': 9998
         }),
 
         # 🚲 Button to return to cartogram view (initially hidden)
@@ -318,7 +310,7 @@ layout = html.Div([
         ], style={
             'position': 'absolute',
             'top': '20px',
-            'left': '80px',
+            'left': '20px',
             'zIndex': 9999
         }),
 
@@ -333,7 +325,7 @@ layout = html.Div([
                     'width': '100%',
                     'height': '100%',
                     'border': 'none',
-                    'backgroundColor': 'rgba(0,0,0,0)',  # ✅ Transparent so colors don't get darkened
+                    'backgroundColor': '#606060',  # ✅ Transparent so colors don't get darkened
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',  # Soft shadow
                 }
@@ -347,7 +339,7 @@ layout = html.Div([
                     'width': '900px',
                     'height': '1100px',
                     'border': 'none',
-                    'backgroundColor': 'rgba(0,0,0,0)',  # ✅ Transparent iframe
+                    'backgroundColor': '#606060',  # ✅ Transparent iframe
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                     'display': 'none'  # Toggle visibility via callback
@@ -358,7 +350,7 @@ layout = html.Div([
         'flex': '3',
         'margin': '10px',
         'padding': '15px',
-        'backgroundColor': 'rgba(30,30,30,0.42)',  # ✅ Main dark translucent background
+        'backgroundColor': '#606060',  # ✅ Main dark translucent background
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
         'boxSizing': 'border-box',
@@ -379,8 +371,8 @@ layout = html.Div([
                 placeholder="Choose an area...",
                 style={
                     'fontSize': '14px',
-                    'backgroundColor': 'rgba(30,30,30,0.42)',
-                    'color': '#f0f0f0',
+                    'backgroundColor': 'lightgray',
+                    'color': 'lightgray',
                     'border': '1px solid #444',
                     'borderRadius': '8px',
                     'padding': '2px',
@@ -405,7 +397,7 @@ layout = html.Div([
         'flex': '1',
         'margin': '10px 10px 10px 0',
         'padding': '15px',
-        'backgroundColor': 'rgba(30,30,30,0.42)',  # Same translucent theme
+        'backgroundColor': '#606060',  # Same translucent theme
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
         'display': 'flex',
@@ -421,5 +413,5 @@ layout = html.Div([
     'padding': '0',
     'boxSizing': 'border-box',
     'fontFamily': 'Segoe UI, sans-serif',
-    'backgroundColor': 'rgba(30,30,30,0.42)'  # Entire app uses consistent theme
+    'backgroundColor': '#f0f0f0'  # Entire app uses consistent theme
 })

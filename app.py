@@ -49,10 +49,10 @@ def toggle_network_view(show_clicks, exit_clicks):
         return (
             {'display': 'none'},  # hide Graph
             {'display': 'block',
-             'width': '100%',
-             'height': '100%',
+             'width': '900px',
+             'height': '1100px',
              'border': 'none',
-             'backgroundColor': 'rgba(30,30,30,0.42)',
+             'backgroundColor': '#606060',
              'borderRadius': '8px',
              'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show iframe
             {'display': 'inline-block'},
@@ -65,7 +65,7 @@ def toggle_network_view(show_clicks, exit_clicks):
         'width': '100%',
         'height': '100%',
         'border': 'none',
-        'backgroundColor': 'rgba(30,30,30,0.42)',
+        'backgroundColor': '#606060',
         'borderRadius': '8px',
         'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show Graph
         {'display': 'none'},  # hide iframe
@@ -133,7 +133,7 @@ def update_info(clickData, dropdown_value, mode):
                 html.P(f"Population: ~{int(round(row['population'], -3))}"),
                 html.P(f"🤕 Reported Crashes: {row['total_crashes']}"),
 
-                html.P("Common Causes:", style={'marginLeft': '0px'}),
+                html.P("Top Causes:", style={'marginLeft': '0px'}),
                 html.Ul([
                 html.Li(c.title(), style={'color': '#BBBBBB'}) for c in causes[:3]
                 ]),
