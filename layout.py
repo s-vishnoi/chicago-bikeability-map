@@ -181,7 +181,7 @@ fig.update_layout(
     paper_bgcolor="rgba(30,30,30,0.42)",  
     margin=dict(l=0, r=0, t=0, b=0),
 )
-)
+
 
 
 
