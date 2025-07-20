@@ -178,7 +178,7 @@ fig.update_layout(
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
-    plot_bgcolor="rgba(30,30,30,0.42)"
+    plot_bgcolor="rgba(30,30,30,0.42)",
     paper_bgcolor="rgba(30,30,30,0.42)",  
 )
 
