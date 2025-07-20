@@ -11,7 +11,7 @@ scale = 1
 
 fig.update_layout(
     hoverlabel=dict(
-        bgcolor="rgba(30,30,30,0.42)", 
+        bgcolor="rgba(0,0,0,0)", 
         font_color ='black',       # background
         font_size=11,
         font_family="Segoe UI, sans-serif"
@@ -177,8 +177,8 @@ fig.update_layout(
     #title_font=dict(size=16),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
-    plot_bgcolor="rgba(30,30,30,0.42)",
-    paper_bgcolor="rgba(30,30,30,0.42)",  
+    plot_bgcolor="rgba(0,0,0,0)",
+    paper_bgcolor="rgba(0,0,0,0)",  
     margin=dict(l=0, r=0, t=0, b=0),
 )
 
@@ -281,8 +281,8 @@ def empty_plot():
     fig.update_layout(
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        plot_bgcolor='rgba(30,30,30,0.42)',
-        paper_bgcolor='rgba(30,30,30,0.42)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
@@ -326,7 +326,7 @@ layout = html.Div([
                     'height': '100%',
                     'border': 'none',
                     'borderRadius': '8px',  # add this!
-                    'backgroundColor': 'rgba(30,30,30,0.42)',  # matches iframe
+                    'backgroundColor': 'rgba(0,0,0,0)',  # matches iframe
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                 }
             ),
@@ -337,7 +337,7 @@ layout = html.Div([
                     'width': '900px',
                     'height': '1100px',
                     'border': 'none',
-                    'backgroundColor': 'rgba(30,30,30,0.42)',
+                    'backgroundColor': 'rgba(0,0,0,0)',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                     'display': 'none'
@@ -376,9 +376,9 @@ layout = html.Div([
             html.Div(id='info-panel', style={
                 'fontFamily': 'Segoe UI, sans-serif',
                 'fontSize': '14px',
-                'color': '#333',
+                'color': 'rgba(30,30,30,0.42)',
                 'lineHeight': '1.6',
-                'padding': '4px 2px'
+                'padding': '2px'
             })
         ], style={
             'flex': '1',
