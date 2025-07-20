@@ -267,7 +267,7 @@ network_mode_panel = html.Div([
                 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Covered: ", style={'color': '#666'}),
+                html.Span("Covered: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{int(round(citywide_stats['covered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%", style={'color': 'black'})
             ])
         ]),
@@ -278,7 +278,7 @@ network_mode_panel = html.Div([
                 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Uncovered: ", style={'color': '#666'}),
+                html.Span("Uncovered: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{int(round(citywide_stats['uncovered'] * 100 / (citywide_stats['covered'] + citywide_stats['uncovered']),0))}%", style={'color': 'black'})
             ])
         ])
@@ -296,7 +296,7 @@ network_mode_panel = html.Div([
                 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Protected: ", style={'color': '#666'}),
+                html.Span("Protected: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{round(citywide_stats['PROTECTED_MI'], 1)} mi", style={'color': 'black'})
             ])
         ]),
@@ -308,7 +308,7 @@ network_mode_panel = html.Div([
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Neighborhood: ", style={'color': '#666'}),
+                html.Span("Neighborhood: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{round(citywide_stats['NEIGHBORHOOD_MI'], 1)} mi", style={'color': 'black'})
             ])
         ]),
@@ -320,7 +320,7 @@ network_mode_panel = html.Div([
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Buffered: ", style={'color': '#666'}),
+                html.Span("Buffered: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{round(citywide_stats['BUFFERED_MI'], 1)} mi", style={'color': 'black'})
             ])
         ]),
@@ -332,7 +332,7 @@ network_mode_panel = html.Div([
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Bike: ", style={'color': '#666'}),
+                html.Span("Bike: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{round(citywide_stats['BIKE_MI'], 1)} mi", style={'color': 'black'})
             ])
         ]),
@@ -344,7 +344,7 @@ network_mode_panel = html.Div([
                 'marginRight': '8px', 'transform': 'translateY(+3.5px)'
             }),
             html.Span([
-                html.Span("Shared: ", style={'color': '#666'}),
+                html.Span("Shared: ", style={'color': '#BBBBBB'}),
                 html.Span(f"{round(citywide_stats['SHARED_MI'], 1)} mi", style={'color': 'black'})
             ])
         ]),
@@ -360,7 +360,7 @@ network_mode_panel = html.Div([
 
     html.P("Top Causes:", style={'marginLeft': '0px'}),
     html.Ul([
-        html.Li(c.title(), style={'color': '#666'}) for c in top_causes_city
+        html.Li(c.title(), style={'color': '#BBBBBB'}) for c in top_causes_city
     ]),
 
     html.P("Injury Breakdown:", style={'marginLeft': '0px'}),
@@ -368,7 +368,7 @@ network_mode_panel = html.Div([
         html.Li([
             html.Span(
                 f"{k.title()}" + (" (Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":"),
-                style={'color': '#666'}
+                style={'color': '#BBBBBB'}
             ),
             f" {injury_counts_city.get(k, 0)}"
         ])

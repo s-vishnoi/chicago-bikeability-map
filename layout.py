@@ -179,6 +179,7 @@ fig.update_layout(
     yaxis=dict(visible=False, autorange="reversed"),
     margin=dict(l=20, r=20, t=60, b=20),
     plot_bgcolor="rgba(30,30,30,0.42)"
+    paper_bgcolor="rgba(30,30,30,0.42)",  
 )
 
 
@@ -432,14 +433,21 @@ layout = html.Div([
                 id='cartogram',
                 figure=fig,
                 config={'displayModeBar': False},
-                style={'width': '100%', 'height': '100%', 'display': 'block'}
+                style={
+                    'width': '100%',
+                    'height': '100%',
+                    'border': 'none',
+                    'backgroundColor': 'rgba(30,30,30,0.42)',
+                    'borderRadius': '8px',
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
+                }
             ),
             html.Iframe(
                 id='network-iframe',
                 src='/assets/citywide_network.html',
                 style={
-                    'width': '900px',
-                    'height': '1100px',
+                    'width': '100%',
+                    'height': '100%',
                     'border': 'none',
                     'backgroundColor': 'rgba(30,30,30,0.42)',
                     'borderRadius': '8px',

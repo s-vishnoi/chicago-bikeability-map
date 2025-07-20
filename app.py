@@ -49,8 +49,8 @@ def toggle_network_view(show_clicks, exit_clicks):
         return (
             {'display': 'none'},  # hide Graph
             {'display': 'block',
-             'width': '900px',
-             'height': '1100px',
+             'width': '100%',
+             'height': '100%',
              'border': 'none',
              'backgroundColor': 'rgba(30,30,30,0.42)',
              'borderRadius': '8px',
@@ -62,8 +62,8 @@ def toggle_network_view(show_clicks, exit_clicks):
     # on exit
     return (
         {'display': 'block',
-        'width': '900px',
-        'height': '1100px',
+        'width': '100%',
+        'height': '100%',
         'border': 'none',
         'backgroundColor': 'rgba(30,30,30,0.42)',
         'borderRadius': '8px',
@@ -135,7 +135,7 @@ def update_info(clickData, dropdown_value, mode):
 
                 html.P("Common Causes:", style={'marginLeft': '0px'}),
                 html.Ul([
-                html.Li(c.title(), style={'color': '#666'}) for c in causes[:3]
+                html.Li(c.title(), style={'color': '#BBBBBB'}) for c in causes[:3]
                 ]),
 
                 html.P("Injury Breakdown:", style={'marginLeft': '0px'}),
@@ -143,7 +143,7 @@ def update_info(clickData, dropdown_value, mode):
                     html.Li([
                         html.Span(
                             f"{k.title()}" + (" (Severe):" if k.upper() in ['FATAL', 'INCAPACITATING INJURY'] else ":"),
-                            style={'color': '#666'}
+                            style={'color': '#BBBBBB'}
                         ),
                         f" {injuries.get(k, 0)}"
                     ])
@@ -170,7 +170,7 @@ def update_info(clickData, dropdown_value, mode):
                         'marginTop': '0px',
                         'transform': 'translateY(+3.5px)'
                     }),
-                    html.Span("Protected:", style={'color': '#666'}),
+                    html.Span("Protected:", style={'color': '#BBBBBB'}),
                     f" {round(row['PROTECTED_MI'], 1)} mi"
                 ]) if 'PROTECTED_MI' in row else None,
 
@@ -185,7 +185,7 @@ def update_info(clickData, dropdown_value, mode):
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
-                    html.Span("Neighborhood:", style={'color': '#666'}),
+                    html.Span("Neighborhood:", style={'color': '#BBBBBB'}),
                     f" {round(row['NEIGHBORHOOD_MI'], 1)} mi"
                 ]) if 'NEIGHBORHOOD_MI' in row else None,
 
@@ -200,7 +200,7 @@ def update_info(clickData, dropdown_value, mode):
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
-                    html.Span("Buffered:", style={'color': '#666'}),
+                    html.Span("Buffered:", style={'color': '#BBBBBB'}),
                     f" {round(row['BUFFERED_MI'], 1)} mi"
                 ]) if 'BUFFERED_MI' in row else None,
 
@@ -217,7 +217,7 @@ def update_info(clickData, dropdown_value, mode):
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
-                    html.Span("Bike:", style={'color': '#666'}),
+                    html.Span("Bike:", style={'color': '#BBBBBB'}),
                     f" {round(row['BIKE_MI'], 1)} mi"
                 ]) if 'BIKE_MI' in row else None,
 
@@ -232,7 +232,7 @@ def update_info(clickData, dropdown_value, mode):
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
-                    html.Span("Shared:", style={'color': '#666'}),
+                    html.Span("Shared:", style={'color': '#BBBBBB'}),
                     f" {round(row['SHARED_MI'], 1)} mi"
                 ]) if 'SHARED_MI' in row else None,
                 ], style={
@@ -328,7 +328,7 @@ def update_figure(clickData, dropdown_value, mode):
             "L 0.745 0.97 "
             "Q 0.72 0.97 0.72 0.945 Z"
         ),
-        fillcolor='rgba(30,30,30,0.42)',
+        fillcolor='lightgray',
         line=dict(color='lightgray', width=1),
         layer='below',
         xref='paper',

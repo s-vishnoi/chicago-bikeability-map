@@ -36,7 +36,7 @@ body {
   /* Buttons */
   button {
     background-color: #7CCDEF;
-    color: 'darkgray';
+    color: darkgray;
     border: none;
     padding: 8px 8px;
     border-radius: 8px;
