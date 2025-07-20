@@ -177,9 +177,10 @@ fig.update_layout(
     #title_font=dict(size=16),
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
-    margin=dict(l=20, r=20, t=60, b=20),
     plot_bgcolor="rgba(30,30,30,0.42)",
     paper_bgcolor="rgba(30,30,30,0.42)",  
+    margin=dict(l=0, r=0, t=0, b=0),
+)
 )
 
 
@@ -320,7 +321,14 @@ layout = html.Div([
                 id='cartogram',
                 figure=fig,
                 config={'displayModeBar': False},
-                style={'width': '100%', 'height': '100%', 'display': 'block'}
+                style={
+                    'width': '100%',
+                    'height': '100%',
+                    'border': 'none',
+                    'borderRadius': '8px',  # add this!
+                    'backgroundColor': 'rgba(30,30,30,0.42)',  # matches iframe
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
+                }
             ),
             html.Iframe(
                 id='network-iframe',
@@ -340,9 +348,9 @@ layout = html.Div([
         'flex': '3',
         'margin': '10px',
         'padding': '15px',
-        'backgroundColor': '#ffffff',
-        'borderRadius': '16px',
-        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+        'backgroundColor': 'rgba(30,30,30,0.42)',
+        'borderRadius': '8px',
+        'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
         'boxSizing': 'border-box',
         'display': 'flex',
         'alignItems': 'stretch',
@@ -358,11 +366,11 @@ layout = html.Div([
                 placeholder="Choose an area...",
                 style={
                     'fontSize': '14px',
-                    'backgroundColor': '#ffffff',
+                    'backgroundColor': 'rgba(30,30,30,0.42)',
                     'border': '1px solid #d0d0d0',
                     'borderRadius': '8px',
                     'padding': '2px',
-                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                 }
             ),
             html.Div(id='info-panel', style={
@@ -381,9 +389,9 @@ layout = html.Div([
         'flex': '1',
         'margin': '10px 10px 10px 0',
         'padding': '15px',
-        'backgroundColor': '#ffffff',
-        'borderRadius': '16px',
-        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.08)',
+        'backgroundColor': 'rgba(30,30,30,0.42)',
+        'borderRadius': '8px',
+        'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
         'display': 'flex',
         'flexDirection': 'column',
         'alignSelf': 'stretch',

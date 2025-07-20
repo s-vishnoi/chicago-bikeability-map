@@ -5,6 +5,7 @@
     --border-light: #444;
   }
   
+  
   /* Base styles */
   body {
     background-color: var(--gray-bg);
