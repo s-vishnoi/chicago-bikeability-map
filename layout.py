@@ -446,8 +446,8 @@ layout = html.Div([
                 id='network-iframe',
                 src='/assets/citywide_network.html',
                 style={
-                    'width': '100%',
-                    'height': '100%',
+                    'width': '900px',
+                    'height': '1100px',
                     'border': 'none',
                     'backgroundColor': 'rgba(30,30,30,0.42)',
                     'borderRadius': '8px',
@@ -496,7 +496,7 @@ layout = html.Div([
         ], style={
             'flex': '1',
             'overflowY': 'auto',
-            'boxSizing': 'border-box'
+            'boxSizing': 'border-box',
         })
     ], className='info-panel-container', style={
         'flex': '1',

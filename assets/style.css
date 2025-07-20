@@ -1,42 +1,50 @@
-body {
-    background-color: rgba(30,30,30,0.42);
-    color: #f0f0f0;
+:root {
+    --gray-bg: rgba(30,30,30,0.42);
+    --text-light: #f0f0f0;
+    --text-secondary: #aaaaaa;
+    --border-light: #444;
+  }
+  
+  /* Base styles */
+  body {
+    background-color: var(--gray-bg);
+    color: var(--text-light);
     font-family: 'Segoe UI', sans-serif;
   }
   
   /* Containers */
   .app-container, .info-panel-container {
-    background-color: rgba(30,30,30,0.42) !important;
-    color: #f0f0f0 !important;
+    background-color: var(--gray-bg) !important;
+    color: var(--text-light) !important;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
   
   /* Graph background */
   #cartogram {
-    background-color: rgba(30,30,30,0.42) !important;
+    background-color: var(--gray-bg) !important;
   }
   
   /* Dropdown styling */
   .Select-control, .Select-menu-outer {
-    background-color: rgba(30,30,30,0.42) !important;
-    color: #f0f0f0 !important;
-    border-color: #444 !important;
+    background-color: var(--gray-bg) !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-light) !important;
   }
   
   .Select-placeholder {
-    color: #aaaaaa !important;
+    color: var(--text-secondary) !important;
   }
   
   .Select-menu-outer div {
-    color: #f0f0f0 !important;
-    background-color: rgba(30,30,30,0.42) !important;
+    color: var(--text-light) !important;
+    background-color: var(--gray-bg) !important;
   }
   
   /* Buttons */
   button {
     background-color: #7CCDEF;
-    color: darkgray;
+    color: var(--gray-bg);  /* darker than light gray for contrast */
     border: none;
     padding: 8px 8px;
     border-radius: 8px;
@@ -59,7 +67,6 @@ body {
   .info-panel-container::-webkit-scrollbar {
     width: 8px;
   }
-  
   .info-panel-container::-webkit-scrollbar-thumb {
     background-color: rgba(240, 240, 240, 0.2);
     border-radius: 8px;
