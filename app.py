@@ -49,8 +49,8 @@ def toggle_network_view(show_clicks, exit_clicks):
         return (
             {'display': 'none'},  # hide Graph
             {'display': 'block',
-             'width': '900px',
-             'height': '1100px',
+             'width': '850px',
+             'height': '1000px',
              'border': 'none',
              'backgroundColor': '#606060',
              'borderRadius': '8px',
@@ -165,7 +165,7 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid #0072B2',
+                        'borderTop': '2px solid darkgray',
                         'marginRight': '8px',
                         'marginTop': '0px',
                         'transform': 'translateY(+3.5px)'
@@ -180,8 +180,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid #0072B2',
-                        'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 6px, transparent 6px 8px, #0072B2 8px 10px, transparent 10px 12px) 100% 1',
+                        'borderTop': '2px solid darkgray',
+                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 6px, transparent 6px 8px, darkgray 8px 10px, transparent 10px 12px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -195,8 +195,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid #0072B2',
-                        'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 8px, transparent 8px 10px) 100% 1',
+                        'borderTop': '2px solid darkgray',
+                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 8px, transparent 8px 10px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -212,8 +212,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid #0072B2',
-                        'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 5px, transparent 5px 6px) 100% 1',
+                        'borderTop': '2px solid darkgray',
+                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 5px, transparent 5px 6px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -227,8 +227,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid #0072B2',
-                        'borderImage': 'repeating-linear-gradient(to right, #0072B2 0 2px, transparent 2px 5px) 100% 1',
+                        'borderTop': '2px solid darkgray',
+                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 2px, transparent 2px 5px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -252,7 +252,7 @@ def update_info(clickData, dropdown_value, mode):
                         html.A(
                             "Methodology",
                             href='https://github.com/s-vishnoi/chicago-bikeability-map',
-                            style={'color': '#0072B2', 'textDecoration': 'none'}
+                            style={'color': 'darkgray', 'textDecoration': 'none'}
                         )
                     ], style={'margin': '0 0 4px 0px'}),  # bottom margin only, aligned left
 
@@ -260,7 +260,7 @@ def update_info(clickData, dropdown_value, mode):
                         html.A(
                             "Suggestions?",
                             href='',
-                            style={'color': '#0072B2', 'textDecoration': 'none'}
+                            style={'color': 'darkgray', 'textDecoration': 'none'}
                         )
                     ], style={'margin': '0 0 0 0px'})  # aligned left, no top margin
                 ]),

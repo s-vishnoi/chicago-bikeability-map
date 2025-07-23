@@ -165,8 +165,8 @@ for i, (val, color) in enumerate(zip(bin_vals[::-1], bin_colors[::-1])):
 
 fig.update_layout(
     clickmode='event+select',
-    height=1100,
-    width=900,
+    height=1000,
+    width=850,
     xaxis=dict(visible=False),
     yaxis=dict(visible=False, autorange="reversed"),
     plot_bgcolor="rgba(0,0,0,0)",
@@ -325,7 +325,7 @@ layout = html.Div([
                     'width': '100%',
                     'height': '100%',
                     'border': 'none',
-                    'backgroundColor': '#606060',  # ✅ Transparent so colors don't get darkened
+                    'backgroundColor': '#606060',  # ✅ Transparent inherent so colors don't get darkened
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',  # Soft shadow
                 }
@@ -336,8 +336,8 @@ layout = html.Div([
                 id='network-iframe',
                 src='/assets/citywide_network.html',
                 style={
-                    'width': '900px',
-                    'height': '1100px',
+                    'width': '850px',
+                    'height': '1000px',
                     'border': 'none',
                     'backgroundColor': '#606060',  # ✅ Transparent iframe
                     'borderRadius': '8px',
