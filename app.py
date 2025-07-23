@@ -51,6 +51,7 @@ def toggle_network_view(show_clicks, exit_clicks):
             {'display': 'block',
              'width': '850px',
              'height': '1000px',
+             'overflow': 'hidden', 
              'border': 'none',
              'backgroundColor': '#606060',
              'borderRadius': '8px',

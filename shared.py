@@ -13,7 +13,6 @@ import plotly.graph_objects as go
 data_path = os.path.join(os.path.dirname(__file__), "data")
 
 
-
 # === Load Chicago outline ===
 places = gpd.read_file(os.path.join(data_path, "chicago_places.geojson"))
 

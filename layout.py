@@ -243,7 +243,7 @@ fig.add_annotation(
     showarrow=False
 )
 fig.add_annotation(
-    x=ref_x - 0.3,
+    x=ref_x - 0.25,
     y=ref_y + 10.7 -1.2,
     text="Severe = Incapacitating/Fatal",
     textangle=0,
@@ -252,7 +252,7 @@ fig.add_annotation(
 )
 
 fig.add_annotation(
-    x=ref_x + 1.55 ,
+    x=ref_x + 1.70 ,
     y=ref_y + 11 -1.2,
     text="Bikeability = Custom ranking using Bike Infrasturcture + Network Coverage ",
     textangle=0,
@@ -338,6 +338,7 @@ layout = html.Div([
                 style={
                     'width': '850px',
                     'height': '1000px',
+                    'overflow': 'hidden', 
                     'border': 'none',
                     'backgroundColor': '#606060',  # ✅ Transparent iframe
                     'borderRadius': '8px',
