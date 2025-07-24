@@ -260,7 +260,7 @@ def update_info(clickData, dropdown_value, mode):
                     html.P([
                         html.A(
                             "Suggestions?",
-                            href='',
+                            href='https://docs.google.com/forms/d/e/1FAIpQLSeFxMoI1pig3d9YPGAEFEN-uDXyC7-F7AdTir7p3XG_DYAhrg/viewform?usp=sharing&ouid=111142553725252767700',
                             style={'color': 'lightgray', 'textDecoration': 'none'}
                         )
                     ], style={'margin': '0 0 0 0px'})  # aligned left, no top margin
