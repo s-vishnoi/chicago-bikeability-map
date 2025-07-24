@@ -336,7 +336,6 @@ layout = html.Div([
             html.Iframe(
                 id='network-iframe',
                 src='/assets/citywide_network.html',
-                config={'scrollZoom': False, },
                 style={
                     'width': '850px',
                     'height': '1000px',
