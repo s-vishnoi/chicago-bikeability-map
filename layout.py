@@ -320,7 +320,7 @@ layout = html.Div([
             dcc.Graph(
                 id='cartogram',
                 figure=fig,
-                config={'displayModeBar': False},
+                config={'displayModeBar': False, 'scrollZoom': False, },
                 style={
                     'width': '100%',
                     'height': '100%',
@@ -336,6 +336,7 @@ layout = html.Div([
             html.Iframe(
                 id='network-iframe',
                 src='/assets/citywide_network.html',
+                config={'scrollZoom': False, },
                 style={
                     'width': '850px',
                     'height': '1000px',
@@ -356,6 +357,7 @@ layout = html.Div([
         'backgroundColor': '#606060',  # ✅ Main dark translucent background
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+        'scrollZoom': False, 
         'boxSizing': 'border-box',
         'display': 'flex',
         'alignItems': 'stretch',
