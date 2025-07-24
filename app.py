@@ -22,9 +22,28 @@ import plotly.graph_objects as go
 from copy import deepcopy
 import numpy as np
 
-app = Dash(__name__)
+
+# === Preview ===
+app = Dash(
+    __name__,
+    assets_folder='assets',
+    meta_tags=[
+        {"property": "og:image", "content": "/assets/preview.png"},
+        {"property": "og:title", "content": "Chicago Bike Crash Dashboard"},
+        {"property": "og:description", "content": "Explore bike crash patterns and infrastructure equity in Chicago."},
+        {"property": "og:type", "content": "website"},
+        {"property": "og:image", "content": "https://chicago-bike-dashboard.onrender.com/assets/preview.png"},
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"},
+    ]
+)
+
 server = app.server
 app.config.suppress_callback_exceptions = True
+
+
+
+
+app.title = "Chicago Bikeability Map"
 
 # === Layout ===
 app.layout = layout
