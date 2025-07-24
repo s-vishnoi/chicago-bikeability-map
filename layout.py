@@ -346,7 +346,7 @@ layout = html.Div([
                     'display': 'none'
                 }
             )
-        ]),
+        ], className='desktop-only'),
 
         # Fallback message for mobile
         html.Div("View on desktop for full interactive experience", className="mobile-message")

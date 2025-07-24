@@ -20,13 +20,22 @@
   }
  
 
-  /* Hide cartogram and show message on small screens */
+  /* Default: show desktop map, hide mobile message */
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  /* On small screens: hide map, show message */
   @media (max-width: 768px) {
-    .cartogram-container {
+    .desktop-only {
       display: none !important;
     }
 
-    .mobile-message {
+    .mobile-only {
       display: block !important;
       color: #f0f0f0;
       text-align: center;
@@ -35,7 +44,7 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #606060;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       margin: 10px;
     }
 
@@ -48,9 +57,4 @@
       margin-left: 0 !important;
       margin-top: 10px;
     }
-  }
-
-  /* On larger screens: show map, hide fallback message */
-  .mobile-message {
-    display: none;
   }
