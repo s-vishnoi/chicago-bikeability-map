@@ -348,20 +348,26 @@ layout = html.Div([
                     'display': 'none'  # Toggle visibility via callback
                 }
             )
-        ])
-    ], style={
-        'flex': '3',
-        'margin': '10px',
-        'padding': '15px',
-        'backgroundColor': '#606060',  # ✅ Main dark translucent background
-        'borderRadius': '16px',
-        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
-        'scrollZoom': False, 
-        'boxSizing': 'border-box',
-        'display': 'flex',
-        'alignItems': 'stretch',
-        'position': 'relative'
-    }),
+        ]), 
+    
+        html.Div("View on desktop for full interactive experience", className="mobile-message"),
+        
+        
+        style={
+            'flex': '3',
+            'margin': '10px',
+            'padding': '15px',
+            'backgroundColor': '#606060',  # ✅ Main dark translucent background
+            'borderRadius': '16px',
+            'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+            'scrollZoom': False, 
+            'boxSizing': 'border-box',
+            'display': 'flex',
+            'alignItems': 'stretch',
+            'position': 'relative'
+        },
+        className="left-panel"
+    ])
 
     # ======================
     # RIGHT PANEL: Info Panel + Dropdown

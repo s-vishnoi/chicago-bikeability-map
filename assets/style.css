@@ -19,45 +19,38 @@
     background-color: darkgray;
   }
  
-  
-  /* Mobile layout adjustments */
+
+  /* Hide cartogram and show message on small screens */
   @media (max-width: 768px) {
+    .cartogram-container {
+      display: none !important;
+    }
+
+    .mobile-message {
+      display: block !important;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #606060;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      margin: 10px;
+    }
+
     .app-container {
       flex-direction: column !important;
-      align-items: stretch;
     }
-  
-    #cartogram {
-      height: 450px !important;
-      width: 100% !important;
-    }
-  
-    iframe#network-iframe {
-      width: 100% !important;
-      height: 550px !important;
-    }
-  
+
     .info-panel-container {
-      margin-top: 20px !important;
       width: 100% !important;
-    }
-  
-    .dropdown-style {
-      font-size: 14px !important;
-    }
-  
-    .top-button {
-      top: 10px !important;
-      left: 10px !important;
-      font-size: 16px !important;
-      padding: 6px 10px !important;
-    }
-  
-    .exit-button {
-      top: 10px !important;
-      right: 10px !important;
-      font-size: 14px !important;
-      padding: 6px 10px !important;
+      margin-left: 0 !important;
+      margin-top: 10px;
     }
   }
-  
+
+  /* On larger screens: show map, hide fallback message */
+  .mobile-message {
+    display: none;
+  }
