@@ -349,7 +349,10 @@ layout = html.Div([
         ], className='desktop-only'),
 
         # Fallback message for mobile
-        html.Div("View on desktop for full interactive experience", className="mobile-message")
+        html.Div([
+            html.H4("🧭 View on Desktop for full interactive experience"),
+            html.P("Use the dropdown below to explore data by neighborhood.")
+        ], className='mobile-only')
     ],
     style={
         'flex': '3',
