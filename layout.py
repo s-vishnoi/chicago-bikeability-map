@@ -328,6 +328,7 @@ layout = html.Div([
                     'backgroundColor': '#606060',  # ✅ Transparent inherent so colors don't get darkened
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',  # Soft shadow
+                    'scrollZoom': False, 
                 }
             ),
 
@@ -343,6 +344,7 @@ layout = html.Div([
                     'backgroundColor': '#606060',  # ✅ Transparent iframe
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
+                    'scrollZoom': False, 
                     'display': 'none'  # Toggle visibility via callback
                 }
             )
