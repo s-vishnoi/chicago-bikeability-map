@@ -68,8 +68,8 @@ def toggle_network_view(show_clicks, exit_clicks):
         return (
             {'display': 'none'},  # hide Graph
             {'display': 'block',
-             'width': '900px',
-             'height': '1050px',
+             'width': '860px',
+             'height': '1010px',
              'overflow': 'hidden', 
              'border': 'none',
              'backgroundColor': '#606060',
