@@ -320,15 +320,14 @@ layout = html.Div([
             dcc.Graph(
                 id='cartogram',
                 figure=fig,
-                config={'displayModeBar': False, 'scrollZoom': False, },
+                config={'displayModeBar': False, 'scrollZoom': False},
                 style={
                     'width': '100%',
                     'height': '100%',
                     'border': 'none',
-                    'backgroundColor': '#606060',  # ✅ Transparent inherent so colors don't get darkened
+                    'backgroundColor': '#606060',
                     'borderRadius': '8px',
-                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',  # Soft shadow
-                    'scrollZoom': False, 
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
                 }
             ),
 
@@ -339,35 +338,32 @@ layout = html.Div([
                 style={
                     'width': '850px',
                     'height': '1000px',
-                    'overflow': 'hidden', 
+                    'overflow': 'hidden',
                     'border': 'none',
-                    'backgroundColor': '#606060',  # ✅ Transparent iframe
+                    'backgroundColor': '#606060',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
-                    'scrollZoom': False, 
-                    'display': 'none'  # Toggle visibility via callback
+                    'display': 'none'
                 }
             )
-        ]), 
-    
-        html.Div("View on desktop for full interactive experience", className="mobile-message"),
-        
-        
-        style={
-            'flex': '3',
-            'margin': '10px',
-            'padding': '15px',
-            'backgroundColor': '#606060',  # ✅ Main dark translucent background
-            'borderRadius': '16px',
-            'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
-            'scrollZoom': False, 
-            'boxSizing': 'border-box',
-            'display': 'flex',
-            'alignItems': 'stretch',
-            'position': 'relative'
-        },
-        className="left-panel"
-    ])
+        ]),
+
+        # Fallback message for mobile
+        html.Div("View on desktop for full interactive experience", className="mobile-message")
+    ],
+    style={
+        'flex': '3',
+        'margin': '10px',
+        'padding': '15px',
+        'backgroundColor': '#606060',
+        'borderRadius': '16px',
+        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+        'boxSizing': 'border-box',
+        'display': 'flex',
+        'alignItems': 'stretch',
+        'position': 'relative'
+    },
+    className="left-panel"),
 
     # ======================
     # RIGHT PANEL: Info Panel + Dropdown
@@ -390,7 +386,7 @@ layout = html.Div([
                 }
             ),
 
-            # Info text (populated via callback on dropdown or map click)
+            # Info panel
             html.Div(id='info-panel', style={
                 'fontFamily': 'Segoe UI, sans-serif',
                 'fontSize': '14px',
@@ -407,7 +403,7 @@ layout = html.Div([
         'flex': '1',
         'margin': '10px 10px 10px 0',
         'padding': '15px',
-        'backgroundColor': '#606060',  # Same translucent theme
+        'backgroundColor': '#606060',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
         'display': 'flex',
@@ -423,5 +419,5 @@ layout = html.Div([
     'padding': '0',
     'boxSizing': 'border-box',
     'fontFamily': 'Segoe UI, sans-serif',
-    'backgroundColor': '#f0f0f0'  # Entire app uses consistent theme
+    'backgroundColor': '#f0f0f0'
 })
