@@ -49,8 +49,8 @@ def toggle_network_view(show_clicks, exit_clicks):
         return (
             {'display': 'none'},  # hide Graph
             {'display': 'block',
-             'width': '850px',
-             'height': '1000px',
+             'width': '900px',
+             'height': '1050px',
              'overflow': 'hidden', 
              'border': 'none',
              'backgroundColor': '#606060',
@@ -166,7 +166,7 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid darkgray',
+                        'borderTop': '2px solid lightgray',
                         'marginRight': '8px',
                         'marginTop': '0px',
                         'transform': 'translateY(+3.5px)'
@@ -181,8 +181,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid darkgray',
-                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 6px, transparent 6px 8px, darkgray 8px 10px, transparent 10px 12px) 100% 1',
+                        'borderTop': '2px solid lightgray',
+                        'borderImage': 'repeating-linear-gradient(to right, lightgray 0 6px, transparent 6px 8px, lightgray 8px 10px, transparent 10px 12px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -196,8 +196,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid darkgray',
-                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 8px, transparent 8px 10px) 100% 1',
+                        'borderTop': '2px solid lightgray',
+                        'borderImage': 'repeating-linear-gradient(to right, lightgray 0 8px, transparent 8px 10px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -213,8 +213,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid darkgray',
-                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 5px, transparent 5px 6px) 100% 1',
+                        'borderTop': '2px solid lightgray',
+                        'borderImage': 'repeating-linear-gradient(to right, lightgray 0 5px, transparent 5px 6px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -228,8 +228,8 @@ def update_info(clickData, dropdown_value, mode):
                         'display': 'inline-block',
                         'width': '30px',
                         'height': '8px',
-                        'borderTop': '2px solid darkgray',
-                        'borderImage': 'repeating-linear-gradient(to right, darkgray 0 2px, transparent 2px 5px) 100% 1',
+                        'borderTop': '2px solid lightgray',
+                        'borderImage': 'repeating-linear-gradient(to right, lightgray 0 2px, transparent 2px 5px) 100% 1',
                         'marginRight': '8px',
                         'transform': 'translateY(+3.5px)'
                     }),
@@ -253,7 +253,7 @@ def update_info(clickData, dropdown_value, mode):
                         html.A(
                             "Methodology",
                             href='https://github.com/s-vishnoi/chicago-bikeability-map',
-                            style={'color': 'darkgray', 'textDecoration': 'none'}
+                            style={'color': 'lightgray', 'textDecoration': 'none'}
                         )
                     ], style={'margin': '0 0 4px 0px'}),  # bottom margin only, aligned left
 
@@ -261,7 +261,7 @@ def update_info(clickData, dropdown_value, mode):
                         html.A(
                             "Suggestions?",
                             href='',
-                            style={'color': 'darkgray', 'textDecoration': 'none'}
+                            style={'color': 'lightgray', 'textDecoration': 'none'}
                         )
                     ], style={'margin': '0 0 0 0px'})  # aligned left, no top margin
                 ]),
@@ -329,12 +329,24 @@ def update_figure(clickData, dropdown_value, mode):
             "L 0.745 0.97 "
             "Q 0.72 0.97 0.72 0.945 Z"
         ),
-        fillcolor='lightgray',
+        fillcolor='#606060',
         line=dict(color='lightgray', width=1),
         layer='below',
         xref='paper',
         yref='paper'
     )
+
+    updated_fig.add_annotation(
+        x=0.9,  # Center of your custom box horizontally
+        y=0.715,  # Slightly below the hover box
+        xref="paper",
+        yref="paper",
+        text="Hover to see cause",
+        showarrow=False,
+        font=dict(size=9, color= COLOR_TEXT_2),
+        align="center",
+    )
+    
 
     for trace in network_fig['data']:
         trace['xaxis'] = 'x2'
