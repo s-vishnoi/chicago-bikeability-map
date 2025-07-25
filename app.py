@@ -72,7 +72,7 @@ def toggle_network_view(show_clicks, exit_clicks):
              'height': '1030px',
              'overflow': 'hidden', 
              'border': 'none',
-             'backgroundColor': '#606060',
+             'backgroundColor': '#4A4A4A',
              'borderRadius': '8px',
              'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show iframe
             {'display': 'inline-block'},
@@ -85,7 +85,7 @@ def toggle_network_view(show_clicks, exit_clicks):
         'width': '100%',
         'height': '100%',
         'border': 'none',
-        'backgroundColor': '#606060',
+        'backgroundColor': '#4A4A4A',
         'borderRadius': '8px',
         'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'},  # show Graph
         {'display': 'none'},  # hide iframe

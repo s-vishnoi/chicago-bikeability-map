@@ -273,8 +273,8 @@ def empty_plot():
     fig.update_layout(
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        plot_bgcolor='#606060',
-        paper_bgcolor='#606060',
+        plot_bgcolor='#4A4A4A',
+        paper_bgcolor='#4A4A4A',
         margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
@@ -325,7 +325,7 @@ layout = html.Div([
                     'width': '100%',
                     'height': '100%',
                     'border': 'none',
-                    'backgroundColor': '#606060',
+                    'backgroundColor': '#4A4A4A',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
                 }
@@ -340,7 +340,7 @@ layout = html.Div([
                     'height': '1000px',
                     'overflow': 'hidden',
                     'border': 'none',
-                    'backgroundColor': '#606060',
+                    'backgroundColor': '#4A4A4A',
                     'borderRadius': '8px',
                     'boxShadow': '0 2px 6px rgba(0,0,0,0.1)',
                     'display': 'none'
@@ -358,7 +358,7 @@ layout = html.Div([
         'flex': '3',
         'margin': '10px',
         'padding': '15px',
-        'backgroundColor': '#606060',
+        'backgroundColor': '#4A4A4A',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
         'boxSizing': 'border-box',
@@ -406,7 +406,7 @@ layout = html.Div([
         'flex': '1',
         'margin': '10px 10px 10px 0',
         'padding': '15px',
-        'backgroundColor': '#606060',
+        'backgroundColor': '#4A4A4A',
         'borderRadius': '16px',
         'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
         'display': 'flex',
