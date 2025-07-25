@@ -25,7 +25,7 @@
     display: block;
   }
 
-    /* Base (desktop): hide mobile-only content */
+  /* Base (desktop): hide mobile-only content */
   .mobile-only {
     display: none;
     height: 0;
@@ -58,5 +58,17 @@
       height: auto;
       overflow: visible;
       max-width: 90vw;
+    }
+  
+
+
+    .app-container {
+      flex-direction: column !important;
+    }
+
+    .info-panel-container {
+      width: 100% !important;
+      margin-left: 0 !important;
+      margin-top: 10px;
     }
   }
