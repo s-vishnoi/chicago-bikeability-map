@@ -422,5 +422,5 @@ layout = html.Div([
     'padding': '0',
     'boxSizing': 'border-box',
     'fontFamily': 'Segoe UI, sans-serif',
-    'backgroundColor': '#f0f0f0'
+    'backgroundColor': 'rgba(0,0,0,0)'
 })
