@@ -263,7 +263,7 @@ fig.add_annotation(
 fig.add_annotation(
     x=ref_x + 10.75 ,
     y=ref_y + 11 -1.2,
-    text="Last Update: June 2025",
+    text="Last Updated: June 2025",
     textangle=0,
     font=dict(size=11.5, color=COLOR_TEXT_2),
     showarrow=False
@@ -271,7 +271,7 @@ fig.add_annotation(
 
 fig.add_annotation(
     x=ref_x + 10.75 ,
-    y=ref_y + 11 -2.2,
+    y=ref_y + 11 -1.7,
     text="Data: City of Chicago",
     textangle=0,
     font=dict(size=11.5, color=COLOR_TEXT_2),
