@@ -1,7 +1,7 @@
   /* Buttons */
   button {
     background-color: lightgray;
-    color: var(--gray-bg);  /* darker than light gray for contrast */
+    color: #4A4A4A;  /* darker than light gray for contrast */
     border: none;
     padding: 8px 8px;
     border-radius: 8px;
