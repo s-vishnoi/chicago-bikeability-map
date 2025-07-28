@@ -1,15 +1,22 @@
   /* Buttons */
+
   button {
     background-color: lightgray;
-    color: #4A4A4A;  /* darker than light gray for contrast */
+    color: #4A4A4A;
     border: none;
-    padding: 8px 8px;
+    width: 40px;
+    height: 40px;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
+  
   
   button:hover {
     background-color: darkgray;
