@@ -60,7 +60,7 @@ with open(os.path.join(data_path, "top_causes_city.json")) as f:
 
 
  # Filter to Chicago
-city_gdf = places[places['NAME'] == 'Chicago']
+city_gdf = places[places['name'] == 'Chicago']
 city_outline = city_gdf.unary_union
 
 from shapely.affinity import scale as scale_geom, translate as translate_geom
