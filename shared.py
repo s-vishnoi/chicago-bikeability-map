@@ -26,7 +26,7 @@ class CArea:
         self.name = name
         self.gridloc = tuple(gridloc)
 
-CAreaGrid = [CArea(d['NAME'], d['gridloc']) for d in carea_raw]
+CAreaGrid = [CArea(d['name'], d['gridloc']) for d in carea_raw]
 
 grouped = pd.read_csv(os.path.join(data_path, "grouped.csv"))
 bike_with_neigh = pd.read_csv(os.path.join(data_path, "bike_with_neigh.csv"))
@@ -60,7 +60,7 @@ with open(os.path.join(data_path, "top_causes_city.json")) as f:
 
 
  # Filter to Chicago
-city_gdf = places[places['name'] == 'Chicago']
+city_gdf = places[places['NAME'] == 'Chicago']
 city_outline = city_gdf.unary_union
 
 from shapely.affinity import scale as scale_geom, translate as translate_geom
