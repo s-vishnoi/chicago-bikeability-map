@@ -1,13 +1,30 @@
-
 import numpy as np
 import plotly.graph_objects as go
 from dash import dcc, html
-from shared import viz_df, translated, COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, norm, rgba_to_plotly_color
+from functools import lru_cache
+from shared import COLOR_GRADIENT_MAP, COLOR_INJURY, COLOR_EDGE, COLOR_TEXT, COLOR_TEXT_2, COLOR_INJURY_TEXT, norm, rgba_to_plotly_color
+
+# CACHED versions of your data
+@lru_cache(maxsize=2)
+def get_viz_df():
+    from shared import viz_df
+    return viz_df
+
+@lru_cache(maxsize=2)
+def get_translated_geom():
+    from shared import translated
+    return translated
+
+viz_df = get_viz_df()
+translated = get_translated_geom()
+
 
 
 # Build figure
 fig = go.Figure()
 scale = 1
+
+
 
 fig.update_layout(
     hoverlabel=dict(
@@ -293,15 +310,10 @@ from dash import html, dcc
 
 
 layout = html.Div([
-    # Hidden data stores to track bin shapes and view mode (community vs network)
     dcc.Store(id='bin-shape-map', storage_type='memory'),
     dcc.Store(id='view-mode', data='community'),
 
-    # ======================
-    # LEFT PANEL: Cartogram & Network Toggle
-    # ======================
     html.Div([
-        # 🌐 Button to enter full network view
         html.Div([
             html.Button('🌐', id='show-network-btn', title='Show Network', n_clicks=0, style={})
         ], style={
@@ -311,10 +323,9 @@ layout = html.Div([
             'zIndex': 9998
         }),
 
-        # 🚲 Button to return to cartogram view (initially hidden)
         html.Div([
             html.Button('🚲', id='exit-network-btn', title='Community View', n_clicks=0, style={
-                'display': 'none'  # Only shown in network mode
+                'display': 'none'
             })
         ], style={
             'position': 'absolute',
@@ -323,24 +334,33 @@ layout = html.Div([
             'zIndex': 9999
         }),
 
-        # Graph + Iframe container
         html.Div(id='cartogram-container', children=[
-            # Main cartogram figure
-            dcc.Graph(
-                id='cartogram',
-                figure=fig,
-                config={'displayModeBar': False, 'scrollZoom': False},
-                style={
-                    'width': '100%',
-                    'height': '100%',
-                    'border': 'none',
-                    'backgroundColor': '#4A4A4A',
-                    'borderRadius': '8px',
-                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
-                }
+            dcc.Loading(
+                id="loading-cartogram",
+                type="circle",
+                color="#7CCDEF",
+                children=[
+                    dcc.Graph(
+                        id='cartogram',
+                        figure=fig,
+                        config={
+                            'displayModeBar': False,
+                            'scrollZoom': False,
+                            'doubleClick': 'reset',
+                            'staticPlot': False  # ✅ Hover & click enabled, zoom disabled
+                        },
+                        style={
+                            'width': '100%',
+                            'height': '100%',
+                            'border': 'none',
+                            'backgroundColor': '#4A4A4A',
+                            'borderRadius': '8px',
+                            'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
+                        }
+                    )
+                ]
             ),
 
-            # Citywide bike network iframe overlay (hidden by default)
             html.Iframe(
                 id='network-iframe',
                 src='/assets/citywide_network.html',
@@ -357,7 +377,6 @@ layout = html.Div([
             )
         ], className='desktop-only'),
 
-        # Fallback message for mobile
         html.Div([
             html.H4("🧭 View on Desktop for full interactive experience"),
             html.P("Use the dropdown below to explore data by neighborhood.")
@@ -377,35 +396,43 @@ layout = html.Div([
     },
     className="left-panel"),
 
-    # ======================
-    # RIGHT PANEL: Info Panel + Dropdown
-    # ======================
     html.Div([
         html.Div([
-            # Area selector dropdown
-            dcc.Dropdown(
-                id='carea-dropdown',
-                options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
-                placeholder="Choose an area...",
-                style={
-                    'fontSize': '14px',
-                    'backgroundColor': 'lightgray',
-                    'color': 'lightgray',
-                    'border': '1px solid #444',
-                    'borderRadius': '8px',
-                    'padding': '2px',
-                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
-                }
+            dcc.Loading(
+                id="loading-dropdown",
+                type="dot",
+                color="#7CCDEF",
+                children=[
+                    dcc.Dropdown(
+                        id='carea-dropdown',
+                        options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
+                        placeholder="Choose an area...",
+                        style={
+                            'fontSize': '14px',
+                            'backgroundColor': 'lightgray',
+                            'color': 'lightgray',
+                            'border': '1px solid #444',
+                            'borderRadius': '8px',
+                            'padding': '2px',
+                            'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                        }
+                    )
+                ]
             ),
-
-            # Info panel
-            html.Div(id='info-panel', style={
-                'fontFamily': 'Segoe UI, sans-serif',
-                'fontSize': '14px',
-                'color': '#f0f0f0',
-                'lineHeight': '1.6',
-                'padding': '4px 2px'
-            })
+            dcc.Loading(
+                id="loading-info-panel",
+                type="dot",
+                color="#7CCDEF",
+                children=[
+                    html.Div(id='info-panel', style={
+                        'fontFamily': 'Segoe UI, sans-serif',
+                        'fontSize': '14px',
+                        'color': '#f0f0f0',
+                        'lineHeight': '1.6',
+                        'padding': '4px 2px'
+                    })
+                ]
+            )
         ], style={
             'flex': '1',
             'overflowY': 'auto',
