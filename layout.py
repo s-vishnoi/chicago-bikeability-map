@@ -308,8 +308,6 @@ def empty_plot():
 
 from dash import html, dcc
 
-
-
 layout = html.Div([
     dcc.Store(id='bin-shape-map', storage_type='memory'),
     dcc.Store(id='view-mode', data='community'),
@@ -336,30 +334,23 @@ layout = html.Div([
         }),
 
         html.Div(id='cartogram-container', children=[
-            dcc.Loading(
-                id="loading-cartogram",
-                type="circle",
-                color="#7CCDEF",
-                children=[
-                    dcc.Graph(
-                        id='cartogram',
-                        figure=fig,
-                        config={
-                            'displayModeBar': False,
-                            'scrollZoom': False,
-                            'doubleClick': 'reset',
-                            'staticPlot': False  # Hover + click enabled, zoom disabled
-                        },
-                        style={
-                            'width': '100%',
-                            'height': '100%',
-                            'border': 'none',
-                            'backgroundColor': '#4A4A4A',
-                            'borderRadius': '8px',
-                            'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
-                        }
-                    )
-                ]
+            dcc.Graph(
+                id='cartogram',
+                figure=fig,
+                config={
+                    'displayModeBar': False,
+                    'scrollZoom': False,
+                    'doubleClick': 'reset',
+                    'staticPlot': False
+                },
+                style={
+                    'width': '100%',
+                    'height': '100%',
+                    'border': 'none',
+                    'backgroundColor': '#4A4A4A',
+                    'borderRadius': '8px',
+                    'boxShadow': '0 2px 6px rgba(0,0,0,0.1)'
+                }
             ),
 
             html.Iframe(
@@ -397,28 +388,28 @@ layout = html.Div([
     },
     className="left-panel"),
 
-    html.Div([
-        html.Div([
-            dcc.Dropdown(
-                id='carea-dropdown',
-                options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
-                placeholder="Choose an area...",
-                style={
-                    'fontSize': '14px',
-                    'backgroundColor': 'lightgray',
-                    'color': 'lightgray',
-                    'border': '1px solid #444',
-                    'borderRadius': '8px',
-                    'padding': '2px',
-                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
-                }
-            ),
+    dcc.Loading(
+        id="loading-right-panel",
+        type="dot",
+        color="#7CCDEF",
+        children=[
+            html.Div([
+                html.Div([
+                    dcc.Dropdown(
+                        id='carea-dropdown',
+                        options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
+                        placeholder="Choose an area...",
+                        style={
+                            'fontSize': '14px',
+                            'backgroundColor': 'lightgray',
+                            'color': 'lightgray',
+                            'border': '1px solid #444',
+                            'borderRadius': '8px',
+                            'padding': '2px',
+                            'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                        }
+                    ),
 
-            dcc.Loading(
-                id="loading-info-panel",
-                type="dot",
-                color="#7CCDEF",
-                children=[
                     html.Div(id='info-panel', style={
                         'fontFamily': 'Segoe UI, sans-serif',
                         'fontSize': '14px',
@@ -426,25 +417,25 @@ layout = html.Div([
                         'lineHeight': '1.6',
                         'padding': '4px 2px'
                     })
-                ]
-            )
-        ], style={
-            'flex': '1',
-            'overflowY': 'auto',
-            'boxSizing': 'border-box',
-        })
-    ], className='info-panel-container', style={
-        'flex': '1',
-        'margin': '10px 10px 10px 0',
-        'padding': '15px',
-        'backgroundColor': '#4A4A4A',
-        'borderRadius': '16px',
-        'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
-        'display': 'flex',
-        'flexDirection': 'column',
-        'alignSelf': 'stretch',
-        'boxSizing': 'border-box'
-    })
+                ], style={
+                    'flex': '1',
+                    'overflowY': 'auto',
+                    'boxSizing': 'border-box',
+                })
+            ], className='info-panel-container', style={
+                'flex': '1',
+                'margin': '10px 10px 10px 0',
+                'padding': '15px',
+                'backgroundColor': '#4A4A4A',
+                'borderRadius': '16px',
+                'boxShadow': '0 4px 12px rgba(0, 0, 0, 0.2)',
+                'display': 'flex',
+                'flexDirection': 'column',
+                'alignSelf': 'stretch',
+                'boxSizing': 'border-box'
+            })
+        ]
+    )
 ], className="app-container", style={
     'display': 'flex',
     'flexDirection': 'row',
