@@ -22,4 +22,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8080
 
 # Start Dash via Gunicorn
-CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8080"]
+CMD ["python", "app.py"]
