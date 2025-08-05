@@ -44,7 +44,7 @@ app.config.suppress_callback_exceptions = True
 
 
 app.title = "Chicago Bikeability Map"
-app._favicon = "🚲"
+app._favicon = "bike.png"
 # === Layout ===
 app.layout = layout
 
