@@ -309,6 +309,7 @@ def empty_plot():
 from dash import html, dcc
 
 
+
 layout = html.Div([
     dcc.Store(id='bin-shape-map', storage_type='memory'),
     dcc.Store(id='view-mode', data='community'),
@@ -347,7 +348,7 @@ layout = html.Div([
                             'displayModeBar': False,
                             'scrollZoom': False,
                             'doubleClick': 'reset',
-                            'staticPlot': False  # ✅ Hover & click enabled, zoom disabled
+                            'staticPlot': False  # Hover + click enabled, zoom disabled
                         },
                         style={
                             'width': '100%',
@@ -398,27 +399,21 @@ layout = html.Div([
 
     html.Div([
         html.Div([
-            dcc.Loading(
-                id="loading-dropdown",
-                type="dot",
-                color="#7CCDEF",
-                children=[
-                    dcc.Dropdown(
-                        id='carea-dropdown',
-                        options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
-                        placeholder="Choose an area...",
-                        style={
-                            'fontSize': '14px',
-                            'backgroundColor': 'lightgray',
-                            'color': 'lightgray',
-                            'border': '1px solid #444',
-                            'borderRadius': '8px',
-                            'padding': '2px',
-                            'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
-                        }
-                    )
-                ]
+            dcc.Dropdown(
+                id='carea-dropdown',
+                options=[{'label': name.title(), 'value': name} for name in sorted(viz_df['CArea'].unique())],
+                placeholder="Choose an area...",
+                style={
+                    'fontSize': '14px',
+                    'backgroundColor': 'lightgray',
+                    'color': 'lightgray',
+                    'border': '1px solid #444',
+                    'borderRadius': '8px',
+                    'padding': '2px',
+                    'boxShadow': '0 1px 3px rgba(0,0,0,0.05)'
+                }
             ),
+
             dcc.Loading(
                 id="loading-info-panel",
                 type="dot",
