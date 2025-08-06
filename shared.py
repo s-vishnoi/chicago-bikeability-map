@@ -366,11 +366,18 @@ network_mode_panel = html.Div([
     html.Hr(style={'margin': '12px 0'}),
 
     html.P([
-        html.A("Methodology", href='https://github.com/s-vishnoi/chicago-bikeability-map',
-               style={'color': 'lightgray', 'textDecoration': 'none'})
+        html.A("Methodology", 
+            href='https://github.com/s-vishnoi/chicago-bikeability-map',
+            target='_blank',
+            rel='noopener noreferrer',
+            style={'color': 'lightgray', 'textDecoration': 'none'})
     ], style={'margin': '0 0 4px 0px'}),
 
     html.P([
-        html.A("Suggestions?", href='', style={'color': 'lightgray', 'textDecoration': 'none'})
+        html.A("Suggestions?",
+            href='https://docs.google.com/forms/d/e/1FAIpQLSeFxMoI1pig3d9YPGAEFEN-uDXyC7-F7AdTir7p3XG_DYAhrg/viewform?usp=sharing&ouid=111142553725252767700',
+            target='_blank',
+            rel='noopener noreferrer',
+            style={'color': 'lightgray', 'textDecoration': 'none'})
     ], style={'margin': '0 0 0 0px'})
 ])
