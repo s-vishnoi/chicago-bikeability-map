@@ -28,7 +28,7 @@ A custom cartogram-style layout improves accessibility and starkly highlights ci
 This new version of the Atlas has been entirely rewritten to be **100% dependency-free** and highly portable. 
 - **Frontend:** Pure HTML, Vanilla JavaScript, and CSS (No frameworks!)
 - **Data Pipeline:** Python 3 (Strictly using the Standard Library—no `pandas` or `geopandas` required).
-- **Deployment:** Fully automated via **GitHub Actions** and served on **GitHub Pages**.
+- **Deployment:** Hosted on **Cloudflare Pages**, with automated builds to fetch live data.
 
 ---
 
@@ -81,8 +81,10 @@ python3 generate_atlas_data.py
 python3 build_shareable_html.py
 ```
 
-### Automation
-This repository includes a `.github/workflows/deploy.yml` action that automatically executes this exact rebuild flow **every Sunday at midnight** and deploys the freshly baked static site to GitHub Pages.
+### Deployment
+This map is designed to be easily deployed on **Cloudflare Pages**. 
+To automate the data fetching during deployment, set your Cloudflare Pages build command to:
+`python3 refresh_live_crashes.py && python3 refresh_population.py && python3 generate_atlas_data.py`
 
 ---
 
