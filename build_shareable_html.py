@@ -39,6 +39,10 @@ def build_shareable_html() -> Path:
             'src="bike_cursor.png"',
             f'src="data:image/png;base64,{cursor_b64}"'
         )
+        index_html = index_html.replace(
+            'href="bike_cursor.png"',
+            f'href="data:image/png;base64,{cursor_b64}"'
+        )
 
     index_html = index_html.replace(
         '<link rel="stylesheet" href="styles.css" />',
