@@ -7,8 +7,8 @@ As an avid biker on the streets of Chicago, I wanted to build a data-powered rea
 My map pulls data from various sources on city scale metrics, infrastructure, historical crash data, and builds a comprehensive Bikeability score for each neighborhood for quick comparison. You can also deep dive on individual crash locations and causes to identify persistent points of harm across the city network.
 
 
-## Article
-Read more about my motivation for this project here: 📝 [Blog](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
+**Article
+Read more about this project [here](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
 
 
 A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity (i.e. south and west sides)
