@@ -28,63 +28,25 @@ A custom cartogram-style layout improves accessibility and starkly highlights ci
 This new version of the Atlas has been entirely rewritten to be **100% dependency-free** and highly portable. 
 - **Frontend:** Pure HTML, Vanilla JavaScript, and CSS (No frameworks!)
 - **Data Pipeline:** Python 3 (Strictly using the Standard Library—no `pandas` or `geopandas` required).
-- **Deployment:** Hosted on **Cloudflare Pages**, with automated builds to fetch live data.
+- **Deployment:** Fully automated via **GitHub Actions** and served on **GitHub Pages**.
 
 ---
 
-## Quickstart (Running Locally)
+## Deployment & Automation
 
-This folder is a self-contained static snapshot. To view the map with the currently checked-in dataset:
+This project is deployed using **GitHub Pages**. 
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) is set up to fully automate this map.
 
-```bash
-# 1. Regenerate the JSON data payload for the browser
-python3 generate_atlas_data.py
+### Live Rebuild Flow
+Every Sunday at midnight (or manually triggered), GitHub Actions automatically spins up a worker to run the following sequence:
 
-# 2. Serve the directory locally
-python3 -m http.server 8090
-```
-Then open: [http://127.0.0.1:8090/](http://127.0.0.1:8090/)
+1. **`refresh_live_crashes.py`**: Pulls current pedalcyclist crash records from the City of Chicago Socrata Traffic Crashes API.
+2. **`refresh_population.py`**: Pulls latest population data from CMAP.
+3. **`fetch_osm_roads.py`**: Refreshes OpenStreetMap Chicago road centerlines.
+4. **`generate_atlas_data.py`**: Compiles the fresh data into a new map dataset (`atlas-data.json`).
+5. **`build_shareable_html.py`**: Bundles the application into a single HTML file.
 
-### Build a shareable single-file export
-If you want to email the map or distribute it entirely offline:
-```bash
-python3 build_shareable_html.py
-```
-This writes `chicago-bikeability-atlas.html`, an all-in-one file containing the HTML, CSS, JS, and Base64-encoded assets that can be opened directly in any browser.
-
----
-
-## Updates / Live Rebuild Flow
-
-Use this flow to refresh the crash data and population numbers directly from the City of Chicago APIs. *(Internet access required).*
-
-```bash
-# 1. Pull the latest crash data from Socrata
-python3 refresh_live_crashes.py
-
-# 2. Update population counts from CMAP
-python3 refresh_population.py
-
-# 3. Compile the new datasets
-python3 generate_atlas_data.py
-
-# 4. (Optional) Re-bundle the shareable HTML
-python3 build_shareable_html.py
-```
-
-### Optional: Road Basemap Refresh
-To refresh the OpenStreetMap Chicago road centerlines (used for the Google-ish road basemap underneath the bike-lane overlay and for crash-marker hover street names):
-
-```bash
-python3 fetch_osm_roads.py
-python3 generate_atlas_data.py
-python3 build_shareable_html.py
-```
-
-### Deployment
-This map is designed to be easily deployed on **Cloudflare Pages**. 
-To automate the data fetching during deployment, set your Cloudflare Pages build command to:
-`python3 refresh_live_crashes.py && python3 refresh_population.py && python3 generate_atlas_data.py`
+After generating the new datasets, the workflow commits the changes back to the repository and deploys the fresh map to GitHub Pages. You never have to build or run this locally!
 
 ---
 
