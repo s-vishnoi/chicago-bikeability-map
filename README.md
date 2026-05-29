@@ -2,9 +2,16 @@
 
 This project maps biking safety and accessibility across Chicago community areas. Users can explore crash statistics and availability of biking infrastructure by Community area.
 
-As an avid biker on the streets of Chicago, I wanted to build a data-powered real-time map of biking safety across different Chicago neighborhoods. My map pulls data from various sources on city scale metrics, infrastructure, historical crash data, and builds a comprehensive Bikeability score for each neighborhood for quick comparison. Avid users can also deep dive on individual crash locations and causes to identify persistent points of harm across the city network.
+As an avid biker on the streets of Chicago, I wanted to build a data-powered real-time map of biking safety across different Chicago neighborhoods. 
 
-A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity.
+My map pulls data from various sources on city scale metrics, infrastructure, historical crash data, and builds a comprehensive Bikeability score for each neighborhood for quick comparison. You can also deep dive on individual crash locations and causes to identify persistent points of harm across the city network.
+
+
+## Article
+Read more about my motivation for this project here: 📝 [Blog](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
+
+
+A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity (i.e. south and west sides)
 
 🔗 **[Interactive Map](https://www.vishnoi.site/bikeability)**
 
@@ -49,9 +56,6 @@ Every Sunday at midnight (or manually triggered), GitHub Actions automatically s
 After generating the new datasets, the workflow commits the changes back to the repository and deploys the fresh map to GitHub Pages. You never have to build or run this locally!
 
 ---
-
-## Article
-Read more about my motivation for this project here: 📝 [Blog](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
 
 ## Author
 **Samvardhan Vishnoi**
