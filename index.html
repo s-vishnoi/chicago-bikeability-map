@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chicago Bikeability Map</title>
+    <meta name="description" content="Fast-loading Chicago bikeability atlas focused on the interactive cartogram and lane network." />
+    <meta name="theme-color" content="#4a4a4a" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="custom-cursor">
+      <img src="bike_cursor.png" alt="" aria-hidden="true" />
+    </div>
+    <div id="intro-cursor-splash" aria-hidden="true">
+      <img src="bike_cursor.png" alt="" />
+    </div>
+
+    <main class="atlas-shell">
+      <aside class="inspector" aria-label="Community details">
+        <div class="search-row">
+          <input id="area-search" list="area-list" placeholder="Click Community to Explore" />
+          <datalist id="area-list"></datalist>
+        </div>
+        <div id="panel-content"></div>
+      </aside>
+
+      <section class="map-stage" aria-label="Chicago bikeability atlas">
+        <div class="map-wrap">
+          <svg id="atlas-map" viewBox="-10 -20 900 960" preserveAspectRatio="xMidYMin meet" role="img" aria-label="Interactive Chicago community cartogram">
+            <defs>
+              <filter id="tileGlow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.49 0 0 0 0 0.80 0 0 0 0 0.94 0 0 0 .8 0" />
+                <feMerge>
+                  <feMergeNode />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <linearGradient id="legendGradient" x1="0" x2="1">
+                <stop offset="0" stop-color="#ffc0cb" />
+                <stop offset="1" stop-color="#418cc0" />
+              </linearGradient>
+              <marker id="arrowHeadGray" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" fill="#bfbfbf" />
+              </marker>
+              <marker id="arrowHeadBlue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" fill="#418cc0" />
+              </marker>
+              <marker id="arrowHeadPink" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" fill="#ffc0cb" />
+              </marker>
+            </defs>
+            <g id="city-outline"></g>
+            <g id="tile-layer"></g>
+            <g id="annotation-layer"></g>
+          </svg>
+        </div>
+        <div id="hover-spotlight" class="hover-spotlight" aria-live="polite"></div>
+      </section>
+
+      <aside class="network-panel" aria-label="Bike network">
+        <div id="network-panel-content"></div>
+      </aside>
+
+      <aside class="network-map-dock" aria-label="Selected community bike network map">
+        <div id="network-map-dock-content"></div>
+      </aside>
+    </main>
+    <script src="app.js?v=14"></script>
+  </body>
+</html>

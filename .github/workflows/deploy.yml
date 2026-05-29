@@ -1,0 +1,78 @@
+name: Deploy Chicago Bikeability Atlas
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Automatically refresh data every Sunday at midnight
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+# Set permissions to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Refresh Data & Build Application
+        run: |
+          # The project uses standard library modules, so no pip install needed!
+          
+          # 1. Pull current crash records
+          python3 refresh_live_crashes.py
+          
+          # 2. Pull latest population data
+          python3 refresh_population.py
+          
+          # 3. Pull OpenStreetMap road data (optional, but good for weekly refresh)
+          python3 fetch_osm_roads.py
+          
+          # 4. Generate the map datasets
+          python3 generate_atlas_data.py
+          
+          # 5. Build the shareable single-file HTML
+          python3 build_shareable_html.py
+
+      - name: Commit fresh data back to repository
+        # Only commit if this was a cron job or workflow_dispatch, not a normal push
+        if: github.event_name != 'push'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ chicago-bikeability-atlas.html
+          git commit -m "Automated data refresh" || echo "No changes to commit"
+          git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # We upload the root directory which contains index.html, styles.css, app.js
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
