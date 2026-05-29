@@ -13,7 +13,7 @@ Read more about this project [here](https://medium.com/@s-vishnoi/riding-upstrea
 
 A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity (i.e. south and west sides)
 
-🔗 **[Interactive Map](https://www.vishnoi.site/bikeability)**
+
 
 ---
 
