@@ -10,7 +10,7 @@ from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
 from pathlib import Path
 
-import numpy as np
+
 
 try:
     from shapely.affinity import scale as scale_geom, translate as translate_geom
@@ -137,12 +137,20 @@ def percentile_rank(values, value):
 
 
 def decode_typed_arrays(obj):
+    import array
     if isinstance(obj, dict):
         if set(obj.keys()) == {"dtype", "bdata"}:
             raw = base64.b64decode(obj["bdata"])
-            dtype = np.dtype(obj["dtype"])
-            count = len(raw) // dtype.itemsize
-            return np.frombuffer(raw, dtype=dtype, count=count)
+            dtype = str(obj["dtype"]).lower()
+            typecode = 'd' # default float64
+            if dtype == 'float64': typecode = 'd'
+            elif dtype == 'float32': typecode = 'f'
+            elif dtype == 'int32': typecode = 'i'
+            elif dtype == 'int64': typecode = 'q'
+            
+            arr = array.array(typecode)
+            arr.frombytes(raw)
+            return arr.tolist()
         return {k: decode_typed_arrays(v) for k, v in obj.items()}
     if isinstance(obj, list):
         return [decode_typed_arrays(v) for v in obj]
