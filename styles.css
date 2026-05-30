@@ -187,6 +187,15 @@ body::before {
   opacity: 0.85;
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url("chicago_background.webp") center/cover no-repeat;
+  opacity: 0.03;
+}
+
 button,
 input {
   font: inherit;

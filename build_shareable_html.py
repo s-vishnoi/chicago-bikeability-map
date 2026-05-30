@@ -43,6 +43,13 @@ def build_shareable_html() -> Path:
             'href="bike_cursor.png"',
             f'href="data:image/png;base64,{cursor_b64}"'
         )
+        
+    if (ROOT / "chicago_background.webp").exists():
+        bg_b64 = base64.b64encode((ROOT / "chicago_background.webp").read_bytes()).decode("ascii")
+        styles = styles.replace(
+            'url("chicago_background.webp")',
+            f'url("data:image/webp;base64,{bg_b64}")'
+        )
 
     index_html = index_html.replace(
         '<link rel="stylesheet" href="styles.css" />',
