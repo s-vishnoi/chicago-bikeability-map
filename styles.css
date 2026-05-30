@@ -3095,12 +3095,16 @@ body.hover-ready .tile-group:hover,
 }
 
 .tip-cartogram {
-  top: 45%;
-  left: 45%;
-  transform: translate(-50%, -50%);
+  top: 22%;
+  left: clamp(340px, 35vw, 400px);
 }
 
-.tip-legend {
-  bottom: 22%;
-  right: 360px;
+.tip-causes {
+  top: 30%;
+  right: clamp(340px, 35vw, 460px);
+}
+
+.tip-injury {
+  bottom: 25%;
+  right: clamp(340px, 35vw, 460px);
 }

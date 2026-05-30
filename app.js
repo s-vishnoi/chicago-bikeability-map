@@ -878,11 +878,15 @@ function renderDefaultPanel() {
     const tips = document.createElement("div");
     tips.innerHTML = `
       <div class="guiding-tip tip-cartogram">
-        Click on a community area to see in-depth stats
+        Click a community to reveal all the bike crashes
         <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; bottom: -24px; left: 24px; fill: none; stroke: #7ccdef; stroke-width: 2; transform: scaleX(-1);"><path d="M12 2v16M12 18l-6-6M12 18l6-6"/></svg>
       </div>
-      <div class="guiding-tip tip-legend">
-        Here you can see the injury breakdown
+      <div class="guiding-tip tip-causes">
+        Here you can see why the crash happened (according to CPD)
+        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; top: 8px; right: -28px; fill: none; stroke: #ffc0cb; stroke-width: 2;"><path d="M2 12h16M18 12l-6-6M18 12l-6 6"/></svg>
+      </div>
+      <div class="guiding-tip tip-injury">
+        Here you can see how badly they were hurt
         <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; top: 8px; right: -28px; fill: none; stroke: #ffc0cb; stroke-width: 2;"><path d="M2 12h16M18 12l-6-6M18 12l-6 6"/></svg>
       </div>
     `;
