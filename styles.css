@@ -3017,3 +3017,90 @@ body.hover-ready .tile-group:hover,
 .stat-chip::before {
   display: none;
 }
+
+/* Modal and Tooltips */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.modal-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.modal-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.4);
+  font-size: 18px;
+  line-height: 26px;
+  padding: 0;
+  text-align: center;
+  cursor: pointer !important;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.guiding-tip {
+  position: fixed;
+  z-index: 9999;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 4px;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid rgba(124, 205, 239, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  animation: tipFadeInOut 7s cubic-bezier(0.2, 0.95, 0.3, 1) forwards;
+  animation-delay: 1.5s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+@keyframes tipFadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.tip-cartogram {
+  top: 45%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.tip-legend {
+  bottom: 22%;
+  right: 360px;
+}

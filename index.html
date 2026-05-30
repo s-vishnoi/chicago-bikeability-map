@@ -67,6 +67,13 @@
       <aside class="network-map-dock" aria-label="Selected community bike network map">
         <div id="network-map-dock-content"></div>
       </aside>
+
+      <div id="bikeability-help-modal" class="modal-overlay" onclick="this.classList.remove('is-visible')" aria-hidden="true">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close" onclick="document.getElementById('bikeability-help-modal').classList.remove('is-visible')">&times;</button>
+          <img src="bikeability_score_help.webp" alt="Bikeability Score Help" />
+        </div>
+      </div>
     </main>
     <script src="app.js?v=14"></script>
   </body>

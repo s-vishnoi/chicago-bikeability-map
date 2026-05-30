@@ -837,7 +837,10 @@ function renderDefaultPanel() {
     networkPanelContent.innerHTML = `
       <div class="network-panel-shell">
         <div class="network-panel-header">
-          <div class="network-panel-title">Chicago Bikeability Map</div>
+          <div class="network-panel-title">
+            Chicago Bikeability Map
+            <span class="bikeability-help-btn" style="font-size: 11px; color: rgba(255,255,255,0.4); cursor: pointer; margin-left: 8px; font-weight: 600; border-bottom: 1px dotted rgba(255,255,255,0.4);" onclick="document.getElementById('bikeability-help-modal').classList.add('is-visible')">Bikeability?</span>
+          </div>
         </div>
         <section class="context-chart-card context-network-card">
           <div class="network-panel-region network-panel-region-crashes">
@@ -869,6 +872,25 @@ function renderDefaultPanel() {
   syncTileState();
   renderNetworkMapDock(null);
   renderHoverSpotlight(null);
+
+  if (!state.hasSeenTips) {
+    state.hasSeenTips = true;
+    const tips = document.createElement("div");
+    tips.innerHTML = `
+      <div class="guiding-tip tip-cartogram">
+        Click on a community area to see in-depth stats
+        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; bottom: -24px; left: 24px; fill: none; stroke: #7ccdef; stroke-width: 2; transform: scaleX(-1);"><path d="M12 2v16M12 18l-6-6M12 18l6-6"/></svg>
+      </div>
+      <div class="guiding-tip tip-legend">
+        Here you can see the injury breakdown
+        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; top: 8px; right: -28px; fill: none; stroke: #ffc0cb; stroke-width: 2;"><path d="M2 12h16M18 12l-6-6M18 12l-6 6"/></svg>
+      </div>
+    `;
+    document.body.appendChild(tips);
+    setTimeout(() => {
+      if (tips.parentNode) tips.remove();
+    }, 8500);
+  }
 }
 
 function loadEmbeddedData() {

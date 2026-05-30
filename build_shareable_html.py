@@ -50,6 +50,13 @@ def build_shareable_html() -> Path:
             'url("chicago_background.webp")',
             f'url("data:image/webp;base64,{bg_b64}")'
         )
+        
+    if (ROOT / "bikeability_score_help.webp").exists():
+        help_b64 = base64.b64encode((ROOT / "bikeability_score_help.webp").read_bytes()).decode("ascii")
+        index_html = index_html.replace(
+            'src="bikeability_score_help.webp"',
+            f'src="data:image/webp;base64,{help_b64}"'
+        )
 
     index_html = index_html.replace(
         '<link rel="stylesheet" href="styles.css" />',
