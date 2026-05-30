@@ -1,4 +1,4 @@
-# Chicago Bikeability Atlas
+# Chicago Bikeability Map 
 
 I bike a lot. Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
 
