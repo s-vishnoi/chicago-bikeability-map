@@ -1,19 +1,16 @@
 # Chicago Bikeability Atlas
 
-This project maps biking safety and accessibility across Chicago community areas. Users can explore crash statistics and availability of biking infrastructure by Community area.
+I bike a lot. Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
 
-As an avid biker on the streets of Chicago, I wanted to build a data-powered real-time map of biking safety across different Chicago neighborhoods. 
+You can see every crash involving a bicyclist, where it happened, why it happened, and how badly they were hurt. Perhaps you can dive into your community metrics to identify deeper patterns based on your local knowledge. 
 
-My map pulls data from various sources on city scale metrics, infrastructure, historical crash data, and builds a comprehensive Bikeability score for each neighborhood for quick comparison. You can also deep dive on individual crash locations and causes to identify persistent points of harm across the city network.
+The vision of this project is to bring the information that lives in .csv files ALIVE and ACCESSIBLE. 
 
+I hope the biker community finds it easy to read, feel free to dm me suggestions!
 
+A lot of thought was put into the cartogram design, and I'd like to thank @tedwhalen for the first neighborhood positions. 
 
-Read more about this project [here](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
-
-
-A custom cartogram-style layout improves accessibility and starkly highlights city-wide inequity (i.e. south and west sides)
-
-
+You can read deeper about this project motivation+workflow [here](https://medium.com/@s-vishnoi/riding-upstream-the-windy-city-113a6a8415a9)
 
 ---
 
@@ -24,25 +21,16 @@ A custom cartogram-style layout improves accessibility and starkly highlights ci
 - **Bike lanes:** Chicago Department of Transportation (CDOT)
 
 ## Features
-- **Interactive Cartogram:** A custom grid map of Chicago’s community areas.
+- **Interactive Cartogram:** A custom grid cartomap of Chicago’s community areas.
+- **Infrastructure:** bike lanes per community by type—Protected, Neighborhood, Buffered, Bike (Painted), Shared
 - **Crashes:** See and compare total bike crashes with leading causes across communities since 2018.
-- **Injury:** Rates of severe (fatal, incapacitating), and non-severe injuries.
-- **Infrastructure:** See miles of bike lanes per community by type—Protected, Neighborhood, Buffered, Bike (Painted), Shared. Compare to total road miles in the area.
-- **Network:** See ease of lane availability for bikers in the community forming a bike network.
-- **Bikeability:** Final community rank (1-5), based on Infrastructure and Network scores.
+- **Injury Risk:** Rates of severe (fatal, incapacitating), and non-severe injuries.
+- **Bikeability:** community stars (1-5), based on a custom internal bikeability score. 
 
 ## Tech Stack
 This new version of the Atlas has been entirely rewritten to be **100% dependency-free** and highly portable. 
-- **Frontend:** Pure HTML, Vanilla JavaScript, and CSS (No frameworks!)
-- **Data Pipeline:** Python 3 (Strictly using the Standard Library—no `pandas` or `geopandas` required).
-- **Deployment:** Fully automated via **GitHub Actions** and served on **GitHub Pages**.
-
----
-
-## Deployment & Automation
-
-This project is deployed using **GitHub Pages**. 
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) is set up to fully automate this map.
+- **Frontend:** HTML, Vanilla JavaScript, and CSS (No frameworks!)
+- **Deployment:** **GitHub Actions** served on **GitHub Pages**.
 
 ### Live Rebuild Flow
 Every Sunday at midnight (or manually triggered), GitHub Actions automatically spins up a worker to run the following sequence:
@@ -53,6 +41,7 @@ Every Sunday at midnight (or manually triggered), GitHub Actions automatically s
 4. **`generate_atlas_data.py`**: Compiles the fresh data into a new map dataset (`atlas-data.json`).
 5. **`build_shareable_html.py`**: Bundles the application into a single HTML file.
 
+
 After generating the new datasets, the workflow commits the changes back to the repository and deploys the fresh map to GitHub Pages. You never have to build or run this locally!
 
 ---
@@ -62,9 +51,6 @@ After generating the new datasets, the workflow commits the changes back to the 
 Ph.D. candidate in Physics @ Northwestern University
 
 [LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) • [Portfolio](https://www.vishnoi.site)
-
-## Credits
-I'd like to thank Ted Whalen (@tewhalen) for the initial draft of the Chicago cartogram grid.
 
 ## License
 This project is open-source and free to use under the [MIT License](LICENSE).
