@@ -238,10 +238,10 @@ function buildBikeabilityLegend() {
             <strong>Stars:</strong> Bikeability ranking /5
           </div>
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3; margin-top: 2px;">
-            <svg width="36" height="9" viewBox="0 0 58 15" style="display: inline-block; vertical-align: middle; margin-right: 4px; overflow: visible;">
+            <svg width="8" height="9" viewBox="0 0 10 11" style="display: inline-block; vertical-align: middle; margin-right: 4px; overflow: visible;">
               <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)"></path>
             </svg>
-            <strong>Drops:</strong> Severe injury risk (fatal/incapacitating)
+            <strong>Drop:</strong> Severe injury risk (fatal/incapacitating)
           </div>
         </div>
       </div>
