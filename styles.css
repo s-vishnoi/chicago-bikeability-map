@@ -193,7 +193,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   background: url("chicago_background.webp") center/cover no-repeat;
-  opacity: 0.03;
+  opacity: 0.10;
 }
 
 button,
