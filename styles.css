@@ -192,7 +192,7 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: url("chicago_background.webp") center/cover no-repeat;
+  background: url("chicago_city_timelapse.gif") center/cover no-repeat;
   opacity: 0.10;
 }
 

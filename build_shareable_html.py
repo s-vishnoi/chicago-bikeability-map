@@ -50,6 +50,13 @@ def build_shareable_html() -> Path:
             'url("chicago_background.webp")',
             f'url("data:image/webp;base64,{bg_b64}")'
         )
+
+    if (ROOT / "chicago_city_timelapse.gif").exists():
+        timelapse_b64 = base64.b64encode((ROOT / "chicago_city_timelapse.gif").read_bytes()).decode("ascii")
+        styles = styles.replace(
+            'url("chicago_city_timelapse.gif")',
+            f'url("data:image/gif;base64,{timelapse_b64}")'
+        )
         
     if (ROOT / "bikeability_score_help.webp").exists():
         help_b64 = base64.b64encode((ROOT / "bikeability_score_help.webp").read_bytes()).decode("ascii")
