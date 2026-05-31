@@ -350,6 +350,7 @@ p {
   fill: var(--red);
   stroke: rgba(26, 26, 26, 0.24);
   stroke-width: 0.45;
+  opacity: 0.5;
   vector-effect: non-scaling-stroke;
 }
 
@@ -3096,15 +3097,15 @@ body.hover-ready .tile-group:hover,
 
 .tip-cartogram {
   top: 22%;
-  left: clamp(340px, 35vw, 400px);
+  left: calc(clamp(340px, 35vw, 400px) + 10vw);
 }
 
 .tip-causes {
   top: 30%;
-  right: clamp(340px, 35vw, 460px);
+  right: calc(clamp(340px, 35vw, 460px) - 10vw);
 }
 
 .tip-injury {
   bottom: 25%;
-  right: clamp(340px, 35vw, 460px);
+  right: calc(clamp(340px, 35vw, 460px) - 10vw);
 }

@@ -216,9 +216,9 @@ function buildBikeabilityLegend() {
           <text x="30" y="33.2" fill="#f2f2f2" font-size="10px" font-weight="700" text-anchor="middle" pointer-events="none">✶✶✶</text>
 
           <g transform="translate(9.5, 44) scale(0.76)">
-            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)"></path>
-            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" transform="translate(11, 0)"></path>
-            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" transform="translate(22, 0)"></path>
+            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5"></path>
+            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5" transform="translate(11, 0)"></path>
+            <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5" transform="translate(22, 0)"></path>
             <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="transparent" transform="translate(33, 0)"></path>
             <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="transparent" transform="translate(44, 0)"></path>
           </g>
@@ -239,7 +239,7 @@ function buildBikeabilityLegend() {
           </div>
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3; margin-top: 2px;">
             <svg width="8" height="9" viewBox="0 0 10 11" style="display: inline-block; vertical-align: middle; margin-right: 4px; overflow: visible;">
-              <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)"></path>
+              <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5"></path>
             </svg>
             <strong>Drop:</strong> Severe injury risk (fatal/incapacitating)
           </div>
@@ -621,7 +621,7 @@ function updateTile(group, area, index) {
   units.forEach((unit, i) => {
     unit.setAttribute("transform", `translate(${startX + i * gap}, ${meterY}) scale(${dropScale})`);
     unit.setAttribute("fill", i < filledUnits ? "var(--red)" : "transparent");
-    unit.style.opacity = i < filledUnits ? "1" : "0";
+    unit.style.opacity = i < filledUnits ? "0.5" : "0";
   });
 
   const badge = group.querySelector(".badge");
@@ -879,15 +879,12 @@ function renderDefaultPanel() {
     tips.innerHTML = `
       <div class="guiding-tip tip-cartogram">
         Click a community to reveal all the bike crashes
-        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; bottom: -24px; left: 24px; fill: none; stroke: #7ccdef; stroke-width: 2; transform: scaleX(-1);"><path d="M12 2v16M12 18l-6-6M12 18l6-6"/></svg>
       </div>
       <div class="guiding-tip tip-causes">
         Here you can see why the crash happened (according to CPD)
-        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; top: 8px; right: -28px; fill: none; stroke: #ffc0cb; stroke-width: 2;"><path d="M2 12h16M18 12l-6-6M18 12l-6 6"/></svg>
       </div>
       <div class="guiding-tip tip-injury">
         Here you can see how badly they were hurt
-        <svg width="24" height="24" viewBox="0 0 24 24" style="position: absolute; top: 8px; right: -28px; fill: none; stroke: #ffc0cb; stroke-width: 2;"><path d="M2 12h16M18 12l-6-6M18 12l-6 6"/></svg>
       </div>
     `;
     document.body.appendChild(tips);
