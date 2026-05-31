@@ -201,6 +201,12 @@ const crashSeverityOptions = [
   },
 ];
 
+function buildBikeabilityHelpButton() {
+  return `
+    <span class="bikeability-help-btn" style="font-size: 11px; color: rgba(255,255,255,0.4); cursor: pointer; margin-left: 8px; font-weight: 600; border-bottom: 1px dotted rgba(255,255,255,0.4);" onclick="document.getElementById('bikeability-help-modal').classList.add('is-visible')">Bikeability?</span>
+  `;
+}
+
 function buildBikeabilityLegend() {
   return `
     <div class="bikeability-legend" style="display: flex; flex-direction: column; gap: 12px;">
@@ -215,7 +221,7 @@ function buildBikeabilityLegend() {
           
           <text x="30" y="33.2" fill="#f2f2f2" font-size="10px" font-weight="700" text-anchor="middle" pointer-events="none">✶✶✶</text>
 
-          <g transform="translate(9.5, 44) scale(0.76)">
+          <g transform="translate(17.1, 49) scale(0.456)">
             <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5"></path>
             <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5" transform="translate(11, 0)"></path>
             <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5" transform="translate(22, 0)"></path>
@@ -238,7 +244,7 @@ function buildBikeabilityLegend() {
             <strong>Stars:</strong> Bikeability ranking /5
           </div>
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3; margin-top: 2px;">
-            <svg width="8" height="9" viewBox="0 0 10 11" style="display: inline-block; vertical-align: middle; margin-right: 4px; overflow: visible;">
+            <svg width="5" height="6" viewBox="0 0 10 11" style="display: inline-block; vertical-align: middle; margin-right: 4px; overflow: visible;">
               <path d="M 5 0 C 5 0, 0 8, 0 11 A 5 5 0 1 0 10 11 C 10 8, 5 0, 5 0 Z" fill="var(--red)" opacity="0.5"></path>
             </svg>
             <strong>Drop:</strong> Severe injury risk (fatal/incapacitating)
@@ -748,7 +754,10 @@ function renderNetworkPanel(area, { animate = false } = {}) {
   networkPanelContent.innerHTML = `
     <div class="network-panel-shell ${animate ? "is-flipping" : ""}">
       <div class="network-panel-header">
-        <div class="network-panel-title">${escapeHtml(area.name)}</div>
+        <div class="network-panel-title">
+          ${escapeHtml(area.name)}
+          ${buildBikeabilityHelpButton()}
+        </div>
       </div>
       <section class="context-chart-card context-network-card">
         <div class="network-panel-region network-panel-region-crashes">
@@ -839,7 +848,7 @@ function renderDefaultPanel() {
         <div class="network-panel-header">
           <div class="network-panel-title">
             Chicago Bikeability Map
-            <span class="bikeability-help-btn" style="font-size: 11px; color: rgba(255,255,255,0.4); cursor: pointer; margin-left: 8px; font-weight: 600; border-bottom: 1px dotted rgba(255,255,255,0.4);" onclick="document.getElementById('bikeability-help-modal').classList.add('is-visible')">Bikeability?</span>
+            ${buildBikeabilityHelpButton()}
           </div>
         </div>
         <section class="context-chart-card context-network-card">
