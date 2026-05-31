@@ -618,14 +618,15 @@ function updateTile(group, area, index) {
   const riskMeter = group.querySelector(".risk-meter");
   const units = riskMeter.querySelectorAll(".risk-unit");
   const dropScale = (size / 75) * 0.6; // 40% smaller than the original tile drops
-  const meterWidth = size * 0.8;
-  const gap = meterWidth / 5;
-  const startX = (size - meterWidth) / 2;
+  const dropCenterOffset = 5 * dropScale;
+  const dropSpread = size * 0.56;
+  const gap = dropSpread / 4;
+  const startX = (size - dropSpread) / 2;
   const meterY = size - (16 * dropScale) - (size * 0.05);
   const filledUnits = injuryDropCount(area);
 
   units.forEach((unit, i) => {
-    unit.setAttribute("transform", `translate(${startX + i * gap}, ${meterY}) scale(${dropScale})`);
+    unit.setAttribute("transform", `translate(${startX + i * gap - dropCenterOffset}, ${meterY}) scale(${dropScale})`);
     unit.setAttribute("fill", i < filledUnits ? "var(--red)" : "transparent");
     unit.style.opacity = i < filledUnits ? "0.5" : "0";
   });
