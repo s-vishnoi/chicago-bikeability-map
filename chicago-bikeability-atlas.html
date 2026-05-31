@@ -3805,7 +3805,7 @@ function updateTile(group, area, index) {
 
   const riskMeter = group.querySelector(".risk-meter");
   const units = riskMeter.querySelectorAll(".risk-unit");
-  const dropScale = size / 75; // makes each drop ~ 1/7.5 of cell width
+  const dropScale = (size / 75) * 0.6; // 40% smaller than the original tile drops
   const meterWidth = size * 0.8;
   const gap = meterWidth / 5;
   const startX = (size - meterWidth) / 2;
