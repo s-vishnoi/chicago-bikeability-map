@@ -3102,10 +3102,10 @@ body.hover-ready .tile-group:hover,
 
 .tip-causes {
   top: 30%;
-  right: calc(clamp(340px, 35vw, 460px) - 10vw);
+  right: calc(clamp(340px, 35vw, 460px) - 20vw);
 }
 
 .tip-injury {
-  bottom: 25%;
-  right: calc(clamp(340px, 35vw, 460px) - 10vw);
+  bottom: 35%;
+  right: calc(clamp(340px, 35vw, 460px) - 20vw);
 }
