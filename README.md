@@ -1,6 +1,8 @@
 # Chicago Bikeability Map 
 
-I bike a lot. Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
+I bike a lot..like a LOT. Fixed gear 42:16 carbon steel frame racing through corners. 
+
+Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
 
 You can see every crash involving a bicyclist, where it happened, why it happened, and how badly they were hurt. Perhaps you can dive into your community metrics to identify deeper patterns based on your local knowledge. 
 
