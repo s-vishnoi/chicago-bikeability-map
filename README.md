@@ -1,6 +1,7 @@
 # Chicago Bikeability Map 
 
-I bike a lot..like a LOT. Fixed gear 42:16 carbon steel frame racing through corners. 
+I bike a lot..like a LOT.  
+(42:16 carbon steel) 
 
 Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
 
