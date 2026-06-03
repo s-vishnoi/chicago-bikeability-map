@@ -18,7 +18,6 @@ const FLIP_MS = 720;
 
 const svg = document.querySelector("#atlas-map");
 const tileLayer = document.querySelector("#tile-layer");
-const annotationLayer = document.querySelector("#annotation-layer");
 const lakeLayer = document.querySelector("#city-outline");
 const search = document.querySelector("#area-search");
 const datalist = document.querySelector("#area-list");
@@ -94,7 +93,7 @@ function escapeHtml(value) {
 }
 
 function colorFor(area) {
-  return area.bikeRank >= 2 ? "#418cc0" : "#ffc0cb";
+  return area.bikeRank >= 2 ? "#2f8cc8" : "#ff9caf";
 }
 
 function injuryBreakdown(area) {
@@ -213,8 +212,8 @@ function buildBikeabilityLegend() {
       <div style="font-size: 12px; font-weight: 500; color: #f4f4f4; text-transform: uppercase;">How to Read the Map</div>
       <div style="display: flex; align-items: center; gap: 16px;">
         <svg width="100" height="100" viewBox="0 0 60 60" style="overflow: visible;">
-          <rect width="30" height="60" rx="0" fill="#ffc0cb" stroke="none" />
-          <rect x="30" width="30" height="60" rx="0" fill="#418cc0" stroke="none" />
+          <rect width="30" height="60" rx="0" fill="#ff9caf" stroke="none" />
+          <rect x="30" width="30" height="60" rx="0" fill="#2f8cc8" stroke="none" />
           <rect width="60" height="60" rx="0" fill="none" stroke="rgba(128, 128, 128, 0.5)" stroke-width="1" />
           <rect x="-3" y="3" width="66" height="15" fill="rgba(0, 0, 0, 0.4)" stroke="none" />
           <text x="30" y="14" fill="#ffffff" font-size="6px" font-weight="800" text-anchor="middle" pointer-events="none">COMMUNITY</text>
@@ -232,11 +231,11 @@ function buildBikeabilityLegend() {
         
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3;">
-            <span style="display: inline-block; width: 8px; height: 8px; background: #ffc0cb; border-radius: 0; margin-right: 4px; vertical-align: middle;"></span>
+            <span style="display: inline-block; width: 8px; height: 8px; background: #ff9caf; border-radius: 0; margin-right: 4px; vertical-align: middle;"></span>
             <strong>Pink:</strong> Below median bikeability
           </div>
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3;">
-            <span style="display: inline-block; width: 8px; height: 8px; background: #418cc0; border-radius: 0; margin-right: 4px; vertical-align: middle;"></span>
+            <span style="display: inline-block; width: 8px; height: 8px; background: #2f8cc8; border-radius: 0; margin-right: 4px; vertical-align: middle;"></span>
             <strong>Blue:</strong> Median or higher bikeability
           </div>
           <div style="font-size: 10px; color: rgba(244,244,244,0.8); line-height: 1.3; margin-top: 2px;">
@@ -563,10 +562,6 @@ function drawCityOutline() {
     .join("");
 }
 
-function drawAnnotations() {
-  annotationLayer.innerHTML = "";
-}
-
 function renderTiles() {
   tileLayer.innerHTML = "";
   state.areas.forEach((area, index) => {
@@ -656,7 +651,6 @@ function updateTile(group, area, index) {
 
 function updateMap() {
   drawCityOutline();
-  drawAnnotations();
   [...tileLayer.children].forEach((group, index) => {
     const area = state.areas[index];
     updateTile(group, area, index);
