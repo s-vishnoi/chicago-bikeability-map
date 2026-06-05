@@ -3,7 +3,8 @@
 I bike a lot..like a LOT.  
 (42:16 carbon steel) 
 
-Me and some friends were wanted a live feed of bike crashes across the city, so i made this map. 
+People for Bikes recently gave our grand city of Chicago a really low biking score of 11, compared to 30 for national average. Although this score was quickly dismissed as an artifact of speed limit ratings, 
+me and some friends were wanted an actual good look into the biking infrastructure in different parts of the city and how many crashes bikers get into- form a a complete idea of how risky it is to bike in different parts of the city. 
 
 You can see every crash involving a bicyclist, where it happened, why it happened, and how badly they were hurt. Perhaps you can dive into your community metrics to identify deeper patterns based on your local knowledge. 
 
