@@ -1708,11 +1708,18 @@ p {
   text-align: left;
 }
 
-.bikeability-help-btn {
+.bikeability-link-stack {
   position: fixed;
   right: 24px;
   bottom: 24px;
   z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.bikeability-help-btn,
+.bikeability-meta-link {
   padding: 0;
   border: 0;
   border-bottom: 1px dotted rgba(255, 255, 255, 0.46);
@@ -1722,6 +1729,15 @@ p {
   font-size: 11px;
   font-weight: 600;
   line-height: 1.2;
+  text-decoration: none;
+}
+
+.bikeability-help-btn:hover,
+.bikeability-help-btn:focus-visible,
+.bikeability-meta-link:hover,
+.bikeability-meta-link:focus-visible {
+  color: rgba(255, 255, 255, 0.84);
+  border-bottom-color: rgba(255, 255, 255, 0.72);
 }
 
 .network-panel-empty {

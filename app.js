@@ -202,7 +202,11 @@ const crashSeverityOptions = [
 
 function buildBikeabilityHelpButton() {
   return `
-    <button class="bikeability-help-btn" type="button" onclick="document.getElementById('bikeability-help-modal').classList.add('is-visible')">Bikeability?</button>
+    <div class="bikeability-link-stack">
+      <a class="bikeability-meta-link" href="https://www.vishnoi.site" target="_blank" rel="noopener noreferrer">@vishnoi</a>
+      <a class="bikeability-meta-link" href="https://github.com/s-vishnoi/chicago-bikeability-map" target="_blank" rel="noopener noreferrer">@github</a>
+      <button class="bikeability-help-btn" type="button" onclick="document.getElementById('bikeability-help-modal').classList.add('is-visible')">Bikeability?</button>
+    </div>
   `;
 }
 
