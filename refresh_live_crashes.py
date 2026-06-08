@@ -1,7 +1,6 @@
 import csv
 import json
 import math
-import pickle
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -18,7 +17,7 @@ SOCRATA = "https://data.cityofchicago.org/resource"
 
 CRASH_OUT = DATA / "crash_with_carea.csv"
 GROUPED_OUT = DATA / "grouped.csv"
-CITYWIDE_OUT = DATA / "citywide_stats.pkl"
+CITYWIDE_OUT = DATA / "citywide_stats.json"
 BOUNDARIES_OUT = DATA / "community_areas_live.geojson"
 
 START_DATE = "2018-01-01T00:00:00"
@@ -354,8 +353,8 @@ def write_crash_outputs(crashes, boundary_features):
     severe = sum(1 for row in output_rows if row["MOST_SEVERE_INJURY"] in SEVERE_LABELS)
     existing = {}
     if CITYWIDE_OUT.exists():
-        with CITYWIDE_OUT.open("rb") as f:
-            existing = pickle.load(f)
+        with CITYWIDE_OUT.open() as f:
+            existing = json.load(f)
     existing.update(
         {
             "crashes_total": total,
@@ -363,8 +362,9 @@ def write_crash_outputs(crashes, boundary_features):
             "severe_rate": severe / total if total else 0,
         }
     )
-    with CITYWIDE_OUT.open("wb") as f:
-        pickle.dump(existing, f)
+    with CITYWIDE_OUT.open("w") as f:
+        json.dump(existing, f, indent=2, sort_keys=True)
+        f.write("\n")
 
     print(f"Wrote {CRASH_OUT} with {total} community-assigned crashes")
     print(f"Wrote {GROUPED_OUT} and updated {CITYWIDE_OUT}")

@@ -2,9 +2,6 @@ import csv
 import base64
 import json
 import math
-import pickle
-import sys
-import types
 import re
 from collections import Counter, defaultdict, deque
 from datetime import datetime, timezone
@@ -32,8 +29,7 @@ REQUIRED_SOURCE_FILES = [
     "name_to_network_score.json",
     "name_to_road_length.json",
     "community_pops.json",
-    "citywide_stats.pkl",
-    "precomputed_network_plots.pkl",
+    "citywide_stats.json",
     "crash_with_carea.csv",
     "bike_with_neigh.csv",
 ]
@@ -553,23 +549,6 @@ def projected_bbox(points):
     return min(xs), min(ys), max(xs), max(ys)
 
 
-def load_network_plot_figures():
-    figure_module = types.ModuleType("plotly.graph_objs._figure")
-
-    class Figure(dict):
-        pass
-
-    figure_module.Figure = Figure
-    sys.modules.setdefault("plotly", types.ModuleType("plotly"))
-    sys.modules.setdefault("plotly.graph_objs", types.ModuleType("plotly.graph_objs"))
-    sys.modules["plotly.graph_objs._figure"] = figure_module
-
-    with open(DATA / "precomputed_network_plots.pkl", "rb") as f:
-        raw = pickle.load(f)
-
-    return {name: decode_typed_arrays(fig) for name, fig in raw.items()}
-
-
 def crash_marker_from_row(row, project, road_segments, osm_street_index, size):
     lat = number(row.get("LATITUDE"), None)
     lon = number(row.get("LONGITUDE"), None)
@@ -942,10 +921,7 @@ def main():
     road_length = read_json(DATA / "name_to_road_length.json")
     population = read_json(DATA / "community_pops.json")
 
-    with open(DATA / "citywide_stats.pkl", "rb") as f:
-        citywide_stats = pickle.load(f)
-
-    network_figures = load_network_plot_figures()
+    citywide_stats = read_json(DATA / "citywide_stats.json")
     osm_roads = load_osm_roads()
     osm_street_index = build_osm_street_index(osm_roads)
 
@@ -1039,16 +1015,16 @@ def main():
             area[rank_name] = idx
 
     network_plots = {
-        name: figure_to_network_plot(
-            fig,
-            name,
+        area["name"]: figure_to_network_plot(
+            {},
+            area["name"],
             crash_rows_by_area,
             road_segments,
             bike_rows_by_area,
             osm_roads,
             osm_street_index,
         )
-        for name, fig in network_figures.items()
+        for area in base
     }
     crash_marker_count = sum(len(plot.get("crashMarkers", [])) for plot in network_plots.values())
     severe_marker_count = sum(
