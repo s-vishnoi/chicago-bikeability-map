@@ -2945,41 +2945,45 @@ body.hover-ready .tile-group:hover,
 
 .guiding-tip {
   position: fixed;
+  top: 50%;
+  left: clamp(18px, 9vw, 132px);
+  transform: translateY(-50%);
   z-index: 9999;
   color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  max-width: min(240px, 42vw);
+  padding: 10px 16px;
   border-radius: 4px;
   background: rgba(30, 30, 30, 0.9);
   border: 1px solid rgba(124, 205, 239, 0.4);
   pointer-events: none;
-  opacity: 0;
-  animation: tipFadeInOut 7s cubic-bezier(0.2, 0.95, 0.3, 1) forwards;
-  animation-delay: 1.5s;
+  opacity: 1;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
-@keyframes tipFadeInOut {
-  0% { opacity: 0; transform: translateY(10px); }
-  10% { opacity: 1; transform: translateY(0); }
-  85% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+.guiding-tip::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -34px;
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.78);
+  transform: translateY(-50%);
 }
 
-.tip-cartogram {
-  top: 22%;
-  left: calc(clamp(340px, 35vw, 400px) + 10vw);
-}
-
-.tip-causes {
-  top: 30%;
-  right: calc(clamp(340px, 35vw, 460px) - 20vw);
-}
-
-.tip-injury {
-  bottom: 35%;
-  right: calc(clamp(340px, 35vw, 460px) - 20vw);
+.guiding-tip::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -38px;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid rgba(255, 255, 255, 0.78);
+  border-right: 1px solid rgba(255, 255, 255, 0.78);
+  transform: translateY(-50%) rotate(45deg);
 }
 
     </style>
@@ -3132,6 +3136,18 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function showInitialTip() {
+  if (state.firstSelectionDone || document.querySelector(".guiding-tip")) return;
+  const tip = document.createElement("div");
+  tip.className = "guiding-tip";
+  tip.textContent = "Click on a community to explore the map!";
+  document.body.appendChild(tip);
+}
+
+function hideInitialTip() {
+  document.querySelector(".guiding-tip")?.remove();
 }
 
 function colorFor(area) {
@@ -3746,6 +3762,7 @@ function selectArea(name) {
 
   if (!state.firstSelectionDone) {
     state.firstSelectionDone = true;
+    hideInitialTip();
     state.hoverEnabled = false;
     document.body.classList.remove("hover-ready");
     if (state.hoverTimer) window.clearTimeout(state.hoverTimer);
@@ -3923,25 +3940,7 @@ function renderDefaultPanel() {
   renderNetworkMapDock(null);
   renderHoverSpotlight(null);
 
-  if (!state.hasSeenTips) {
-    state.hasSeenTips = true;
-    const tips = document.createElement("div");
-    tips.innerHTML = `
-      <div class="guiding-tip tip-cartogram">
-        Click a community to reveal all the bike crashes
-      </div>
-      <div class="guiding-tip tip-causes">
-        Here you can see why the crash happened (according to CPD)
-      </div>
-      <div class="guiding-tip tip-injury">
-        Here you can see how badly they were hurt
-      </div>
-    `;
-    document.body.appendChild(tips);
-    setTimeout(() => {
-      if (tips.parentNode) tips.remove();
-    }, 8500);
-  }
+  showInitialTip();
 }
 
 function loadEmbeddedData() {

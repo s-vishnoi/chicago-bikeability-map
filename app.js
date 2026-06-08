@@ -92,6 +92,18 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function showInitialTip() {
+  if (state.firstSelectionDone || document.querySelector(".guiding-tip")) return;
+  const tip = document.createElement("div");
+  tip.className = "guiding-tip";
+  tip.textContent = "Click on a community to explore the map!";
+  document.body.appendChild(tip);
+}
+
+function hideInitialTip() {
+  document.querySelector(".guiding-tip")?.remove();
+}
+
 function colorFor(area) {
   return area.bikeRank >= 2 ? "#2f8cc8" : "#ff9caf";
 }
@@ -704,6 +716,7 @@ function selectArea(name) {
 
   if (!state.firstSelectionDone) {
     state.firstSelectionDone = true;
+    hideInitialTip();
     state.hoverEnabled = false;
     document.body.classList.remove("hover-ready");
     if (state.hoverTimer) window.clearTimeout(state.hoverTimer);
@@ -881,25 +894,7 @@ function renderDefaultPanel() {
   renderNetworkMapDock(null);
   renderHoverSpotlight(null);
 
-  if (!state.hasSeenTips) {
-    state.hasSeenTips = true;
-    const tips = document.createElement("div");
-    tips.innerHTML = `
-      <div class="guiding-tip tip-cartogram">
-        Click a community to reveal all the bike crashes
-      </div>
-      <div class="guiding-tip tip-causes">
-        Here you can see why the crash happened (according to CPD)
-      </div>
-      <div class="guiding-tip tip-injury">
-        Here you can see how badly they were hurt
-      </div>
-    `;
-    document.body.appendChild(tips);
-    setTimeout(() => {
-      if (tips.parentNode) tips.remove();
-    }, 8500);
-  }
+  showInitialTip();
 }
 
 function loadEmbeddedData() {
