@@ -42,7 +42,7 @@ def fetch_cmap_population_rows():
     )
     request = urllib.request.Request(
         f"{CMAP_CCA_2025_TABLE}?{params}",
-        headers={"User-Agent": "chicago-bikeability-atlas/1.0"},
+        headers={"User-Agent": "chicago-bikeability-map/1.0"},
     )
     with urllib.request.urlopen(request, timeout=120) as response:
         payload = json.loads(response.read().decode())

@@ -44,7 +44,7 @@ def main():
         OVERPASS_URL,
         data=data,
         headers={
-            "User-Agent": "chicago-bikeability-atlas/1.0",
+            "User-Agent": "chicago-bikeability-map/1.0",
             "Content-Type": "application/x-www-form-urlencoded",
         },
     )

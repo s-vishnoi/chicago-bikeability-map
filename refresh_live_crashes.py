@@ -97,7 +97,7 @@ OUTPUT_FIELDS = [
 def socrata_json(dataset, params):
     query = urllib.parse.urlencode(params, safe=",()' >=:")
     url = f"{SOCRATA}/{dataset}.json?{query}"
-    request = urllib.request.Request(url, headers={"User-Agent": "chicago-bikeability-atlas/1.0"})
+    request = urllib.request.Request(url, headers={"User-Agent": "chicago-bikeability-map/1.0"})
     with urllib.request.urlopen(request, timeout=240) as response:
         return json.loads(response.read().decode())
 
@@ -105,7 +105,7 @@ def socrata_json(dataset, params):
 def socrata_geojson(dataset, params):
     query = urllib.parse.urlencode(params, safe=",()' >=:")
     url = f"{SOCRATA}/{dataset}.geojson?{query}"
-    request = urllib.request.Request(url, headers={"User-Agent": "chicago-bikeability-atlas/1.0"})
+    request = urllib.request.Request(url, headers={"User-Agent": "chicago-bikeability-map/1.0"})
     with urllib.request.urlopen(request, timeout=240) as response:
         return json.loads(response.read().decode())
 

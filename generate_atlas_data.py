@@ -906,7 +906,7 @@ def validate_output(output, grid, crash_rows, citywide_stats):
 
     if errors:
         message = "\n".join(f"- {error}" for error in errors)
-        raise ValueError(f"Atlas data validation failed:\n{message}")
+        raise ValueError(f"Map data validation failed:\n{message}")
 
 
 def main():

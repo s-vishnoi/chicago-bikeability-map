@@ -1,14 +1,13 @@
-# Chicago Bikeability Map 
+# Chicago Bikeability Map
 
 I bike a lot..like a LOT.  
 (42:16 carbon steel) 
 
-People for Bikes recently gave our grand city of Chicago a really low biking score of 11, compared to 30 for national average. Although this score was quickly dismissed as an artifact of speed limit ratings, 
-me and some friends were wanted an actual good look into the biking infrastructure in different parts of the city and how many crashes bikers get into- form a a complete idea of how risky it is to bike in different parts of the city. 
+PeopleForBikes recently gave Chicago a really low biking score of 11, compared with a national average of 30. Although that score was quickly dismissed by some as an artifact of speed-limit ratings, my friends and I wanted a better look at biking infrastructure across the city, how many crashes bicyclists get into, and how risky it is to bike in different neighborhoods.
 
-You can see every crash involving a bicyclist, where it happened, why it happened, and how badly they were hurt. Perhaps you can dive into your community metrics to identify deeper patterns based on your local knowledge. 
+You can see every crash involving a bicyclist, where it happened, why it happened, and how badly they were hurt. You can also dive into community metrics and identify deeper patterns based on your local knowledge.
 
-The vision of this project is to bring the information that lives in .csv files ALIVE and ACCESSIBLE. 
+The vision of this project is to bring the information that lives in `.csv` files alive and accessible.
 
 I hope the biker community finds it easy to read, feel free to dm me suggestions!
 
@@ -32,7 +31,7 @@ You can read deeper about this project motivation+workflow [here](https://medium
 - **Bikeability:** community stars (1-5), based on a custom internal bikeability score. 
 
 ## Tech Stack
-This new version of the Atlas has been entirely rewritten to be **100% dependency-free** and highly portable. 
+This new version of the map has been entirely rewritten to be **100% dependency-free** and highly portable.
 - **Frontend:** HTML, Vanilla JavaScript, and CSS (No frameworks!)
 - **Deployment:** **GitHub Actions** served on **GitHub Pages**.
 

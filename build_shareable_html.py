@@ -4,7 +4,7 @@ import re
 
 
 ROOT = Path(__file__).resolve().parent
-OUTPUT = ROOT / "chicago-bikeability-atlas.html"
+OUTPUT = ROOT / "chicago-bikeability-map.html"
 
 
 def escape_inline_css(text: str) -> str:
