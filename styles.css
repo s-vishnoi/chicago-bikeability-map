@@ -1962,7 +1962,7 @@ p {
   display: block;
   width: 100%;
   height: auto;
-  pointer-events: none;
+  pointer-events: auto;
   shape-rendering: geometricPrecision;
 }
 
@@ -1972,6 +1972,25 @@ p {
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+}
+
+.network-plot-frame svg .network-road-layer {
+  pointer-events: none;
+}
+
+.network-plot-frame svg .network-lane-layer {
+  cursor: pointer;
+  pointer-events: stroke;
+  transition:
+    filter 140ms ease,
+    opacity 140ms ease;
+}
+
+.network-plot-frame svg .network-lane-layer:hover {
+  filter:
+    drop-shadow(0 0 3px rgba(255, 192, 203, 0.72))
+    drop-shadow(0 0 7px rgba(124, 205, 239, 0.34));
+  opacity: 1;
 }
 
 .network-crash-layer {
@@ -2085,7 +2104,7 @@ p {
   background: var(--crash-highlight-fill);
   box-shadow:
     inset 0 0 0 1.5px var(--crash-stroke),
-    0 0 8px rgba(124, 205, 239, 0.82);
+    0 0 4px rgba(124, 205, 239, 0.48);
   opacity: 1;
 }
 
@@ -2093,7 +2112,7 @@ p {
   background: transparent;
   color: var(--crash-highlight-fill);
   content: "\25B2";
-  box-shadow: 0 0 8px rgba(124, 205, 239, 0.82);
+  box-shadow: 0 0 4px rgba(124, 205, 239, 0.48);
 }
 
 .network-crash-hotspot-reported.is-highlighted::before {
@@ -2114,8 +2133,8 @@ p {
 .network-plot-frame[data-glow-severity="moderate"] .network-crash-hotspot-moderate::before,
 .network-plot-frame[data-glow-severity="reported"] .network-crash-hotspot-reported::before,
 .network-plot-frame[data-glow-severity="none"] .network-crash-hotspot-none::before {
-  box-shadow: 0 0 12px 2px var(--crash-stroke);
-  transform: scale(1.3);
+  box-shadow: 0 0 5px 1px var(--crash-stroke);
+  transform: scale(1.16);
   z-index: 10;
 }
 

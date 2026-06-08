@@ -431,12 +431,12 @@ def bike_facility_key(row):
 
 def bike_facility_style(facility):
     styles = {
-        "PROTECTED": {"layer": 2, "color": "#ffc0cb", "width": 2.75, "opacity": 1.0, "dash": ""},
-        "NEIGHBORHOOD": {"layer": 2, "color": "#ffc0cb", "width": 1.95, "opacity": 0.96, "dash": "5 4"},
-        "LOCAL": {"layer": 2, "color": "#ffc0cb", "width": 1.95, "opacity": 0.96, "dash": "5 4"},
-        "BUFFERED": {"layer": 3, "color": "#ffc0cb", "width": 2.45, "opacity": 1.0, "dash": "8 4"},
-        "BIKE": {"layer": 2, "color": "#ffc0cb", "width": 2.05, "opacity": 0.98, "dash": "5 2"},
-        "SHARED": {"layer": 2, "color": "#ffc0cb", "width": 1.55, "opacity": 0.92, "dash": "2 4"},
+        "PROTECTED": {"layer": 2, "color": "#ffc0cb", "width": 2.75, "opacity": 1.0, "dash": "", "class": "network-lane-layer network-lane-protected"},
+        "NEIGHBORHOOD": {"layer": 2, "color": "#ffc0cb", "width": 1.95, "opacity": 0.96, "dash": "5 4", "class": "network-lane-layer network-lane-neighborhood"},
+        "LOCAL": {"layer": 2, "color": "#ffc0cb", "width": 1.95, "opacity": 0.96, "dash": "5 4", "class": "network-lane-layer network-lane-local"},
+        "BUFFERED": {"layer": 3, "color": "#ffc0cb", "width": 2.45, "opacity": 1.0, "dash": "8 4", "class": "network-lane-layer network-lane-buffered"},
+        "BIKE": {"layer": 2, "color": "#ffc0cb", "width": 2.05, "opacity": 0.98, "dash": "5 2", "class": "network-lane-layer network-lane-painted"},
+        "SHARED": {"layer": 2, "color": "#ffc0cb", "width": 1.55, "opacity": 0.92, "dash": "2 4", "class": "network-lane-layer network-lane-shared"},
     }
     return styles.get(str(facility or "").upper())
 
@@ -678,6 +678,7 @@ def figure_to_network_plot(
                     round(style["width"], 2),
                     style["opacity"],
                     style["dash"],
+                    "network-road-layer",
                 )].append(
                     f'<polyline points="{" ".join(pts)}" fill="none" />'
                 )
@@ -716,6 +717,7 @@ def figure_to_network_plot(
             round(style["width"], 2),
             style["opacity"],
             style["dash"],
+            "network-road-layer",
         )].append(
             f'<polyline points="{" ".join(pts)}" fill="none" />'
         )
@@ -744,6 +746,7 @@ def figure_to_network_plot(
                 round(style["width"], 2),
                 style["opacity"],
                 style["dash"],
+                style["class"],
             )].append(
                 f'<polyline points="{" ".join(pts)}" fill="none" />'
             )
@@ -752,10 +755,10 @@ def figure_to_network_plot(
             rendered_lane_miles[facility] += number(row.get("length_miles"))
 
     svg_parts = [f'<svg viewBox="0 0 {size} {size}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">']
-    for (layer, color, width, opacity, dash), shapes in sorted(grouped.items(), key=lambda item: item[0]):
+    for (layer, color, width, opacity, dash, class_name), shapes in sorted(grouped.items(), key=lambda item: item[0]):
         dash_attr = f' stroke-dasharray="{dash}"' if dash else ""
         svg_parts.append(
-            f'<g stroke="{color}" stroke-width="{width}" opacity="{opacity}"{dash_attr} '
+            f'<g class="{class_name}" stroke="{color}" stroke-width="{width}" opacity="{opacity}"{dash_attr} '
             f'stroke-linecap="round" stroke-linejoin="round">'
             + "".join(shapes)
             + "</g>"
