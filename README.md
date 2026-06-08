@@ -53,7 +53,7 @@ After generating the new datasets, the workflow commits the changes back to the 
 **Samvardhan Vishnoi**
 Ph.D. candidate in Physics @ Northwestern University
 
-[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) • [Portfolio](https://www.vishnoi.site)
+[LinkedIn](https://www.linkedin.com/in/samvardhan-vishnoi) • [Medium](https://medium.com/@s-vishnoi) 
 
 ## License
 This project is open-source and free to use under the [MIT License](LICENSE).
