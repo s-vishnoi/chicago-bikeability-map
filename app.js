@@ -446,7 +446,8 @@ function buildCauseChart(area, compact = false, animate = false) {
 
 function buildNetworkPlot(area, compact = false) {
   const networkPlot = state.data?.networkPlots?.[area?.name];
-  const svgMarkup = typeof networkPlot === "string" ? networkPlot : networkPlot?.svg;
+  const rawSvgMarkup = typeof networkPlot === "string" ? networkPlot : networkPlot?.svg;
+  const svgMarkup = addLaneCasings(rawSvgMarkup);
   const crashMarkers = typeof networkPlot === "object" && networkPlot?.crashMarkers
     ? networkPlot.crashMarkers
     : [];
@@ -513,6 +514,17 @@ function buildNetworkPlot(area, compact = false) {
       </div>
     </div>
   `;
+}
+
+function addLaneCasings(svgMarkup) {
+  if (typeof svgMarkup !== "string" || !svgMarkup.includes("network-lane-layer")) {
+    return svgMarkup;
+  }
+
+  return svgMarkup.replace(/<g class="([^"]*\bnetwork-lane-layer\b[^"]*)"([^>]*)>([\s\S]*?)<\/g>/g, (match, className, attrs, body) => {
+    const casing = `<g class="${className} network-lane-casing"${attrs}>${body}</g>`;
+    return `${casing}${match}`;
+  });
 }
 
 function buildNetworkChart(area, compact = false, animate = false) {

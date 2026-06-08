@@ -1989,11 +1989,19 @@ p {
 }
 
 .network-plot-frame svg .network-lane-layer {
+  stroke: rgba(255, 255, 255, 0.94) !important;
   cursor: pointer;
   pointer-events: stroke;
   transition:
     filter 140ms ease,
     opacity 140ms ease;
+}
+
+.network-plot-frame svg .network-lane-casing {
+  stroke: rgba(0, 0, 0, 0.88) !important;
+  stroke-width: 4.1px !important;
+  opacity: 0.72 !important;
+  pointer-events: none;
 }
 
 .network-plot-frame svg .network-lane-layer:hover {
@@ -3492,7 +3500,8 @@ function buildCauseChart(area, compact = false, animate = false) {
 
 function buildNetworkPlot(area, compact = false) {
   const networkPlot = state.data?.networkPlots?.[area?.name];
-  const svgMarkup = typeof networkPlot === "string" ? networkPlot : networkPlot?.svg;
+  const rawSvgMarkup = typeof networkPlot === "string" ? networkPlot : networkPlot?.svg;
+  const svgMarkup = addLaneCasings(rawSvgMarkup);
   const crashMarkers = typeof networkPlot === "object" && networkPlot?.crashMarkers
     ? networkPlot.crashMarkers
     : [];
@@ -3559,6 +3568,17 @@ function buildNetworkPlot(area, compact = false) {
       </div>
     </div>
   `;
+}
+
+function addLaneCasings(svgMarkup) {
+  if (typeof svgMarkup !== "string" || !svgMarkup.includes("network-lane-layer")) {
+    return svgMarkup;
+  }
+
+  return svgMarkup.replace(/<g class="([^"]*\bnetwork-lane-layer\b[^"]*)"([^>]*)>([\s\S]*?)<\/g>/g, (match, className, attrs, body) => {
+    const casing = `<g class="${className} network-lane-casing"${attrs}>${body}</g>`;
+    return `${casing}${match}`;
+  });
 }
 
 function buildNetworkChart(area, compact = false, animate = false) {

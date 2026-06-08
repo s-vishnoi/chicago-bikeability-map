@@ -1979,11 +1979,19 @@ p {
 }
 
 .network-plot-frame svg .network-lane-layer {
+  stroke: rgba(255, 255, 255, 0.94) !important;
   cursor: pointer;
   pointer-events: stroke;
   transition:
     filter 140ms ease,
     opacity 140ms ease;
+}
+
+.network-plot-frame svg .network-lane-casing {
+  stroke: rgba(0, 0, 0, 0.88) !important;
+  stroke-width: 4.1px !important;
+  opacity: 0.72 !important;
+  pointer-events: none;
 }
 
 .network-plot-frame svg .network-lane-layer:hover {
