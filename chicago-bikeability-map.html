@@ -1998,8 +1998,8 @@ p {
 
 .network-plot-frame svg .network-lane-layer:hover {
   filter:
-    drop-shadow(0 0 3px rgba(255, 192, 203, 0.72))
-    drop-shadow(0 0 7px rgba(124, 205, 239, 0.34));
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.82))
+    drop-shadow(0 0 7px rgba(255, 255, 255, 0.38));
   opacity: 1;
 }
 
@@ -2136,16 +2136,6 @@ p {
 .network-crash-hotspot.is-muted::before {
   opacity: 0.36;
   transform: scale(0.95);
-}
-
-.network-plot-frame[data-glow-severity="fatal"] .network-crash-hotspot-fatal::before,
-.network-plot-frame[data-glow-severity="severe"] .network-crash-hotspot-severe::before,
-.network-plot-frame[data-glow-severity="moderate"] .network-crash-hotspot-moderate::before,
-.network-plot-frame[data-glow-severity="reported"] .network-crash-hotspot-reported::before,
-.network-plot-frame[data-glow-severity="none"] .network-crash-hotspot-none::before {
-  box-shadow: 0 0 5px 1px var(--crash-stroke);
-  transform: scale(1.16);
-  z-index: 10;
 }
 
 .network-plot-frame .crash-markers {
@@ -4007,23 +3997,6 @@ async function init() {
       }
     });
   }
-
-  document.body.addEventListener("mouseover", (event) => {
-    const severityButton = event.target.closest("[data-crash-severity]");
-    if (severityButton) {
-      const severity = severityButton.dataset.crashSeverity;
-      const frame = document.querySelector(".network-plot-frame");
-      if (frame) frame.dataset.glowSeverity = severity;
-    }
-  });
-
-  document.body.addEventListener("mouseout", (event) => {
-    const severityButton = event.target.closest("[data-crash-severity]");
-    if (severityButton) {
-      const frame = document.querySelector(".network-plot-frame");
-      if (frame) frame.dataset.glowSeverity = "";
-    }
-  });
 
   const customCursor = document.getElementById("custom-cursor");
   if (customCursor) {

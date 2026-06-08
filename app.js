@@ -956,23 +956,6 @@ async function init() {
     });
   }
 
-  document.body.addEventListener("mouseover", (event) => {
-    const severityButton = event.target.closest("[data-crash-severity]");
-    if (severityButton) {
-      const severity = severityButton.dataset.crashSeverity;
-      const frame = document.querySelector(".network-plot-frame");
-      if (frame) frame.dataset.glowSeverity = severity;
-    }
-  });
-
-  document.body.addEventListener("mouseout", (event) => {
-    const severityButton = event.target.closest("[data-crash-severity]");
-    if (severityButton) {
-      const frame = document.querySelector(".network-plot-frame");
-      if (frame) frame.dataset.glowSeverity = "";
-    }
-  });
-
   const customCursor = document.getElementById("custom-cursor");
   if (customCursor) {
     const customCursorImg = customCursor.querySelector("img");
