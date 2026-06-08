@@ -497,7 +497,6 @@ function buildNetworkPlot(area, compact = false) {
               data-xpct="${escapeHtml(String(crash?.xPct || 0))}"
               data-ypct="${escapeHtml(String(crash?.yPct || 0))}"
               aria-label="${escapeHtml(label)}"
-              title="${escapeHtml(label)}"
             ></button>
           `;
     }).join("")}
