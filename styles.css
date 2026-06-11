@@ -2004,7 +2004,7 @@ p {
 }
 
 .network-plot-frame svg .network-lane-layer {
-  stroke: rgba(255, 255, 255, 0.94) !important;
+  stroke: #ffc0cb !important;
   cursor: pointer;
   pointer-events: stroke;
   transition:
