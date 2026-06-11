@@ -665,7 +665,7 @@ function updateTile(group, area, index) {
   label.textContent = area.abbrev;
   label.setAttribute("x", size / 2);
   label.setAttribute("y", badgeY + badgeHeight / 2 + 2.4);
-  label.style.fontSize = "7.2px";
+  label.style.fontSize = "8.5px";
   label.removeAttribute("textLength");
   label.removeAttribute("lengthAdjust");
 
@@ -692,13 +692,8 @@ function syncTileState() {
   });
 }
 
-function getActiveArea() {
-  return state.hovered || state.selected || null;
-}
-
 function setHoveredArea(name) {
   state.hovered = name ? state.areas.find((area) => area.name === name) : null;
-  renderActivePanels(getActiveArea(), { animate: false });
   syncTileState();
 }
 
