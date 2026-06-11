@@ -4,3 +4,4 @@ __pycache__/
 to-remove/
 *.pkl
 *.pickle
+notebooks/
