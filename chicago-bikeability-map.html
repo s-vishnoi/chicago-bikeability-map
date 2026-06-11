@@ -1749,8 +1749,11 @@ p {
   bottom: 24px;
   z-index: 20;
   display: flex;
-  align-items: flex-end;
-  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 14px;
+  max-width: calc(100vw - 48px);
 }
 
 .bikeability-help-btn,
@@ -1761,10 +1764,11 @@ p {
   background: transparent;
   color: rgba(255, 255, 255, 0.52);
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.45;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .bikeability-help-btn:hover,
