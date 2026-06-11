@@ -2008,6 +2008,8 @@ p {
   cursor: default;
   pointer-events: stroke;
   transition:
+    filter 140ms ease,
+    stroke 140ms ease,
     stroke-width 140ms ease,
     opacity 140ms ease;
 }
@@ -2025,7 +2027,11 @@ p {
 
 .network-plot-frame svg .network-lane-layer.is-highlighted {
   opacity: 1 !important;
+  stroke: #ff5fa2 !important;
   stroke-width: 3px !important;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 95, 162, 0.9))
+    drop-shadow(0 0 8px rgba(255, 192, 203, 0.5));
 }
 
 .network-plot-frame svg .network-lane-casing.is-highlighted {
