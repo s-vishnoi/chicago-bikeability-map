@@ -307,10 +307,11 @@ function buildSeverityRows(area, animate = false) {
 }
 
 function buildSeverityLegend(area, animate = false) {
+  const hasActiveSeverity = activeSeverityKeys().length > 0;
   return `
     <div class="severity-legend-stack" aria-label="Crash severity counts">
       <div class="network-panel-kicker">Injury</div>
-      <div class="severity-legend-rows">
+      <div class="severity-legend-rows ${hasActiveSeverity ? "has-active" : ""}">
         ${buildSeverityRows(area, animate)}
       </div>
     </div>
@@ -423,7 +424,7 @@ function buildCauseChart(area, compact = false, animate = false) {
   const activeCause = state.crashFilters?.cause || null;
 
   return `
-    <div class="cause-chart ${compact ? "cause-chart-compact" : ""}" aria-label="Crash causes">
+    <div class="cause-chart ${compact ? "cause-chart-compact" : ""} ${activeCause ? "has-active" : ""}" aria-label="Crash causes">
       <div class="network-panel-kicker" style="margin-top: 14px;">Top causes</div>
       ${items.map((item, index) => {
     const width = (item.count / max) * 100;
@@ -434,6 +435,7 @@ function buildCauseChart(area, compact = false, animate = false) {
             class="crash-row cause-chart-row ${animate ? "is-animated" : ""} ${isActive ? "is-active" : ""}"
             data-crash-cause="${escapeHtml(item.key)}"
             style="--cause-delay: ${index * 60}ms; --share: ${width}%"
+            aria-pressed="${isActive ? "true" : "false"}"
           >
             <div class="cause-chart-label">${escapeHtml(item.label)}</div>
             <div class="cause-chart-count">${fmt(item.count)}</div>
@@ -1071,12 +1073,20 @@ function updateNetworkFilters() {
   const activeSeverities = activeSeverityKeys();
   const activeCause = state.crashFilters?.cause || null;
 
+  document.querySelectorAll(".cause-chart").forEach(chart => {
+    chart.classList.toggle("has-active", Boolean(activeCause));
+  });
+
   const causeRows = document.querySelectorAll(".cause-chart-row");
   causeRows.forEach(row => {
     const rowCause = normalizeFilterValue(row.dataset.crashCause);
     const isActive = activeCause === rowCause;
     row.classList.toggle("is-active", isActive);
     row.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+
+  document.querySelectorAll(".severity-legend-rows").forEach(chart => {
+    chart.classList.toggle("has-active", activeSeverities.length > 0);
   });
 
   const severityRows = document.querySelectorAll(".severity-row");
