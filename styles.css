@@ -2031,16 +2031,16 @@ p {
 
 .network-plot-frame svg .network-lane-layer.is-highlighted {
   opacity: 1 !important;
-  stroke: #ff5fa2 !important;
-  stroke-width: 2.15px !important;
+  stroke: #ffd6e2 !important;
+  stroke-width: 1.9px !important;
   filter:
-    drop-shadow(0 0 2px rgba(255, 95, 162, 0.7))
-    drop-shadow(0 0 5px rgba(255, 192, 203, 0.32));
+    drop-shadow(0 0 2px rgba(255, 192, 203, 0.46))
+    drop-shadow(0 0 6px rgba(255, 192, 203, 0.22));
 }
 
 .network-plot-frame svg .network-lane-casing.is-highlighted {
-  opacity: 0.78 !important;
-  stroke-width: 4.8px !important;
+  opacity: 0.74 !important;
+  stroke-width: 4.35px !important;
 }
 
 .network-crash-layer {
