@@ -9,7 +9,6 @@ const state = {
     severities: [...DEFAULT_SEVERITY_FILTERS],
     cause: null,
   },
-  laneFilter: null,
   laneHover: null,
   hoverEnabled: false,
   firstSelectionDone: false,
@@ -348,10 +347,6 @@ function wireNetworkPlotHover(scope = panelContent) {
 
     layer.addEventListener("mouseenter", () => setLaneHover(laneType));
     layer.addEventListener("mouseleave", () => setLaneHover(null));
-    layer.addEventListener("click", (event) => {
-      event.preventDefault();
-      setLaneFilter(laneType);
-    });
   });
 
   const tooltip = plotFrame.querySelector(".network-crash-tooltip");
@@ -560,11 +555,9 @@ function buildNetworkChart(area, compact = false, animate = false) {
       const share = laneShare(area, label);
       const isActive = activeLaneType() === cls;
       return `
-        <button
-          type="button"
+        <div
           class="network-chart-row ${animate ? "is-animated" : ""} ${isActive ? "is-active" : ""}"
           data-lane-type="${escapeHtml(cls)}"
-          aria-pressed="${isActive ? "true" : "false"}"
           style="--network-delay:${index * 60}ms; --share:${share}%;"
         >
           <span class="network-chart-label">
@@ -573,7 +566,7 @@ function buildNetworkChart(area, compact = false, animate = false) {
           </span>
           <strong class="network-chart-value">${fmt(miles, 1)} mi</strong>
           <span class="network-chart-pct">${fmt(share, 0)}%</span>
-        </button>
+        </div>
       `;
     })
     .join("");
@@ -740,7 +733,6 @@ function selectArea(name) {
     severities: [...DEFAULT_SEVERITY_FILTERS],
     cause: null,
   };
-  state.laneFilter = null;
   state.laneHover = null;
   renderActivePanels(area, { animate: true });
   search.value = area.name;
@@ -877,7 +869,6 @@ function renderDefaultPanel() {
     severities: [...DEFAULT_SEVERITY_FILTERS],
     cause: null,
   };
-  state.laneFilter = null;
   state.laneHover = null;
   search.value = "";
   panelContent.innerHTML = `
@@ -1061,13 +1052,6 @@ async function init() {
 
 function wireNetworkControls(scope) {
   scope.addEventListener("click", (event) => {
-    const laneButton = event.target.closest("[data-lane-type]");
-    if (laneButton) {
-      event.preventDefault();
-      setLaneFilter(laneButton.dataset.laneType);
-      return;
-    }
-
     const severityButton = event.target.closest("[data-crash-severity]");
     if (severityButton) {
       event.preventDefault();
@@ -1143,13 +1127,7 @@ function laneTypeForElement(element) {
 }
 
 function activeLaneType() {
-  return state.laneHover || state.laneFilter || null;
-}
-
-function setLaneFilter(value) {
-  const normalizedValue = normalizeLaneType(value);
-  state.laneFilter = state.laneFilter === normalizedValue ? null : normalizedValue;
-  updateNetworkFilters();
+  return state.laneHover || null;
 }
 
 function setLaneHover(value) {
@@ -1219,23 +1197,12 @@ function updateNetworkFilters() {
     const rowLane = normalizeLaneType(row.dataset.laneType);
     const isActive = activeLane === rowLane;
     row.classList.toggle("is-active", isActive);
-    row.setAttribute("aria-pressed", state.laneFilter === rowLane ? "true" : "false");
   });
 
   document.querySelectorAll(".network-lane-layer").forEach(layer => {
     const lane = laneTypeForElement(layer);
-    if (!activeLane) {
-      layer.classList.remove("is-highlighted", "is-muted");
-      return;
-    }
-
-    if (lane === activeLane) {
-      layer.classList.add("is-highlighted");
-      layer.classList.remove("is-muted");
-    } else {
-      layer.classList.add("is-muted");
-      layer.classList.remove("is-highlighted");
-    }
+    layer.classList.toggle("is-highlighted", Boolean(activeLane && lane === activeLane));
+    layer.classList.remove("is-muted");
   });
 }
 

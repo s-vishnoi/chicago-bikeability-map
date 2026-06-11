@@ -2005,10 +2005,10 @@ p {
 
 .network-plot-frame svg .network-lane-layer {
   stroke: #ffc0cb !important;
-  cursor: pointer;
+  cursor: default;
   pointer-events: stroke;
   transition:
-    filter 140ms ease,
+    stroke-width 140ms ease,
     opacity 140ms ease;
 }
 
@@ -2020,30 +2020,17 @@ p {
 }
 
 .network-plot-frame svg .network-lane-layer:hover {
-  filter:
-    drop-shadow(0 0 3px rgba(255, 255, 255, 0.82))
-    drop-shadow(0 0 7px rgba(255, 255, 255, 0.38));
   opacity: 1;
-}
-
-.network-plot-frame svg .network-lane-layer.is-muted {
-  opacity: 0.16 !important;
-  filter: none;
 }
 
 .network-plot-frame svg .network-lane-layer.is-highlighted {
   opacity: 1 !important;
-  filter:
-    drop-shadow(0 0 3px rgba(255, 255, 255, 0.9))
-    drop-shadow(0 0 8px rgba(0, 0, 0, 0.62));
-}
-
-.network-plot-frame svg .network-lane-casing.is-muted {
-  opacity: 0.1 !important;
+  stroke-width: 3px !important;
 }
 
 .network-plot-frame svg .network-lane-casing.is-highlighted {
   opacity: 0.9 !important;
+  stroke-width: 6.4px !important;
 }
 
 .network-crash-layer {
@@ -2577,21 +2564,17 @@ p {
 }
 
 .lane-chart .network-chart-row:hover,
-.lane-chart .network-chart-row:focus-visible,
 .lane-chart .network-chart-row.is-active {
   background: transparent;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
-  cursor: pointer;
+  cursor: default;
 }
 
 .lane-chart .network-chart-row:hover .network-chart-label,
-.lane-chart .network-chart-row:focus-visible .network-chart-label,
 .lane-chart .network-chart-row.is-active .network-chart-label,
 .lane-chart .network-chart-row:hover .network-chart-value,
-.lane-chart .network-chart-row:focus-visible .network-chart-value,
 .lane-chart .network-chart-row.is-active .network-chart-value,
 .lane-chart .network-chart-row:hover .network-chart-pct,
-.lane-chart .network-chart-row:focus-visible .network-chart-pct,
 .lane-chart .network-chart-row.is-active .network-chart-pct {
   color: #ffffff;
 }
