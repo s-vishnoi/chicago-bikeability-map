@@ -1735,8 +1735,8 @@ p {
 
 .bikeability-link-stack {
   position: fixed;
-  left: 24px;
-  right: auto;
+  right: 24px;
+  left: auto;
   bottom: 24px;
   z-index: 20;
   display: flex;
